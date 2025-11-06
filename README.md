@@ -16,20 +16,16 @@ Perfect for designers and developers who want to quickly mock up Appian interfac
 
 ## 🚀 Quick Start
 
-### 1. Clone or Use This Template
+### 1. Use This Template
 
-**Option A: Clone directly**
-```bash
-git clone https://github.com/pglevy/sailwind-starter.git my-prototype
-cd my-prototype
-```
-
-**Option B: Use as GitHub template**
-1. Click "Use this template" button on GitHub
-2. Clone your new repository
-3. `cd` into your project
+1. **Click "Use this template" button** on GitHub to create a new repository
+    - *Make it private for internal work!*
+2. **Download your new repository** (or clone if using git)
+3. **Open folder in VS Code** (or preferred IDE)
 
 ### 2. Install Dependencies
+
+In a terminal, run this command:
 
 ```bash
 npm install
@@ -38,6 +34,8 @@ npm install
 That's it! Everything is pre-configured and ready to go.
 
 ### 3. Start Prototyping
+
+Run this command to start the development server:
 
 ```bash
 npm run dev
@@ -60,7 +58,8 @@ sailwind-starter/
 │   ├── main.tsx
 │   └── index.css
 ├── package.json
-└── README.md
+├── README.md
+└── AGENTS.md
 ```
 
 ## 🎯 Creating New Pages
@@ -202,6 +201,8 @@ Add custom styles using Tailwind utility classes:
 </div>
 ```
 
+See the full [SAIL-to-Tailwind mapping](https://github.com/pglevy/sailwind/blob/main/TAILWIND-SAIL-MAPPING.md) in the source Sailwind repo.
+
 ## 📦 What's Included
 
 - **React 19** - Latest React with TypeScript
@@ -244,4 +245,4 @@ This template is designed to get you from idea to interactive prototype as quick
 
 ---
 
-**Made with ❤️ for rapid Appian prototyping**
+**Made with 🩸,😅, and 😭 for rapid Appian prototyping**
