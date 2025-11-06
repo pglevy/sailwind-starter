@@ -16,16 +16,43 @@ Always use UPPERCASE for SAIL parameter values:
 <TagField size="standard" labelPosition="collapsed" />
 ```
 
-### 2. Check Components First
+### 2. Import from Sailwind Package First
 
-**ALWAYS check `src/components/index.ts` before using raw HTML or third-party libraries.**
+**PRIMARY SOURCE: Import components from the `@pglevy/sailwind` npm package.**
 
-Available components include:
-- Form: `DropdownField`, `TextFieldInput`, `CheckboxField`, `RadioButtonField`, `SliderField`, `SwitchField`
-- Display: `ButtonWidget`, `ButtonArrayLayout`, `TagField`, `CardLayout`, `HeadingField`, `RichTextDisplayField`, `ImageField`, `MessageBanner`, `ProgressBar`, `StampField`
-- Interactive: `Tabs`, `DialogField`, `ToggleField`
+```tsx
+// ✅ CORRECT - Import from npm package
+import { HeadingField, CardLayout, ButtonWidget } from '@pglevy/sailwind'
 
-### 3. UserImage is NOT a Component
+// ❌ WRONG - Don't look in src/components first
+import { HeadingField } from '../components'
+```
+
+**Component discovery order:**
+1. **FIRST**: Check Sailwind npm package documentation/available components list
+2. **SECOND**: Only if component doesn't exist in package, consider creating custom component in `src/components/`
+3. **LAST**: Raw HTML/third-party libraries (only when absolutely necessary)
+
+**Note:** `src/components/` is for project-specific custom components only. Most components come from the package.
+
+### 3. Build Validation is MANDATORY Before Completion
+
+**A page is NOT complete until `npm run build` passes successfully.**
+
+```bash
+# REQUIRED: Run this before declaring any page complete
+npm run build
+```
+
+**Rules:**
+- Run build AFTER creating the page file
+- Run build AFTER adding the page to routes in `src/App.tsx`
+- If build fails, FIX THE ERRORS before saying "it's ready"
+- Common issues: incorrect imports, typos in component names, missing type annotations
+
+**DO NOT tell the user the page is complete if the build has not been verified.**
+
+### 4. UserImage is NOT a Component
 
 **CRITICAL:** `UserImage` is a data structure, not a React component.
 
@@ -152,15 +179,20 @@ type SAILSemanticColor = "ACCENT" | "POSITIVE" | "NEGATIVE" | "SECONDARY" | "STA
 
 ### Page Development (Default Location: `src/pages/`)
 
-1. **Check `src/components/index.ts`** for available components
-2. **Use existing Sailwind components** wherever possible
-3. **Only use raw HTML/libraries** when component truly doesn't exist
-4. **Run `npm run build`** frequently to catch TypeScript errors
-5. **Add page to TableOfContents.tsx** in the "Pages" group
+**CRITICAL: This is a starter template. Components come from the npm package.**
+
+1. **Import from `@pglevy/sailwind` package** - All standard components are available here
+2. **Use existing Sailwind components** - See Available Components list below
+3. **ONLY create custom components** in `src/components/` if truly needed for project-specific needs
+4. **Add page to routes** in `src/App.tsx`
+5. **REQUIRED: Run `npm run build` and fix all errors before declaring completion**
+   - This is a MANDATORY gate - the page is NOT ready if build fails
+   - Address all TypeScript errors before proceeding
+   - Verify the build output shows no errors
 
 ### Standard Page Structure
 ```tsx
-import { HeadingField, CardLayout } from '../components'
+import { HeadingField, CardLayout } from '@pglevy/sailwind'
 
 export default function PageName() {
   return (
@@ -181,56 +213,126 @@ export default function PageName() {
 }
 ```
 
+### Available Sailwind Components (from npm package)
+
+**Import these from `@pglevy/sailwind`:**
+
+**Form/Input:**
+- `TextFieldInput`, `ParagraphFieldInput`, `DropdownField`, `CheckboxField`
+- `RadioButtonField`, `DateFieldInput`, `SliderField`, `SwitchField`
+
+**Display:**
+- `HeadingField`, `RichTextDisplayField`, `TextItem`, `MessageBanner`
+- `CardLayout`, `ColumnLayout`, `SideBySideLayout`
+- `ImageField`, `TagField`, `StampField`, `ProgressBar`
+
+**Interactive:**
+- `ButtonWidget`, `ButtonArrayLayout`, `LinkField`
+- `DialogField`, `Tabs`, `ToggleField`
+
+**Data Display:**
+- `PieChartField`, `BarChartField`, `ColumnChartField`, `LineChartField`
+
+**For complete API details, see:** https://github.com/pglevy/sailwind
+
 ### Error Resolution Pattern
 
 When encountering "Module has no exported member" errors:
 
-1. Check if it's a data structure (like `UserImage`) vs a component
-2. Look for alternative components (like `ImageField`)
-3. Review `src/components/index.ts` for available exports
-4. Use TypeScript definitions in `node_modules/@pglevy/sailwind/dist/components/`
+1. Verify you're importing from `@pglevy/sailwind` (not `../components`)
+2. Check the component name spelling (case-sensitive)
+3. Verify the component exists in the Available Components list above
+4. Check if it's a data structure (like `UserImage`) vs a component
+5. Use alternative components (like `ImageField` for avatars)
+6. Consult TypeScript definitions in `node_modules/@pglevy/sailwind/dist/components/`
 
 ## Common Mistakes to Avoid
 
-1. ❌ Importing `UserImage` as a component
-2. ❌ Using lowercase SAIL parameter values
-3. ❌ Using raw HTML when Sailwind component exists
-4. ❌ Not checking `src/components/index.ts` first
-5. ❌ Using color steps other than 50, 100, 200, 500, 700, 900
+1. ❌ Looking in `src/components/` for Sailwind components (they're in the npm package!)
+2. ❌ Importing from `../components` instead of `@pglevy/sailwind`
+3. ❌ Importing `UserImage` as a component (it's a data structure)
+4. ❌ Using lowercase SAIL parameter values
+5. ❌ Using raw HTML when Sailwind component exists in the package
+6. ❌ Using color steps other than 50, 100, 200, 500, 700, 900
+7. ❌ Declaring a page "ready" or "complete" without running `npm run build`
+8. ❌ Ignoring TypeScript errors in the build output
 
 ## Testing and Validation
 
-### TypeScript Validation
-```bash
-npm run build  # Run frequently to catch errors
+### MANDATORY Build Validation
+
+**CRITICAL:** Before declaring ANY page complete, you MUST:
+
+1. Run the build command:
+   ```bash
+   npm run build
+   ```
+
+2. Verify it completes with no errors (exit code 0)
+
+3. If build fails:
+   - Read the error messages carefully
+   - Check for typos in component imports
+   - Verify you're importing from `@pglevy/sailwind` (not `../components`)
+   - Ensure SAIL parameter values are typed correctly
+   - Fix all errors before proceeding
+
+4. Only after successful build, inform the user the page is ready
+
+**Example successful output:**
 ```
+✓ built in XXXms
+```
+
+**If you see TypeScript errors, the page is NOT complete.**
 
 ## Component vs Page Development
 
-### Component Development (Strict SAIL Compliance)
-- Building reusable Sailwind components
-- MUST use exact SAIL parameter names (UPPERCASE)
-- MUST map to SAIL production code 1:1
-- Include SAIL translation examples
+### Default Workflow: Page Development (Pragmatic Prototyping)
+**This is the PRIMARY use case for this starter template.**
 
-### Page Development (Pragmatic Prototyping)
-- **Check `src/components/index.ts` FIRST**
+- Import components from `@pglevy/sailwind` npm package
 - Compose interfaces from existing Sailwind components
-- Use practical solutions only when component doesn't exist
-- Mark non-SAIL elements with TODO comments
+- Create pages in `src/pages/`
+- Add routes to `src/App.tsx`
+- Run `npm run build` before declaring complete
+
+### Advanced Workflow: Custom Component Development (Only When Needed)
+**ONLY create custom components when Sailwind package doesn't have what you need.**
+
+- Create in `src/components/` directory (you may need to create this directory)
+- MUST use exact SAIL parameter names (UPPERCASE)
+- Export from `src/components/index.ts`
+- Import in pages as needed
+- Document why custom component was necessary
+- Include SAIL translation examples if applicable
 
 ## Resources
 
+- **Sailwind Package:** `@pglevy/sailwind` (imported in this project)
 - **Sailwind Repo:** https://github.com/pglevy/sailwind
 - **SAIL Official Docs:** https://docs.appian.com/suite/help/25.3/
-- **Component Index:** `src/components/index.ts`
 - **Tailwind CSS:** https://tailwindcss.com/
 
 ## Success Criteria
 
+- ✅ Components imported from `@pglevy/sailwind` package
 - ✅ Components use exact SAIL parameter names and values (UPPERCASE)
-- ✅ Existing Sailwind components used wherever available
-- ✅ `npm run build` completes successfully
-- ✅ Pages added to TableOfContents.tsx
+- ✅ Existing Sailwind components used wherever available from the package
+- ✅ **`npm run build` completes successfully WITHOUT ERRORS (MANDATORY)**
+- ✅ Pages added to routes in `src/App.tsx`
 - ✅ Visual testing passes without errors
 - ✅ Consistent Aurora color palette usage
+
+## Before Declaring Page Complete
+
+Use this checklist for EVERY page you create:
+
+- [ ] Page file created in `src/pages/`
+- [ ] All imports are from `@pglevy/sailwind` package
+- [ ] All SAIL parameters use UPPERCASE values
+- [ ] Page added to routes in `src/App.tsx`
+- [ ] **`npm run build` executed and passed with NO ERRORS**
+- [ ] Dev server shows page loading without console errors
+
+**DO NOT skip the build step. A page that doesn't build is not complete.**
