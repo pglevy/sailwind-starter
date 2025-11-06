@@ -117,12 +117,16 @@ npm run build
 
 ```typescript
 type SAILSize = "SMALL" | "STANDARD" | "MEDIUM" | "LARGE"
+type SAILSizeExtended = "SMALL" | "STANDARD" | "MEDIUM" | "MEDIUM_PLUS" | "LARGE" | "LARGE_PLUS" | "EXTRA_LARGE"
 type SAILAlign = "START" | "CENTER" | "END"
+type SAILLabelPosition = "ABOVE" | "ADJACENT" | "COLLAPSED" | "JUSTIFIED"
 type SAILMarginSize = "NONE" | "EVEN_LESS" | "LESS" | "STANDARD" | "MORE" | "EVEN_MORE"
 type SAILPadding = "NONE" | "EVEN_LESS" | "LESS" | "STANDARD" | "MORE" | "EVEN_MORE"
 type SAILShape = "SQUARED" | "SEMI_ROUNDED" | "ROUNDED"
 type SAILSemanticColor = "ACCENT" | "POSITIVE" | "NEGATIVE" | "SECONDARY" | "STANDARD"
 ```
+
+**Note:** `SAILSizeExtended` is used by some components like `HeadingField` that support additional size options.
 
 ## Quick Reference Patterns
 
@@ -182,10 +186,11 @@ type SAILSemanticColor = "ACCENT" | "POSITIVE" | "NEGATIVE" | "SECONDARY" | "STA
 **CRITICAL: This is a starter template. Components come from the npm package.**
 
 1. **Import from `@pglevy/sailwind` package** - All standard components are available here
-2. **Use existing Sailwind components** - See Available Components list below
+2. **Use EXACT component names** from the Available Components list below (case-sensitive!)
 3. **ONLY create custom components** in `src/components/` if truly needed for project-specific needs
 4. **Add page to routes** in `src/App.tsx`
-5. **REQUIRED: Run `npm run build` and fix all errors before declaring completion**
+5. **Add page link to Home page** in `src/pages/home.tsx` - Add entry to the `pages` array
+6. **REQUIRED: Run `npm run build` and fix all errors before declaring completion**
    - This is a MANDATORY gate - the page is NOT ready if build fails
    - Address all TypeScript errors before proceeding
    - Verify the build output shows no errors
@@ -215,33 +220,63 @@ export default function PageName() {
 
 ### Available Sailwind Components (from npm package)
 
+**CRITICAL: Use EXACT component names below. They are case-sensitive!**
+
 **Import these from `@pglevy/sailwind`:**
 
-**Form/Input:**
-- `TextFieldInput`, `ParagraphFieldInput`, `DropdownField`, `CheckboxField`
-- `RadioButtonField`, `DateFieldInput`, `SliderField`, `SwitchField`
+**Form/Input Fields:**
+- `TextField`, `DropdownField`, `MultipleDropdownField`, `CheckboxField`
+- `RadioButtonField`, `SliderField`, `SwitchField`
 
-**Display:**
+**Display Components:**
 - `HeadingField`, `RichTextDisplayField`, `TextItem`, `MessageBanner`
-- `CardLayout`, `ColumnLayout`, `SideBySideLayout`
-- `ImageField`, `TagField`, `StampField`, `ProgressBar`
+- `CardLayout`, `ImageField`, `TagField`, `TagItem`, `StampField`, `ProgressBar`
+- `MilestoneField`, `Icon`
 
-**Interactive:**
-- `ButtonWidget`, `ButtonArrayLayout`, `LinkField`
-- `DialogField`, `Tabs`, `ToggleField`
+**Interactive Components:**
+- `ButtonWidget`, `ButtonArrayLayout`
+- `DialogField`, `TabsField`, `ToggleField`
 
-**Data Display:**
-- `PieChartField`, `BarChartField`, `ColumnChartField`, `LineChartField`
+**Utility Components:**
+- `TableOfContents`, `FieldLabel`, `FieldWrapper`, `CollapsibleSection`
+
+**Common Component Name Mistakes:**
+- ❌ `TextFieldInput` → ✅ `TextField`
+- ❌ `TextInput` → ✅ `TextField`
+- ❌ `Button` → ✅ `ButtonWidget`
+- ❌ `Card` → ✅ `CardLayout`
+- ❌ `Text` → ✅ `TextItem` or `RichTextDisplayField`
+- ❌ `Heading` → ✅ `HeadingField`
+- ❌ `Tabs` → ✅ `TabsField`
+- ❌ `Tag` → ✅ `TagField`
 
 **For complete API details, see:** https://github.com/pglevy/sailwind
+
+### Adding Links to Home Page
+
+**IMPORTANT:** After creating a new page, add it to the Home page for easy navigation.
+
+In `src/pages/home.tsx`, add an entry to the `pages` array:
+
+```tsx
+const pages = [
+  { title: 'Task Dashboard', path: '/task-dashboard', description: 'Example task management interface' },
+  { title: 'Application Status', path: '/application-status', description: 'Application tracking with milestones' },
+  { title: 'Document Review', path: '/document-review', description: 'Document approval workflow' },
+  // Add your new page here:
+  { title: 'Your Page Name', path: '/your-route', description: 'Brief description of your page' },
+]
+```
+
+This allows users to easily navigate to your new page from the home screen.
 
 ### Error Resolution Pattern
 
 When encountering "Module has no exported member" errors:
 
-1. Verify you're importing from `@pglevy/sailwind` (not `../components`)
-2. Check the component name spelling (case-sensitive)
-3. Verify the component exists in the Available Components list above
+1. **FIRST: Check component name** - Compare against exact names in Available Components list above
+2. Verify you're importing from `@pglevy/sailwind` (not `../components`)
+3. Check the component name spelling and capitalization (case-sensitive!)
 4. Check if it's a data structure (like `UserImage`) vs a component
 5. Use alternative components (like `ImageField` for avatars)
 6. Consult TypeScript definitions in `node_modules/@pglevy/sailwind/dist/components/`
@@ -250,12 +285,14 @@ When encountering "Module has no exported member" errors:
 
 1. ❌ Looking in `src/components/` for Sailwind components (they're in the npm package!)
 2. ❌ Importing from `../components` instead of `@pglevy/sailwind`
-3. ❌ Importing `UserImage` as a component (it's a data structure)
-4. ❌ Using lowercase SAIL parameter values
-5. ❌ Using raw HTML when Sailwind component exists in the package
-6. ❌ Using color steps other than 50, 100, 200, 500, 700, 900
-7. ❌ Declaring a page "ready" or "complete" without running `npm run build`
-8. ❌ Ignoring TypeScript errors in the build output
+3. ❌ Using wrong component names (e.g., `TextField` instead of `TextFieldInput`)
+4. ❌ Importing `UserImage` as a component (it's a data structure)
+5. ❌ Using lowercase SAIL parameter values
+6. ❌ Using raw HTML when Sailwind component exists in the package
+7. ❌ Using color steps other than 50, 100, 200, 500, 700, 900
+8. ❌ Forgetting to add the page link to `src/pages/home.tsx`
+9. ❌ Declaring a page "ready" or "complete" without running `npm run build`
+10. ❌ Ignoring TypeScript errors in the build output
 
 ## Testing and Validation
 
@@ -272,9 +309,10 @@ When encountering "Module has no exported member" errors:
 
 3. If build fails:
    - Read the error messages carefully
-   - Check for typos in component imports
+   - **Check component names against Available Components list** (most common error!)
    - Verify you're importing from `@pglevy/sailwind` (not `../components`)
-   - Ensure SAIL parameter values are typed correctly
+   - Check for typos in component imports (case-sensitive!)
+   - Ensure SAIL parameter values are typed correctly (UPPERCASE)
    - Fix all errors before proceeding
 
 4. Only after successful build, inform the user the page is ready
@@ -330,8 +368,10 @@ Use this checklist for EVERY page you create:
 
 - [ ] Page file created in `src/pages/`
 - [ ] All imports are from `@pglevy/sailwind` package
+- [ ] **Component names verified against Available Components list**
 - [ ] All SAIL parameters use UPPERCASE values
 - [ ] Page added to routes in `src/App.tsx`
+- [ ] **Page link added to `src/pages/home.tsx` in the `pages` array**
 - [ ] **`npm run build` executed and passed with NO ERRORS**
 - [ ] Dev server shows page loading without console errors
 
