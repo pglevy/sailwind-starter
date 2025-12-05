@@ -49,6 +49,13 @@ echo $SHELL
 - "I don't see Node.js installed yet, so we'll need to install it."
 - "You're using zsh as your shell, which is the default on modern Macs."
 
+> **Note on Shell Configuration:** 
+> Modern Macs use `zsh` by default. If you've run through official dev environment setup scripts, you may be using `bash` instead. 
+> - For **zsh**: Use `~/.zshrc` in the commands below
+> - For **bash**: Use `~/.bashrc` instead
+> 
+> Check which you're using: `echo $SHELL` (you'll see `/bin/zsh` or `/bin/bash`)
+
 ### 2. Install Prerequisites (Only What's Missing)
 
 #### Homebrew (Package Manager)
