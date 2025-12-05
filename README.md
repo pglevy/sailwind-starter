@@ -43,6 +43,9 @@ npm run dev
 
 Open [http://localhost:5173](http://localhost:5173) to see your prototype!
 
+> [!Tip]
+> Need some extra help getting set up? Point your AI assistant to this steering file to walk you through in more detail: `.kiro/steering/SETUP.md`
+
 ## 📁 Project Structure
 
 ```
@@ -57,6 +60,7 @@ sailwind-starter/
 │   ├── App.tsx          # Routing configuration
 │   ├── main.tsx
 │   └── index.css
+├── public               # Images go here
 ├── package.json
 ├── README.md
 └── AGENTS.md
@@ -168,7 +172,7 @@ table of contents as you type
 
 ## 🖼️ Adding Images
 
-Place your images in the `/public` folder and reference them with absolute paths:
+Place your images in the `/public` folder and reference them with relative paths:
 
 ```
 public/
