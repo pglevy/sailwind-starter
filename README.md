@@ -46,6 +46,9 @@ Open [http://localhost:5173](http://localhost:5173) to see your prototype!
 > [!Tip]
 > Need some extra help getting set up? Point your AI assistant to this steering file to walk you through in more detail: `.kiro/steering/SETUP.md`
 
+> [!Tip]
+> If you're using Kiro IDE, install the included [Power](https://kiro.dev/powers/) to let Kiro handle the dev environment setup for you: `.kiro/powers/setup/POWER.md`
+
 ## 📁 Project Structure
 
 ```
