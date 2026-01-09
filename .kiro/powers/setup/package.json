@@ -1,9 +1,0 @@
-{
-  "name": "@sailwind-starter/setup-dev-environment",
-  "version": "1.0.0",
-  "description": "Automatically set up development environment for Sailwind Starter",
-  "main": "index.ts",
-  "keywords": ["setup", "environment", "dev", "sailwind"],
-  "author": "",
-  "license": "MIT"
-}
