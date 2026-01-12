@@ -52,7 +52,37 @@ npm run build
 
 **DO NOT tell the user the page is complete if the build has not been verified.**
 
-### 4. UserImage is NOT a Component
+### 4. Use Lucide Icons (NOT Emoji)
+
+**CRITICAL:** Always use Lucide React icons for visual indicators, NOT emoji characters.
+
+```tsx
+// ✅ CORRECT - Use Lucide icons
+import { CheckCircle, AlertCircle, FileText } from 'lucide-react'
+
+<Icon icon={CheckCircle} color="POSITIVE" size="MEDIUM" />
+
+// ❌ WRONG - Don't use emoji
+<span>✅</span>
+<div>📄</div>
+```
+
+**Why Lucide:**
+- Professional, consistent design system
+- Accessible with proper ARIA attributes
+- Scalable and customizable
+- Matches Appian's design language
+
+**Common Lucide icons:**
+- Status: `CheckCircle`, `XCircle`, `AlertCircle`, `Info`
+- Actions: `Plus`, `Minus`, `Edit`, `Trash2`, `Download`, `Upload`
+- Navigation: `ChevronRight`, `ChevronDown`, `ArrowLeft`, `ArrowRight`
+- Files: `FileText`, `File`, `Folder`, `Image`
+- UI: `Search`, `Filter`, `Settings`, `Menu`, `X`
+
+**Import from:** `lucide-react` (already installed in this project)
+
+### 5. UserImage is NOT a Component
 
 **CRITICAL:** `UserImage` is a data structure, not a React component.
 
@@ -179,6 +209,28 @@ type SAILSemanticColor = "ACCENT" | "POSITIVE" | "NEGATIVE" | "SECONDARY" | "STA
 />
 ```
 
+### Icons (Lucide)
+```tsx
+import { CheckCircle, AlertCircle, FileText } from 'lucide-react'
+
+// Status indicator
+<Icon icon={CheckCircle} color="POSITIVE" size="MEDIUM" />
+
+// With text
+<div className="flex items-center gap-2">
+  <Icon icon={FileText} color="ACCENT" size="SMALL" />
+  <TextItem text="Document.pdf" />
+</div>
+
+// In buttons (if supported by ButtonWidget)
+<ButtonWidget 
+  label="Download"
+  icon={Download}
+  style="OUTLINE"
+  color="SECONDARY"
+/>
+```
+
 ## Development Workflow
 
 ### Page Development (Default Location: `src/pages/`)
@@ -289,10 +341,11 @@ When encountering "Module has no exported member" errors:
 4. ❌ Importing `UserImage` as a component (it's a data structure)
 5. ❌ Using lowercase SAIL parameter values
 6. ❌ Using raw HTML when Sailwind component exists in the package
-7. ❌ Using color steps other than 50, 100, 200, 500, 700, 900
-8. ❌ Forgetting to add the page link to `src/pages/home.tsx`
-9. ❌ Declaring a page "ready" or "complete" without running `npm run build`
-10. ❌ Ignoring TypeScript errors in the build output
+7. ❌ Using emoji characters (✅❌📄) instead of Lucide icons
+8. ❌ Using color steps other than 50, 100, 200, 500, 700, 900
+9. ❌ Forgetting to add the page link to `src/pages/home.tsx`
+10. ❌ Declaring a page "ready" or "complete" without running `npm run build`
+11. ❌ Ignoring TypeScript errors in the build output
 
 ## Testing and Validation
 
