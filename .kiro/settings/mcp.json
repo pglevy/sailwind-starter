@@ -1,4 +1,18 @@
 {
   "mcpServers": {
+    "chrome-devtools": {
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@latest"],
+      "timeout": 120000,
+      "connectionTimeout": 30000,
+      "disabled": false
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest", "--browser", "chromium", "--headless"],
+      "timeout": 120000,
+      "connectionTimeout": 30000,
+      "disabled": false
+    }
   }
 }
