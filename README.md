@@ -173,6 +173,54 @@ Add a search bar to the home page that filters the page list in the
 table of contents as you type
 ```
 
+## 🤖 Kiro-Specific Features
+
+This starter includes special features for [Kiro IDE](https://kiro.dev) and [Kiro CLI](https://kiro.dev/cli) users:
+
+### For Kiro CLI Users
+
+**Pre-configured "sailor" Agent**
+- Custom agent optimized for Sailwind prototyping
+- Includes browser automation tools (Chrome DevTools & Playwright MCP servers)
+- Pre-loaded with project context (AGENTS.md, README.md, GIT.md)
+- Auto-approved commands for common tasks (`npm run build`, `npm run dev`, etc.)
+- Located at `.kiro/agents/sailor.json`
+
+To use the sailor agent:
+```bash
+kiro-cli --agent sailor
+```
+
+### For Kiro IDE Users
+
+**Development Environment Setup**
+- **Steering file**: `.kiro/steering/SETUP.md` - Detailed setup guidance available on request
+- **Kiro Power**: `.kiro/powers/setup/POWER.md` - Automated setup assistant (install from Powers panel)
+
+**Vercel Deployment**
+- **Kiro Power**: `.kiro/powers/vercel/POWER.md` - Complete guide for deploying prototypes to Vercel
+- Covers account setup, GitHub/GitLab integration, CLI usage, and secure preview sharing
+- Includes Deployment Protection and Shareable Links for controlled access
+
+**Git Workflow Guidance**
+- Designer-friendly git instructions in `.kiro/steering/GIT.md`
+- Automatically included in context when working with git
+- Helps with branching, commits, and pull requests
+
+**Component Library Reference**
+- `AGENTS.md` - Comprehensive guide for AI assistants
+- Includes component usage patterns, common mistakes, and validation requirements
+- Automatically loaded by the sailor agent
+
+### For Both Kiro IDE & CLI
+
+**Steering Files** (`.kiro/steering/`)
+- `AGENTS.md` - Component library reference and best practices
+- `GIT.md` - Git workflow guidance for designers
+- `SETUP.md` - Development environment setup instructions
+
+These files provide context to Kiro automatically, making it easier to work with the Sailwind component library and follow project conventions.
+
 ## 🖼️ Adding Images
 
 Place your images in the `/public` folder and reference them with relative paths:
