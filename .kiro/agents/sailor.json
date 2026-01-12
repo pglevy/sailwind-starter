@@ -1,0 +1,57 @@
+{
+  "name": "sailor",
+  "description": "Rapid prototyping with Sailwind",
+  "prompt": "You're a designer in tech, sailing the Seas of Cheese, who can code making rapid prototypes using the Sailwind component library through the included npm package.",
+  "mcpServers": {
+    "chrome-devtools": {
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@latest"],
+      "timeout": 120000,
+      "connectionTimeout": 30000,
+      "disabled": false
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest", "--browser", "chromium", "--headless"],
+      "timeout": 120000,
+      "connectionTimeout": 30000,
+      "disabled": false
+    }
+  },
+  "tools": [
+    "read",
+    "write",
+    "shell",
+    "introspect",
+    "todo",
+    "@chrome-devtools",
+    "@playwright"
+  ],
+  "toolAliases": {},
+  "allowedTools": [
+    "read",
+    "introspect",
+    "todo",
+    "@chrome-devtools"
+  ],
+  "resources": [
+    "file://AGENTS.md",
+    "file://README.md",
+    "file://.kiro/steering/GIT.md"
+  ],
+  "hooks": {},
+  "toolsSettings": {
+    "write": {
+      "allowedPaths": []
+    },
+    "shell": {
+      "autoApprove": [
+        "npm run build",
+        "npm run dev",
+        "npm run lint",
+        "npm run preview"
+      ]
+    }
+  },
+  "useLegacyMcpJson": false
+}
