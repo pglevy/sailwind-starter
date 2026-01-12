@@ -168,7 +168,51 @@ npm install
 - Ensure user has write permissions in the directory
 - Check internet connection
 
-### 5. Start Development Server
+### 5. Configure Kiro Shell Integration (If Needed)
+
+**If you're seeing garbled or missing terminal output in Kiro, you may need to add shell integration.**
+
+This is a one-time setup that helps Kiro properly display terminal output.
+
+**For zsh users (default on modern Macs):**
+
+Add this line to your `~/.zshrc` file:
+```bash
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
+```
+
+**For bash users:**
+
+Add this line to your `~/.bashrc` file:
+```bash
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path bash)"
+```
+
+**How to add it:**
+
+Option 1 - Using terminal:
+```bash
+# For zsh
+echo '[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"' >> ~/.zshrc
+
+# For bash
+echo '[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path bash)"' >> ~/.bashrc
+```
+
+Option 2 - Manual editing:
+- Open `~/.zshrc` (or `~/.bashrc`) in a text editor
+- Add the appropriate line at the end
+- Save the file
+
+**After adding, reload your shell:**
+```bash
+source ~/.zshrc  # for zsh
+source ~/.bashrc # for bash
+```
+
+**Note:** Only add this if you're experiencing terminal display issues. If everything looks fine, you can skip this step.
+
+### 6. Start Development Server
 
 **Once dependencies are installed:**
 
@@ -196,13 +240,14 @@ VITE v7.x.x  ready in XXX ms
 - You should see the Sailwind Starter home page
 - Leave the terminal window open while working
 
-### 6. Verify Everything Works
+### 7. Verify Everything Works
 
 **Checklist to confirm with user:**
 - [ ] Browser shows the Sailwind Starter home page
 - [ ] Can navigate to example pages (Task Dashboard, Application Status, Document Review)
 - [ ] No error messages in browser console (F12 to open)
 - [ ] Terminal shows "ready" message without errors
+- [ ] Terminal output is readable (not garbled or missing)
 
 ## Common Issues and Solutions
 
@@ -249,6 +294,14 @@ VITE v7.x.x  ready in XXX ms
 - Look at Console tab for error messages
 - Common issue: JavaScript disabled or browser cache
 - Try hard refresh: Cmd+Shift+R
+
+### Terminal output is garbled or missing in Kiro
+
+**Solution:** Add Kiro shell integration to your shell config.
+- See section 5 above for detailed instructions
+- Add the appropriate line to `~/.zshrc` (zsh) or `~/.bashrc` (bash)
+- Reload your shell with `source ~/.zshrc` or `source ~/.bashrc`
+- Restart Kiro's terminal if needed
 
 ## Communication Guidelines
 

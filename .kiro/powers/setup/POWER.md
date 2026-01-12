@@ -41,7 +41,27 @@ nvm use --lts
 npm install
 ```
 
-## Step 4: Start development server
+## Step 4: Configure Kiro shell integration (if needed)
+
+If you're experiencing terminal output issues in Kiro, add shell integration to your config:
+
+**For zsh (~/.zshrc):**
+```bash
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
+```
+
+**For bash (~/.bashrc):**
+```bash
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path bash)"
+```
+
+After adding, reload your shell:
+```bash
+source ~/.zshrc  # for zsh
+source ~/.bashrc # for bash
+```
+
+## Step 5: Start development server
 
 ```bash
 npm run dev
@@ -55,3 +75,4 @@ The project will be available at http://localhost:5173
 - Use nvm for Node.js version management
 - Keep dev server running while working
 - Press Ctrl+C to stop the server when done
+- If terminal output looks broken, add Kiro shell integration
