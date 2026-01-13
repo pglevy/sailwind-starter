@@ -1,4 +1,5 @@
 import { Route, Router, Switch } from 'wouter'
+import { useHashLocation } from 'wouter/use-hash-location'
 
 // Import all pages
 import Home from './pages/home'
@@ -17,7 +18,7 @@ const pages = [
 
 function App() {
   return (
-    <Router base="/sailwind-starter">
+    <Router hook={useHashLocation}>
       <div className="min-h-screen bg-gray-50">
         <div className="max-w-7xl mx-auto p-6">
           <Switch>
