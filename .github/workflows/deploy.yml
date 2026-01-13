@@ -17,6 +17,7 @@ concurrency:
 
 jobs:
   build:
+    if: false  # Workflow disabled - remove this line to re-enable
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -43,6 +44,7 @@ jobs:
           path: './dist'
 
   deploy:
+    if: false  # Workflow disabled - remove this line to re-enable
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
