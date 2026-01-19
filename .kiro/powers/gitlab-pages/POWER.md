@@ -24,7 +24,6 @@ This is an excellent example of tribal knowledge that's frequently needed but ea
 ## Prerequisites
 
 Before starting, ensure you have:
-- Access to Jira (via remote MCP server or web interface)
 - `glab` CLI installed and authenticated
 - `git` CLI installed
 - Access to post in GitLab Support channel
@@ -51,12 +50,49 @@ glab auth login
 # Follow prompts to authenticate with GitLab
 ```
 
+### Configuring glab for Cross-Repo MRs
+
+When creating MRs from the `dev` repo to the `prod` repo, `glab` may ask you to configure remotes. Answer these questions:
+
+**Question 1: "Which should be the base repository (used for e.g., querying issues)?"**
+- **Answer:** Choose `appian/prod/gitlab-configuration`
+- **Reason:** The prod repo is the canonical source where configuration is applied
+
+**Question 2: "Where should branches be pushed to by default?"**
+- **Answer:** Choose `appian/dev/gitlab-configuration` (origin)
+- **Reason:** You work in dev and push branches there, but MRs target prod
+
+These settings allow you to work in the dev repo while creating MRs that target the prod repo's main branch.
+
+## Starting State
+
+Before beginning the workflow, ensure you're starting from a clean state in the **dev repo**:
+
+1. **Clone the dev repo** (if you haven't already):
+   ```bash
+   git clone https://gitlab.appian-stratus.com/appian/dev/gitlab-configuration
+   cd gitlab-configuration
+   ```
+
+2. **Start on the main branch** and pull the latest changes:
+   ```bash
+   git checkout main
+   git pull
+   ```
+
+3. **Create a new branch** describing the project you want to add:
+   ```bash
+   git checkout -b add-<project-name>
+   ```
+
+You're now ready to begin Step 1 of the workflow below.
+
 ## Repository Configuration
 
 ### GitLab Configuration Repo
 - **URL:** `https://gitlab.appian-stratus.com/appian/dev/gitlab-configuration`
 - **New projects location:** `projects/docs/`
-- **Branch strategy:** Create branch from `dev`, MR against `prod`
+- **Branch strategy:** Work in the dev repo, create feature branch from main, MR targets main in prod repo
 
 ### Project Configuration Template
 
@@ -76,39 +112,17 @@ glab auth login
 
 ### Step 1: Create Jira Ticket
 
-Create a UXD ticket for MR reference and tracking.
+GitLab requires a Jira ticket reference in commit messages. You can use a generic UXD ticket reference without actually creating a new ticket:
 
-**Using Jira MCP server (if available):**
 ```
-Use Jira MCP to create ticket with:
-- Project: UXD
-- Type: Task
-- Summary: "Create GitLab repo for [project-name]"
+[UXD-1234]
 ```
-
-**Using Jira web interface:**
-1. Navigate to Jira
-2. Create new issue in UXD project
-3. Set type to "Task"
-4. Set summary: "Create GitLab repo for [project-name]"
-5. Save and note the ticket key (e.g., `UXD-1234`)
-
-**Save the ticket key** - you'll reference it in commit messages and MR descriptions.
 
 ### Step 2: Configure GitLab Project
 
-Clone and modify the `gitlab-configuration` repo:
+**Note:** If you haven't already, complete the "Starting State" steps above to ensure you're on a clean feature branch.
 
-```bash
-# Clone the config repo
-git clone https://gitlab.appian-stratus.com/appian/dev/gitlab-configuration
-cd gitlab-configuration
-
-# Create a new branch from dev
-git checkout dev
-git pull
-git checkout -b add-<project-name>
-```
+Edit the project configuration in the `gitlab-configuration` repo:
 
 Create the project config file at `projects/docs/<project-name>.yml`:
 
@@ -141,14 +155,22 @@ git commit -m "Add <project-name> docs project [UXD-XXXX]"
 git push -u origin add-<project-name>
 ```
 
-**Create MR against prod (not dev):**
+**Create MR targeting main in prod:**
 
 ```bash
 glab mr create \
-  --target-branch prod \
+  --source-branch add-<project-name> \
+  --target-branch main \
   --title "Add <project-name> docs project" \
-  --description "Creating new docs project for [purpose].\n\nRef: UXD-XXXX"
+  --description "Creating new docs project for [purpose].\n\nRef: UXD-XXXX" \
+  --repo appian/prod/gitlab-configuration
 ```
+
+**Important:** 
+- The `--source-branch` is your branch in the dev repo
+- The `--target-branch` is `main` (not `prod`) in the prod repo
+- The `--repo` flag specifies the target repository (prod)
+- If glab asks about remotes, see "Configuring glab for Cross-Repo MRs" above
 
 **Note:** Do NOT add new people to the group unless absolutely necessary.
 
@@ -334,13 +356,57 @@ If the MR has linting errors:
 
 ### MR Targeting Wrong Branch
 
-**Problem:** Created MR against `dev` instead of `prod`
+**Problem:** Created MR with incorrect target branch or repository
 
 **Solution:**
-1. Close the incorrect MR
-2. Create a new MR targeting `prod`:
+1. Close the incorrect MR:
    ```bash
-   glab mr create --target-branch prod --title "..." --description "..."
+   glab mr close <MR_NUMBER>
+   ```
+2. Create a new MR targeting main in prod:
+   ```bash
+   glab mr create \
+     --source-branch add-<project-name> \
+     --target-branch main \
+     --title "Add <project-name> docs project" \
+     --description "Creating new docs project for [purpose].\n\nRef: UXD-XXXX" \
+     --repo appian/prod/gitlab-configuration
+   ```
+
+**Common mistakes:**
+- Targeting `prod` branch instead of `main` branch (the target is the main branch in the prod repo)
+- Not specifying `--repo` which causes glab to guess incorrectly
+- Not specifying `--source-branch` explicitly
+- Answering glab's remote configuration questions incorrectly
+
+### MR Shows No Changes or Has Conflicts
+
+**Problem:** MR was created but shows no changes or has unexpected conflicts
+
+**Cause:** Usually happens when:
+- The source branch wasn't pushed to the dev repo before creating the MR
+- The MR is targeting the wrong branch (e.g., `prod` instead of `main`)
+- glab remote configuration is incorrect
+
+**Solution:**
+1. Verify your branch exists in dev repo:
+   ```bash
+   git branch -a | grep add-<project-name>
+   ```
+2. Ensure your changes are committed and pushed:
+   ```bash
+   git status
+   git push -u origin add-<project-name>
+   ```
+3. Close the problematic MR and create a new one with explicit parameters:
+   ```bash
+   glab mr close <MR_NUMBER>
+   glab mr create \
+     --source-branch add-<project-name> \
+     --target-branch main \
+     --title "Add <project-name> docs project" \
+     --description "Creating new docs project for [purpose].\n\nRef: UXD-XXXX" \
+     --repo appian/prod/gitlab-configuration
    ```
 
 ### Project ID Not Found
@@ -368,7 +434,8 @@ glab api "/projects/docs%2F<project-name>" | grep '"id"'
 
 ## Best Practices
 
-- **Always create the branch from `dev` but target the MR to `prod`** - This is the required workflow
+- **Work in the dev repo, branch from main** - Create your feature branch from main in the dev repo, then MR targets main in the prod repo
+- **Use explicit flags with glab mr create** - Don't rely on defaults, specify `--source-branch`, `--target-branch`, and `--repo`
 - **Include the Jira ticket reference** in commit messages and MR description for traceability
 - **Don't add new people to groups unless necessary** - Use existing ownership structure
 - **The blank line at the end of the YAML is NOT optional** - Linting will fail without it
@@ -379,7 +446,8 @@ glab api "/projects/docs%2F<project-name>" | grep '"id"'
 
 ## Key Reminders
 
-- Branch strategy: Create from `dev`, MR to `prod`
+- Branch strategy: Work in dev repo, branch from main, MR targets main in prod repo
+- MR command: Always use `--source-branch`, `--target-branch main`, and `--repo appian/prod/gitlab-configuration`
 - YAML linting: Blank line at end is required
 - Branch protection: Use rename workaround for existing repos
 - DNS: Not instant, requires patience
@@ -387,7 +455,6 @@ glab api "/projects/docs%2F<project-name>" | grep '"id"'
 
 ## Tools Used
 
-- **Jira** - For creating tracking tickets (via MCP or web interface)
 - **glab CLI** - For creating merge requests and API operations
 - **git** - For repository operations
 - **GitLab Support** - Manual communication channel (no automation available)
