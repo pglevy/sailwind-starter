@@ -128,7 +128,7 @@ Use Jira MCP to create ticket with:
 2. Create new issue in UXD project
 3. Set type to "Task"
 4. Set summary: "Create GitLab repo for [project-name]"
-5. Save and note the ticket key (e.g., `UXD-1234`)
+5. Save and note the ticket key (e.g., `UXD-123`)
 
 **Save the ticket key** - you'll reference it in commit messages and MR descriptions.
 
