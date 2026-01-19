@@ -24,7 +24,6 @@ This is an excellent example of tribal knowledge that's frequently needed but ea
 ## Prerequisites
 
 Before starting, ensure you have:
-- Access to Jira (via remote MCP server or web interface)
 - `glab` CLI installed and authenticated
 - `git` CLI installed
 - Access to post in GitLab Support channel
@@ -113,24 +112,11 @@ You're now ready to begin Step 1 of the workflow below.
 
 ### Step 1: Create Jira Ticket
 
-Create a UXD ticket for MR reference and tracking.
+GitLab requires a Jira ticket reference in commit messages. You can use a generic UXD ticket reference without actually creating a new ticket:
 
-**Using Jira MCP server (if available):**
 ```
-Use Jira MCP to create ticket with:
-- Project: UXD
-- Type: Task
-- Summary: "Create GitLab repo for [project-name]"
+[UXD-1234]
 ```
-
-**Using Jira web interface:**
-1. Navigate to Jira
-2. Create new issue in UXD project
-3. Set type to "Task"
-4. Set summary: "Create GitLab repo for [project-name]"
-5. Save and note the ticket key (e.g., `UXD-123`)
-
-**Save the ticket key** - you'll reference it in commit messages and MR descriptions.
 
 ### Step 2: Configure GitLab Project
 
@@ -469,7 +455,6 @@ glab api "/projects/docs%2F<project-name>" | grep '"id"'
 
 ## Tools Used
 
-- **Jira** - For creating tracking tickets (via MCP or web interface)
 - **glab CLI** - For creating merge requests and API operations
 - **git** - For repository operations
 - **GitLab Support** - Manual communication channel (no automation available)
