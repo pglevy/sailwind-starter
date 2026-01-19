@@ -65,12 +65,35 @@ When creating MRs from the `dev` repo to the `prod` repo, `glab` may ask you to 
 
 These settings allow you to work in the dev repo while creating MRs that target the prod repo's main branch.
 
+## Starting State
+
+Before beginning the workflow, ensure you're starting from a clean state in the **dev repo**:
+
+1. **Clone the dev repo** (if you haven't already):
+   ```bash
+   git clone https://gitlab.appian-stratus.com/appian/dev/gitlab-configuration
+   cd gitlab-configuration
+   ```
+
+2. **Start on the main branch** and pull the latest changes:
+   ```bash
+   git checkout main
+   git pull
+   ```
+
+3. **Create a new branch** describing the project you want to add:
+   ```bash
+   git checkout -b add-<project-name>
+   ```
+
+You're now ready to begin Step 1 of the workflow below.
+
 ## Repository Configuration
 
 ### GitLab Configuration Repo
 - **URL:** `https://gitlab.appian-stratus.com/appian/dev/gitlab-configuration`
 - **New projects location:** `projects/docs/`
-- **Branch strategy:** Create branch from `dev`, MR targets `main` in `prod`
+- **Branch strategy:** Work in the dev repo, create feature branch from main, MR targets main in prod repo
 
 ### Project Configuration Template
 
@@ -111,18 +134,9 @@ Use Jira MCP to create ticket with:
 
 ### Step 2: Configure GitLab Project
 
-Clone and modify the `gitlab-configuration` repo:
+**Note:** If you haven't already, complete the "Starting State" steps above to ensure you're on a clean feature branch.
 
-```bash
-# Clone the config repo
-git clone https://gitlab.appian-stratus.com/appian/dev/gitlab-configuration
-cd gitlab-configuration
-
-# Create a new branch from dev
-git checkout dev
-git pull
-git checkout -b add-<project-name>
-```
+Edit the project configuration in the `gitlab-configuration` repo:
 
 Create the project config file at `projects/docs/<project-name>.yml`:
 
@@ -434,7 +448,7 @@ glab api "/projects/docs%2F<project-name>" | grep '"id"'
 
 ## Best Practices
 
-- **Always create the branch from `dev` but target the MR to `main` in `prod`** - This is the required workflow
+- **Work in the dev repo, branch from main** - Create your feature branch from main in the dev repo, then MR targets main in the prod repo
 - **Use explicit flags with glab mr create** - Don't rely on defaults, specify `--source-branch`, `--target-branch`, and `--repo`
 - **Include the Jira ticket reference** in commit messages and MR description for traceability
 - **Don't add new people to groups unless necessary** - Use existing ownership structure
@@ -446,7 +460,7 @@ glab api "/projects/docs%2F<project-name>" | grep '"id"'
 
 ## Key Reminders
 
-- Branch strategy: Create from `dev`, MR to `main` in `prod`
+- Branch strategy: Work in dev repo, branch from main, MR targets main in prod repo
 - MR command: Always use `--source-branch`, `--target-branch main`, and `--repo appian/prod/gitlab-configuration`
 - YAML linting: Blank line at end is required
 - Branch protection: Use rename workaround for existing repos
