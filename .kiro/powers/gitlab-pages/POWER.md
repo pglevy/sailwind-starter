@@ -181,7 +181,6 @@ Post in **GitLab Support** channel:
 ```
 Hi! Could someone review *and merge* this MR for a new docs project?
 [MR URL]
-Ref: UXD-XXXX
 ```
 
 **Wait for approval and merge before proceeding.**
