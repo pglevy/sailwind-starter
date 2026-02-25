@@ -211,6 +211,11 @@ kiro-cli --agent sailor
 - Covers account setup, GitHub/GitLab integration, CLI usage, and secure preview sharing
 - Includes Deployment Protection and Shareable Links for controlled access
 
+**Upgrade Tooling from Template**
+- **Kiro Power**: `.kiro/powers/upgrade/POWER.md` - Syncs your project with the latest scripts, hooks, and steering files from the template repo
+- Fetches files directly from GitHub and compares against your local project
+- Suggests AGENTS.md sections that can be trimmed now that hooks and steering handle them
+
 **Git Workflow Guidance**
 - Designer-friendly git instructions in `.kiro/steering/GIT.md`
 - Automatically included in context when working with git
