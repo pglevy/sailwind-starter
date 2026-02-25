@@ -111,21 +111,6 @@ import { CheckCircle, AlertCircle, FileText } from 'lucide-react'
 - `SEMI_ROUNDED` → `rounded-sm` (4px)
 - `ROUNDED` → `rounded-md` (8px)
 
-## Common SAIL Type Definitions
-
-```typescript
-type SAILSize = "SMALL" | "STANDARD" | "MEDIUM" | "LARGE"
-type SAILSizeExtended = "SMALL" | "STANDARD" | "MEDIUM" | "MEDIUM_PLUS" | "LARGE" | "LARGE_PLUS" | "EXTRA_LARGE"
-type SAILAlign = "START" | "CENTER" | "END"
-type SAILLabelPosition = "ABOVE" | "ADJACENT" | "COLLAPSED" | "JUSTIFIED"
-type SAILMarginSize = "NONE" | "EVEN_LESS" | "LESS" | "STANDARD" | "MORE" | "EVEN_MORE"
-type SAILPadding = "NONE" | "EVEN_LESS" | "LESS" | "STANDARD" | "MORE" | "EVEN_MORE"
-type SAILShape = "SQUARED" | "SEMI_ROUNDED" | "ROUNDED"
-type SAILSemanticColor = "ACCENT" | "POSITIVE" | "NEGATIVE" | "SECONDARY" | "STANDARD"
-```
-
-**Note:** `SAILSizeExtended` is used by some components like `HeadingField` that support additional size options.
-
 ## Quick Reference Patterns
 
 ### Card with Content
