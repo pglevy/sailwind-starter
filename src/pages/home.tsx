@@ -57,7 +57,7 @@ export default function Home() {
           <div>
             <h3 className="font-semibold mb-2">1. Create New Pages</h3>
             <p>Add new .tsx files in <code className="bg-gray-100 px-2 py-1 rounded">src/pages/</code></p>
-            <p className="mt-1 text-gray-600">Example: <code className="bg-gray-100 px-2 py-1 rounded">src/pages/my-prototype.tsx</code></p>
+            <p className="mt-1 text-gray-500">Example: <code className="bg-gray-100 px-2 py-1 rounded">src/pages/my-prototype.tsx</code></p>
           </div>
 
           <div>

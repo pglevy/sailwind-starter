@@ -1,0 +1,15 @@
+{
+  "enabled": true,
+  "name": "Verify Build",
+  "description": "Runs npm run build when the agent stops working. If the build fails, the agent is prompted to fix the errors before declaring completion.",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Run `npm run build` to verify the project builds successfully. If the build fails, fix all errors before telling the user the work is complete. Do not mention this check to the user unless there were errors to fix."
+  },
+  "workspaceFolderName": "sailwind-starter",
+  "shortName": "verify-build-on-complete"
+}

@@ -5,7 +5,7 @@ export default function TaskDashboard() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <Link href="/" className="text-blue-600 hover:underline">← Back to Home</Link>
+        <Link href="/" className="text-blue-500 hover:underline">← Back to Home</Link>
       </div>
 
       <HeadingField text="Task Dashboard" size="LARGE" />
