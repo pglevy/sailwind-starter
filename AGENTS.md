@@ -123,21 +123,6 @@ import { CheckCircle, AlertCircle, FileText } from 'lucide-react'
 - `MORE` → `p-6`, `m-6` (24px)
 - `EVEN_MORE` → `p-8`, `m-8` (32px)
 
-### Colors
-
-**Use ONLY these Tailwind color steps: 50, 100, 200, 500, 700, 900**
-
-- **Light backgrounds:** `50`, `100`, `200`
-- **Primary elements:** `500`
-- **Dark text/borders:** `700`, `900`
-
-**Semantic color mappings:**
-- `ACCENT` → `blue-500`
-- `POSITIVE` → `green-700`
-- `NEGATIVE` → `red-700`
-- `SECONDARY` → `gray-700`
-- `STANDARD` → `gray-900`
-
 ### Shape (Border Radius)
 - `SQUARED` → `rounded-none` (0)
 - `SEMI_ROUNDED` → `rounded-sm` (4px)

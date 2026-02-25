@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "check:colors": "node scripts/check-color-palette.js"
   },
   "dependencies": {
     "@pglevy/sailwind": "^0.4.0",

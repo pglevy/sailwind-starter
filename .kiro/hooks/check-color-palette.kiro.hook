@@ -1,0 +1,15 @@
+{
+  "enabled": true,
+  "name": "Color Palette Check",
+  "description": "Runs the color palette checker when source files are edited, warning about Tailwind color classes that use steps outside the approved set (50, 100, 200, 500, 700, 900).",
+  "version": "1",
+  "when": {
+    "type": "agentStop"
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "node scripts/check-color-palette.js $KIRO_FILE_PATH"
+  },
+  "workspaceFolderName": "sailwind-starter",
+  "shortName": "check-color-palette"
+}
