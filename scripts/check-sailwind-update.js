@@ -97,3 +97,14 @@ All parameter values must be UPPERCASE. These are the only valid values — if a
 } catch {
   // Package types file missing — silently ignore
 }
+
+// --- Sync steering file components with package ---
+
+try {
+  execSync('node scripts/sync-sailwind-components.js', {
+    encoding: 'utf-8',
+    stdio: 'inherit',
+  })
+} catch {
+  // Silently ignore
+}
