@@ -46,6 +46,18 @@ Open [http://localhost:5173](http://localhost:5173) to see your prototype!
 > [!Tip]
 > Need some extra help getting set up? See the [options below](#for-kiro-ide-users) for having Kiro help with getting your dev environment working.
 
+## 🪝 Agent Hooks
+
+This project includes Kiro agent hooks (`.kiro/hooks/`) that automate common checks. All hooks are manually triggered from the Agent Hooks panel in Kiro IDE.
+
+| Hook | What it does |
+|------|-------------|
+| **Verify Build** | Asks the agent to run `npm run build` and fix any errors before declaring work complete |
+| **Check Color Palette** | Runs `scripts/check-color-palette.js` to warn about Tailwind color classes using steps outside the approved set (50, 100, 200, 500, 700, 900) |
+| **Check Sailwind Updates** | Checks if a newer version of `@pglevy/sailwind` is available and offers to update |
+
+These hooks reduce the amount of guidance needed in AGENTS.md by handling checks programmatically instead of through written instructions.
+
 ## 📁 Project Structure
 
 ```
@@ -268,10 +280,11 @@ See the full [SAIL-to-Tailwind mapping](https://github.com/pglevy/sailwind/blob/
 ## 🔧 Available Scripts
 
 ```bash
-npm run dev      # Start development server
-npm run build    # Build for production
-npm run preview  # Preview production build
-npm run lint     # Lint code
+npm run dev           # Start development server
+npm run build         # Build for production
+npm run preview       # Preview production build
+npm run lint          # Lint code
+npm run check:colors  # Check for off-palette Tailwind color steps
 ```
 
 ## 📚 Documentation

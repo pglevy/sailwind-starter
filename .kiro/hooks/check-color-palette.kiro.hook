@@ -1,10 +1,10 @@
 {
   "enabled": true,
-  "name": "Color Palette Check",
+  "name": "Check Color Palette",
   "description": "Runs the color palette checker when source files are edited, warning about Tailwind color classes that use steps outside the approved set (50, 100, 200, 500, 700, 900).",
   "version": "1",
   "when": {
-    "type": "agentStop"
+    "type": "userTriggered"
   },
   "then": {
     "type": "runCommand",

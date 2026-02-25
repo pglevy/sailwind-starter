@@ -35,23 +35,6 @@ import { HeadingField } from '../components'
 
 **Note:** `src/components/` is for project-specific custom components only. Most components come from the package.
 
-### 3. Build Validation is MANDATORY Before Completion
-
-**A page is NOT complete until `npm run build` passes successfully.**
-
-```bash
-# REQUIRED: Run this before declaring any page complete
-npm run build
-```
-
-**Rules:**
-- Run build AFTER creating the page file
-- Run build AFTER adding the page to routes in `src/App.tsx`
-- If build fails, FIX THE ERRORS before saying "it's ready"
-- Common issues: incorrect imports, typos in component names, missing type annotations
-
-**DO NOT tell the user the page is complete if the build has not been verified.**
-
 ### 4. Use Lucide Icons (NOT Emoji)
 
 **CRITICAL:** Always use Lucide React icons for visual indicators, NOT emoji characters.
@@ -228,9 +211,6 @@ import { CheckCircle, AlertCircle, FileText } from 'lucide-react'
 4. **Add page to routes** in `src/App.tsx`
 5. **Add page link to Home page** in `src/pages/home.tsx` - Add entry to the `pages` array
 6. **REQUIRED: Run `npm run build` and fix all errors before declaring completion**
-   - This is a MANDATORY gate - the page is NOT ready if build fails
-   - Address all TypeScript errors before proceeding
-   - Verify the build output shows no errors
 
 ### Standard Page Structure
 ```tsx
@@ -329,38 +309,6 @@ When encountering "Module has no exported member" errors:
 7. ❌ Using emoji characters (✅❌📄) instead of Lucide icons
 8. ❌ Using color steps other than 50, 100, 200, 500, 700, 900
 9. ❌ Forgetting to add the page link to `src/pages/home.tsx`
-10. ❌ Declaring a page "ready" or "complete" without running `npm run build`
-11. ❌ Ignoring TypeScript errors in the build output
-
-## Testing and Validation
-
-### MANDATORY Build Validation
-
-**CRITICAL:** Before declaring ANY page complete, you MUST:
-
-1. Run the build command:
-   ```bash
-   npm run build
-   ```
-
-2. Verify it completes with no errors (exit code 0)
-
-3. If build fails:
-   - Read the error messages carefully
-   - **Check component names against Available Components list** (most common error!)
-   - Verify you're importing from `@pglevy/sailwind` (not `../components`)
-   - Check for typos in component imports (case-sensitive!)
-   - Ensure SAIL parameter values are typed correctly (UPPERCASE)
-   - Fix all errors before proceeding
-
-4. Only after successful build, inform the user the page is ready
-
-**Example successful output:**
-```
-✓ built in XXXms
-```
-
-**If you see TypeScript errors, the page is NOT complete.**
 
 ## Component vs Page Development
 
@@ -371,7 +319,6 @@ When encountering "Module has no exported member" errors:
 - Compose interfaces from existing Sailwind components
 - Create pages in `src/pages/`
 - Add routes to `src/App.tsx`
-- Run `npm run build` before declaring complete
 
 ### Advanced Workflow: Custom Component Development (Only When Needed)
 **ONLY create custom components when Sailwind package doesn't have what you need.**
@@ -395,7 +342,6 @@ When encountering "Module has no exported member" errors:
 - ✅ Components imported from `@pglevy/sailwind` package
 - ✅ Components use exact SAIL parameter names and values (UPPERCASE)
 - ✅ Existing Sailwind components used wherever available from the package
-- ✅ **`npm run build` completes successfully WITHOUT ERRORS (MANDATORY)**
 - ✅ Pages added to routes in `src/App.tsx`
 - ✅ Visual testing passes without errors
 - ✅ Consistent Aurora color palette usage
@@ -410,7 +356,4 @@ Use this checklist for EVERY page you create:
 - [ ] All SAIL parameters use UPPERCASE values
 - [ ] Page added to routes in `src/App.tsx`
 - [ ] **Page link added to `src/pages/home.tsx` in the `pages` array**
-- [ ] **`npm run build` executed and passed with NO ERRORS**
 - [ ] Dev server shows page loading without console errors
-
-**DO NOT skip the build step. A page that doesn't build is not complete.**
