@@ -14,13 +14,25 @@ Syncs an existing Sailwind Starter project with the latest tooling from the temp
 
 ## Step 1: Fetch and compare tooling files
 
-For each file listed below, fetch the latest version from the template repo using the base URL above. Then compare it against the local file.
+For each file listed below, fetch the latest version from the template repo using the web fetch tool (read-only). Then compare it against the local file.
 
 - If the file **does not exist locally**: show the user what it does (one sentence) and offer to add it.
 - If the file **exists but differs**: summarize what changed and ask if they want to update.
 - If the file **matches**: skip silently.
 
 Present all results as a single summary table before making any changes. Wait for the user to approve before writing files.
+
+### Writing approved files
+
+**CRITICAL:** Do NOT write files using agent file-writing tools (fsWrite, strReplace, etc.). These tools can introduce subtle differences (encoding, whitespace, line endings, split artifacts).
+
+Instead, use `curl -o` to download and write each approved file in a single step:
+
+```bash
+curl -o <local-path> https://raw.githubusercontent.com/pglevy/sailwind-starter/main/<file-path>
+```
+
+This guarantees byte-for-byte identical copies from the source. Create any missing directories first with `mkdir -p` if needed.
 
 ### Files to sync
 
