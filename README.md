@@ -23,28 +23,44 @@ Perfect for designers and developers who want to quickly mock up Appian interfac
 2. **Download your new repository** (or clone if using git)
 3. **Open folder in VS Code** (or preferred IDE)
 
-### 2. Install Dependencies
+### 2. Install pnpm
 
-In a terminal, run this command:
+This project uses [pnpm](https://pnpm.io/) as its package manager. If you don't have it yet, the easiest way to get started is with corepack (ships with Node.js 16.13+):
 
 ```bash
-npm install
+corepack enable
 ```
 
-That's it! Everything is pre-configured and ready to go.
+That's it — corepack reads the `packageManager` field in `package.json` and sets up the right version of pnpm automatically.
 
-### 3. Start Prototyping
+Alternatively, install pnpm directly:
+
+```bash
+# macOS with Homebrew
+brew install pnpm
+
+# or via npm
+npm install -g pnpm
+```
+
+### 3. Install Dependencies
+
+```bash
+pnpm install
+```
+
+### 4. Start Prototyping
 
 Run this command to start the development server:
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 Open [http://localhost:5173](http://localhost:5173) to see your prototype!
 
 > [!Tip]
-> Need some extra help getting set up? See the [options below](#for-kiro-ide-users) for having Kiro help with getting your dev environment working.
+> Need some extra help getting set up? If you're using Kiro IDE, there's a setup power built in, or you can grab the [pnpm-setup skill](https://github.com/pglevy/agent-skills) for step-by-step guidance. See the [options below](#for-kiro-ide-users) for more details.
 
 ## 🪝 Agent Hooks
 
@@ -52,7 +68,7 @@ This project includes Kiro agent hooks (`.kiro/hooks/`) that automate common che
 
 | Hook | What it does |
 |------|-------------|
-| **Verify Build** | Asks the agent to run `npm run build` and fix any errors before declaring work complete |
+| **Verify Build** | Asks the agent to run `pnpm run build` and fix any errors before declaring work complete |
 | **Check Color Palette** | Runs `scripts/check-color-palette.js` to warn about Tailwind color classes using steps outside the approved set (50, 100, 200, 500, 700, 900) |
 | **Check Sailwind Updates** | Checks if a newer version of `@pglevy/sailwind` is available and offers to update |
 
@@ -203,6 +219,7 @@ kiro-cli --agent sailor
 ### For Kiro IDE Users
 
 **Development Environment Setup**
+- **Skill**: [pnpm-setup](https://github.com/pglevy/agent-skills) - Guided pnpm installation and migration (grab from the agent-skills repo and add to `.kiro/skills/`)
 - **Steering file**: `.kiro/steering/SETUP.md` - Detailed setup guidance available on request
 - **Kiro Power**: `.kiro/powers/setup/POWER.md` - Automated setup assistant (install from Powers panel)
 
@@ -285,11 +302,11 @@ See the full [SAIL-to-Tailwind mapping](https://github.com/pglevy/sailwind/blob/
 ## 🔧 Available Scripts
 
 ```bash
-npm run dev           # Start development server
-npm run build         # Build for production
-npm run preview       # Preview production build
-npm run lint          # Lint code
-npm run check:colors  # Check for off-palette Tailwind color steps
+pnpm run dev           # Start development server
+pnpm run build         # Build for production
+pnpm run preview       # Preview production build
+pnpm run lint          # Lint code
+pnpm run check:colors  # Check for off-palette Tailwind color steps
 ```
 
 ## 📚 Documentation
