@@ -10,7 +10,7 @@ This steering file provides instructions for helping designers (who may not have
 
 - Designer with limited or no terminal/command-line experience
 - Working on macOS
-- May not have Node.js, npm, or development tools installed
+- May not have Node.js, pnpm, or development tools installed
 - Needs step-by-step guidance with clear explanations
 - Should feel confident and supported throughout the process
 
@@ -32,9 +32,9 @@ which brew
 which node
 node --version
 
-# Check if npm is installed
-which npm
-npm --version
+# Check if pnpm is installed
+which pnpm
+pnpm --version
 
 # Check if nvm is installed
 which nvm
@@ -115,10 +115,10 @@ nvm alias default node
 **Verify:**
 ```bash
 node --version
-npm --version
+pnpm --version
 ```
 
-**Expected:** Node v20+ and npm v10+
+**Expected:** Node v20+ and pnpm v10+
 
 ### 3. Clone or Locate Project
 
@@ -153,20 +153,33 @@ ls -la
 
 **This is REQUIRED before running the project.**
 
+This project uses pnpm as its package manager. If pnpm isn't installed yet, the easiest approach is corepack:
+
 ```bash
-npm install
+corepack enable
+```
+
+Then install dependencies:
+
+```bash
+pnpm install
+```
+
+**Note about the registry:** This project includes an `.npmrc` file that explicitly sets `registry=https://registry.npmjs.org/`. This ensures packages are fetched from the public npm registry even if you have a different registry configured globally (e.g., a corporate Artifactory). If `pnpm install` fails with authentication or 404 errors, check that the `.npmrc` file is present in the project root.
+
+**If migrating from an older npm-based setup**, clean out npm artifacts first:
+
+```bash
+rm -rf node_modules
+rm -f package-lock.json
+pnpm install
 ```
 
 **What this does (explain to user):**
 - Downloads all the libraries and tools the project needs
 - Creates a `node_modules` folder with dependencies
-- Takes 1-3 minutes depending on internet speed
+- Takes 1-2 minutes depending on internet speed
 - Only needs to be done once (or when dependencies change)
-
-**Watch for errors:**
-- If errors occur, check Node.js version compatibility
-- Ensure user has write permissions in the directory
-- Check internet connection
 
 ### 5. Configure Kiro Shell Integration (If Needed)
 
@@ -217,10 +230,8 @@ source ~/.bashrc # for bash
 **Once dependencies are installed:**
 
 ```bash
-npm run dev
+pnpm run dev
 ```
-
-**What this does (explain to user):**
 - Starts a local web server
 - Watches for file changes and auto-reloads
 - Makes the project available at http://localhost:5173
@@ -266,7 +277,7 @@ VITE v7.x.x  ready in XXX ms
 - Run `source ~/.zshrc`
 - Try `nvm --version` again
 
-### "npm install" fails with permission errors
+### "pnpm install" fails with permission errors
 
 **Solution:** Don't use sudo! This indicates a permissions issue.
 - Ensure you own the project directory
@@ -278,14 +289,13 @@ VITE v7.x.x  ready in XXX ms
 **Solution:** Another process is using that port.
 - Stop other Vite dev servers
 - Or kill the process: `lsof -ti:5173 | xargs kill -9`
-- Try `npm run dev` again
+- Try `pnpm run dev` again
 
 ### "Cannot find module" errors
 
 **Solution:** Dependencies not installed properly.
 - Delete `node_modules` folder: `rm -rf node_modules`
-- Delete `package-lock.json`: `rm package-lock.json`
-- Reinstall: `npm install`
+- Reinstall: `pnpm install`
 
 ### Browser shows blank page or errors
 
@@ -307,7 +317,7 @@ VITE v7.x.x  ready in XXX ms
 
 ### Use Plain Language
 
-**Instead of:** "We need to initialize the npm package manager and install dependencies."
+**Instead of:** "We need to initialize the package manager and install dependencies."
 **Say:** "We need to download the libraries this project uses. This is like installing apps on your phone."
 
 ### Explain What Commands Do
@@ -347,7 +357,7 @@ node --version
 brew --version          # Check Homebrew
 nvm --version          # Check nvm
 node --version         # Check Node.js
-npm --version          # Check npm
+pnpm --version         # Check pnpm
 ```
 
 ### Navigate Directories
@@ -360,9 +370,9 @@ cd sailwind-starter    # Go into project folder
 
 ### Project Commands
 ```bash
-npm install            # Install dependencies (first time)
-npm run dev            # Start development server
-npm run build          # Build for production (validate code)
+pnpm install            # Install dependencies (first time)
+pnpm run dev            # Start development server
+pnpm run build          # Build for production (validate code)
 ```
 
 ### Stop Running Processes
@@ -379,10 +389,10 @@ source ~/.zshrc        # Apply changes to shell config
 
 A successful setup is complete when:
 
-1. ✅ Node.js and npm are installed and working
+1. ✅ Node.js and pnpm are installed and working
 2. ✅ User can navigate to project directory in terminal
-3. ✅ `npm install` completes without errors
-4. ✅ `npm run dev` starts successfully
+3. ✅ `pnpm install` completes without errors
+4. ✅ `pnpm run dev` starts successfully
 5. ✅ Browser shows Sailwind Starter home page at localhost:5173
 6. ✅ User can navigate between example pages
 7. ✅ User understands how to start/stop the dev server
@@ -391,10 +401,10 @@ A successful setup is complete when:
 
 **After successful setup, remind user:**
 
-- **To start working:** Run `npm run dev` in the project folder
+- **To start working:** Run `pnpm run dev` in the project folder
 - **To stop the server:** Press Ctrl+C in the terminal
-- **To restart:** Run `npm run dev` again
-- **If you close terminal:** Just open a new one, navigate to project folder, and run `npm run dev`
+- **To restart:** Run `pnpm run dev` again
+- **If you close terminal:** Just open a new one, navigate to project folder, and run `pnpm run dev`
 
 **Next steps for prototyping:**
 - Review the example pages in `src/pages/`
@@ -408,13 +418,13 @@ Invoke this guidance when users:
 - Ask "how do I get started" or "how do I set this up"
 - Report errors that suggest missing prerequisites
 - Mention they just downloaded/cloned the project
-- Ask about installing Node.js, npm, or related tools
+- Ask about installing Node.js, pnpm, or related tools
 - Need help with "command not found" errors
 
 ## What NOT to Assume
 
 - Don't assume user has any development tools installed
-- Don't assume user knows what npm, Node.js, or terminal commands are
+- Don't assume user knows what pnpm, Node.js, or terminal commands are
 - Don't assume user has used git or GitHub before
 - Don't assume user knows how to navigate directories in terminal
 - Don't use jargon without explaining it first

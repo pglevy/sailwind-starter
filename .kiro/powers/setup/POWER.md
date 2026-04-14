@@ -14,7 +14,7 @@ Check for required tools:
 ```bash
 which brew && echo "✅ Homebrew installed" || echo "❌ Homebrew needed"
 which node && echo "✅ Node.js installed" || echo "❌ Node.js needed"
-which npm && echo "✅ npm installed" || echo "❌ npm needed"
+which pnpm && echo "✅ pnpm installed" || echo "❌ pnpm needed"
 ```
 
 ## Step 2: Install missing prerequisites
@@ -35,13 +35,42 @@ nvm install --lts
 nvm use --lts
 ```
 
-## Step 3: Install project dependencies
-
+**If pnpm is missing (easiest via corepack):**
 ```bash
-npm install
+corepack enable
 ```
 
-## Step 4: Configure Kiro shell integration (if needed)
+Or install directly:
+```bash
+brew install pnpm
+```
+
+## Step 3: Configure pnpm security policy
+
+Set a minimum release age so pnpm only installs packages published for at least 7 days. This protects against supply chain attacks.
+
+```bash
+pnpm config set minimum-release-age 10080 --location user
+```
+
+The value `10080` is 7 days in minutes. This writes to `~/Library/Preferences/pnpm/rc` on macOS.
+
+## Step 4: Install project dependencies
+
+If migrating from an npm-based setup (has `package-lock.json`), clean up first:
+```bash
+rm -rf node_modules
+rm -f package-lock.json
+```
+
+Then install:
+```bash
+pnpm install
+```
+
+**Note about the registry:** This project includes an `.npmrc` file that sets `registry=https://registry.npmjs.org/`. This ensures packages are fetched from the public npm registry even if you have a different registry configured globally (e.g., a corporate Artifactory). If `pnpm install` fails with authentication or 404 errors, verify the `.npmrc` file is present in the project root.
+
+## Step 5: Configure Kiro shell integration (if needed)
 
 If you're experiencing terminal output issues in Kiro, add shell integration to your config:
 
@@ -61,10 +90,10 @@ source ~/.zshrc  # for zsh
 source ~/.bashrc # for bash
 ```
 
-## Step 5: Start development server
+## Step 6: Start development server
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 The project will be available at http://localhost:5173
