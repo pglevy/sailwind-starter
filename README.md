@@ -79,6 +79,12 @@ These hooks reduce the amount of guidance needed in AGENTS.md by handling checks
 ```
 sailwind-starter/
 ├── src/
+│   ├── db/              # Data layer (mock APIs, transition-ready)
+│   │   ├── types.ts     # Shared type utilities
+│   │   ├── users.ts     # Mock usernames for user-reference fields
+│   │   ├── tasks.ts     # Example entity module
+│   │   ├── applications.ts
+│   │   └── documents.ts
 │   ├── pages/           # Your prototype pages go here!
 │   │   ├── home.tsx
 │   │   ├── task-dashboard.tsx
@@ -88,11 +94,34 @@ sailwind-starter/
 │   ├── App.tsx          # Routing configuration
 │   ├── main.tsx
 │   └── index.css
+├── schemas/             # JSON schemas for contract validation
 ├── public               # Images go here
 ├── package.json
 ├── README.md
 └── AGENTS.md
 ```
+
+## 📊 Data Layer Convention
+
+All prototype data lives in `src/db/` as typed async functions. Pages import from `src/db/` — never inline data directly. This makes every prototype "transition-ready" for connecting to a real Appian backend.
+
+Each entity gets its own file (e.g., `src/db/tasks.ts`) with:
+- A TypeScript interface defining the data shape
+- Seed data for prototyping
+- Async CRUD functions (`getTasks()`, `createTask()`, etc.)
+
+User-reference fields (like `assignee`, `createdBy`) store Appian usernames as plain strings.
+
+### Appian App Generation
+
+Three skills in `.kiro/skills/` enable going from prototype to Appian app:
+
+1. **Extract Prototype Contract** — reads `src/db/` and produces an API contract JSON
+2. **Generate Appian App** — takes the contract and produces an importable Appian package (record types + web APIs + DDL)
+3. **Deploy to Appian** — deploys the package + DDL to an Appian environment via the Deployment REST API (inspect, import, poll for results)
+4. **Connect to Appian** — rewrites `src/db/` to use real `fetch` calls against the generated web APIs
+
+See the steering file at `.kiro/steering/data-layer.md` for the full convention.
 
 ## 🎯 Creating New Pages
 

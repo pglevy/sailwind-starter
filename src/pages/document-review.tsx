@@ -1,7 +1,18 @@
+import { useState, useEffect } from 'react'
 import { HeadingField, CardLayout, TextField, CheckboxField, RadioButtonField, ButtonWidget, MessageBanner } from '@pglevy/sailwind'
 import { Link } from 'wouter'
+import { getDocument, reviewChecklist, type Document } from '../db/documents'
+import { getDisplayName } from '../db/users'
 
 export default function DocumentReview() {
+  const [doc, setDoc] = useState<Document | undefined>()
+
+  useEffect(() => {
+    getDocument(1).then(setDoc)
+  }, [])
+
+  if (!doc) return null
+
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
@@ -22,19 +33,19 @@ export default function DocumentReview() {
 
         <TextField
           label="Document Title"
-          value="Policy Update Proposal - 2025"
+          value={doc.title}
           disabled={true}
         />
 
         <TextField
           label="Submitted By"
-          value="Jane Doe"
+          value={getDisplayName(doc.submittedBy)}
           disabled={true}
         />
 
         <TextField
           label="Submission Date"
-          value="October 20, 2025"
+          value={doc.submissionDate}
           disabled={true}
         />
       </CardLayout>
@@ -44,13 +55,8 @@ export default function DocumentReview() {
 
         <CheckboxField
           label="Please confirm the following:"
-          choiceLabels={[
-            'Document is complete and all required sections are filled',
-            'Information provided is accurate and up-to-date',
-            'Document follows standard formatting guidelines',
-            'No sensitive information is improperly disclosed'
-          ]}
-          choiceValues={['complete', 'accurate', 'formatted', 'secure']}
+          choiceLabels={reviewChecklist.map(c => c.label)}
+          choiceValues={reviewChecklist.map(c => c.value)}
         />
       </CardLayout>
 

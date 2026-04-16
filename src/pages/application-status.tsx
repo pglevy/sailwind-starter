@@ -1,7 +1,17 @@
+import { useState, useEffect } from 'react'
 import { HeadingField, CardLayout, TextField, TagField, MilestoneField } from '@pglevy/sailwind'
 import { Link } from 'wouter'
+import { getApplication, applicationSteps, type Application } from '../db/applications'
 
 export default function ApplicationStatus() {
+  const [app, setApp] = useState<Application | undefined>()
+
+  useEffect(() => {
+    getApplication(12345).then(setApp)
+  }, [])
+
+  if (!app) return null
+
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
@@ -11,24 +21,24 @@ export default function ApplicationStatus() {
       <HeadingField text="Application Status" size="LARGE" />
 
       <CardLayout>
-        <HeadingField text="Application #12345" size="MEDIUM" />
+        <HeadingField text={`Application #${app.id}`} size="MEDIUM" />
 
         <div className="grid grid-cols-2 gap-4">
           <TextField
             label="Applicant Name"
-            value="John Smith"
+            value={app.applicantName}
             disabled={true}
           />
           <TextField
             label="Application Date"
-            value="October 1, 2025"
+            value={app.applicationDate}
             disabled={true}
           />
         </div>
 
         <TagField
           tags={[
-            { text: 'Approved', backgroundColor: 'POSITIVE' }
+            { text: app.status, backgroundColor: app.status === 'Approved' ? 'POSITIVE' : 'STANDARD' }
           ]}
           marginAbove="STANDARD"
         />
@@ -38,14 +48,8 @@ export default function ApplicationStatus() {
         <HeadingField text="Application Timeline" size="MEDIUM" />
 
         <MilestoneField
-          steps={[
-            'Application Submitted',
-            'Initial Review',
-            'Documentation Verified',
-            'Final Approval',
-            'Notification Sent',
-          ]}
-          active={3}
+          steps={applicationSteps}
+          active={app.currentStep}
         />
       </CardLayout>
     </div>

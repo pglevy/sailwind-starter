@@ -1,0 +1,153 @@
+{
+  "title": "API_Contract",
+  "description": "Normative schema for the API_Contract structure produced by both generate-web-apis and extract-api-contract skills. Downstream skills consume this structure without branching on which extraction path produced it.",
+  "type": "object",
+  "required": ["app_name", "app_uuid", "base_url", "auth_tier", "endpoints", "record_types"],
+  "additionalProperties": false,
+  "properties": {
+    "app_name": {
+      "type": "string",
+      "description": "Human-readable application name extracted from the App_Export.",
+      "minLength": 1
+    },
+    "app_uuid": {
+      "type": "string",
+      "description": "Appian application UUID.",
+      "minLength": 1
+    },
+    "base_url": {
+      "type": "string",
+      "description": "Web API base URL pattern, e.g. https://{host}/suite/webapi",
+      "minLength": 1
+    },
+    "auth_tier": {
+      "type": "string",
+      "description": "Authentication tier for Web API calls.",
+      "enum": ["session", "api_key"]
+    },
+    "endpoints": {
+      "type": "array",
+      "description": "List of Web API endpoints exposed by the application.",
+      "items": {
+        "$ref": "#/definitions/endpoint"
+      }
+    },
+    "record_types": {
+      "type": "array",
+      "description": "Record types backing the application data model.",
+      "items": {
+        "$ref": "#/definitions/record_type"
+      }
+    }
+  },
+  "definitions": {
+    "field": {
+      "type": "object",
+      "description": "A single field on a record type or endpoint shape.",
+      "required": ["name", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+
+    "endpoint": {
+      "type": "object",
+      "description": "A single Web API endpoint.",
+      "required": ["method", "alias", "name"],
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+        },
+        "alias": {
+          "type": "string",
+          "description": "URL alias for the endpoint.",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable endpoint name.",
+          "minLength": 1
+        },
+        "response_fields": {
+          "type": "array",
+          "description": "Response shape for GET endpoints.",
+          "items": {
+            "$ref": "#/definitions/field"
+          }
+        },
+        "request_fields": {
+          "type": "array",
+          "description": "Request body shape for POST/PUT/PATCH endpoints.",
+          "items": {
+            "$ref": "#/definitions/field"
+          }
+        },
+        "shape": {
+          "type": "string",
+          "description": "Set to 'unknown' when the SAIL expression could not be parsed to extract a contract.",
+          "enum": ["unknown"]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "method": { "const": "GET" } }
+          },
+          "then": {
+            "anyOf": [
+              { "required": ["response_fields"] },
+              { "required": ["shape"] }
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": { "method": { "enum": ["POST", "PUT", "PATCH"] } }
+          },
+          "then": {
+            "anyOf": [
+              { "required": ["request_fields"] },
+              { "required": ["shape"] }
+            ]
+          }
+        }
+      ]
+    },
+    "record_type": {
+      "type": "object",
+      "description": "An Appian record type backing the application data model.",
+      "required": ["name", "uuid", "table", "fields"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "uuid": {
+          "type": "string",
+          "minLength": 1
+        },
+        "table": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/field"
+          }
+        }
+      }
+    }
+  }
+}

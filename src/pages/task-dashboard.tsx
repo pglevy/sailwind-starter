@@ -1,7 +1,22 @@
+import { useState, useEffect } from 'react'
 import { HeadingField, CardLayout, ButtonWidget, TagField, ProgressBar, RichTextDisplayField, TextItem } from '@pglevy/sailwind'
 import { Link } from 'wouter'
+import { getTasks, type Task } from '../db/tasks'
+import { getDisplayName } from '../db/users'
+
+const priorityColor: Record<string, string> = {
+  High: 'NEGATIVE',
+  Normal: 'STANDARD',
+  Low: 'POSITIVE',
+}
 
 export default function TaskDashboard() {
+  const [tasks, setTasks] = useState<Task[]>([])
+
+  useEffect(() => {
+    getTasks().then(setTasks)
+  }, [])
+
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
@@ -14,74 +29,30 @@ export default function TaskDashboard() {
         <HeadingField text="My Active Tasks" size="MEDIUM" />
 
         <div className="space-y-4">
-          <div className="">
-            <HeadingField text="Review Application #1234" size="MEDIUM" fontWeight="SEMI_BOLD" marginBelow="NONE" />
-            <RichTextDisplayField
-              value={[
-                <TextItem
-                  key="meta"
-                  text="Assigned to you • Due in 2 days"
-                  color="SECONDARY"
-                  size="SMALL"
-                />
-              ]}
-            />
-            <TagField
-              tags={[
-                { text: 'High Priority', backgroundColor: 'NEGATIVE' },
-                { text: 'Review', backgroundColor: 'SECONDARY' },
-              ]}
-              marginAbove="STANDARD"
-              size="SMALL"
-            />
-            <ProgressBar percentage={65} label="Progress" labelPosition="COLLAPSED" marginAbove="STANDARD" />
-          </div>
-
-          <div className="">
-            <HeadingField text="Process Document Review" size="MEDIUM" fontWeight="SEMI_BOLD" marginBelow="NONE" />
-            <RichTextDisplayField
-              value={[
-                <TextItem
-                  key="meta"
-                  text="Assigned to you • Due in 5 days"
-                  color="SECONDARY"
-                  size="SMALL"
-                />
-              ]}
-            />
-            <TagField
-              tags={[
-                { text: 'Normal', backgroundColor: 'STANDARD' },
-                { text: 'Documentation', backgroundColor: 'ACCENT' },
-              ]}
-              marginAbove="STANDARD"
-              size="SMALL"
-            />
-            <ProgressBar percentage={30} label="Progress" labelPosition="COLLAPSED" marginAbove="STANDARD" />
-          </div>
-
-          <div className="">
-            <HeadingField text="Update Vendor Information" size="MEDIUM" fontWeight="SEMI_BOLD" marginBelow="NONE" />
-            <RichTextDisplayField
-              value={[
-                <TextItem
-                  key="meta"
-                  text="Assigned to you • Due in 7 days"
-                  color="SECONDARY"
-                  size="SMALL"
-                />
-              ]}
-            />
-            <TagField
-              tags={[
-                { text: 'Low Priority', backgroundColor: 'POSITIVE' },
-                { text: 'Data Entry', backgroundColor: 'SECONDARY' },
-              ]}
-              marginAbove="STANDARD"
-              size="SMALL"
-            />
-            <ProgressBar percentage={10} label="Progress" labelPosition="COLLAPSED" marginAbove="STANDARD" />
-          </div>
+          {tasks.map(task => (
+            <div key={task.id}>
+              <HeadingField text={task.title} size="MEDIUM" fontWeight="SEMI_BOLD" marginBelow="NONE" />
+              <RichTextDisplayField
+                value={[
+                  <TextItem
+                    key="meta"
+                    text={`Assigned to ${getDisplayName(task.assignee)} • Due ${task.dueDate}`}
+                    color="SECONDARY"
+                    size="SMALL"
+                  />
+                ]}
+              />
+              <TagField
+                tags={[
+                  { text: `${task.priority} Priority`, backgroundColor: priorityColor[task.priority] ?? 'STANDARD' },
+                  { text: task.category, backgroundColor: task.category === 'Review' ? 'SECONDARY' : 'ACCENT' },
+                ]}
+                marginAbove="STANDARD"
+                size="SMALL"
+              />
+              <ProgressBar percentage={task.progress} label="Progress" labelPosition="COLLAPSED" marginAbove="STANDARD" />
+            </div>
+          ))}
         </div>
       </CardLayout>
 
