@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@pglevy/sailwind": "^0.8.0",
+    "lucide-react": "^1.8.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "wouter": "^3.7.1"

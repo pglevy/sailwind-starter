@@ -1,19 +1,11 @@
 import { Route, Router, Switch } from 'wouter'
 import { useHashLocation } from 'wouter/use-hash-location'
 
-// Import all pages
-import Home from './pages/home'
-import TaskDashboard from './pages/task-dashboard'
-import ApplicationStatus from './pages/application-status'
-import DocumentReview from './pages/document-review'
+import GroceryList from './pages/grocery-list'
 import NotFound from './pages/not-found'
 
-// Page registry for automatic TOC generation
 const pages = [
-  { path: '/', title: 'Home', component: Home },
-  { path: '/task-dashboard', title: 'Task Dashboard', component: TaskDashboard },
-  { path: '/application-status', title: 'Application Status', component: ApplicationStatus },
-  { path: '/document-review', title: 'Document Review', component: DocumentReview },
+  { path: '/', title: 'Grocery List', component: GroceryList },
 ]
 
 function App() {

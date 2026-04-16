@@ -508,7 +508,7 @@ For each record type, generate a `CREATE TABLE` statement:
 
 ```sql
 CREATE TABLE <TABLE_NAME> (
-    <COLUMN_NAME> <SQL_TYPE> PRIMARY KEY,  -- for id field
+    <COLUMN_NAME> <SQL_TYPE> PRIMARY KEY AUTO_INCREMENT,  -- for id field
     <COLUMN_NAME> <SQL_TYPE>,              -- for other fields
     ...
 );
