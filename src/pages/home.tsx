@@ -5,7 +5,7 @@ export default function Home() {
   const [, setLocation] = useLocation()
 
   const pages = [
-    { title: 'Grocery List', path: '/grocery-list', description: 'Add items, group by store section, check off when purchased, and save favorites' },
+    { title: 'Kanban Board', path: '/', description: 'Project management board with lists, cards, and task checklists' },
   ]
 
   return (

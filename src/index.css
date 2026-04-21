@@ -110,11 +110,38 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    /* ApplicationHeader Gradients */
+    --gradient-header-bg: linear-gradient(90deg, #2322F0 0%, #E21496 57%, #FFC008 83%, #FFD948 100%);
+    --gradient-header-overlay: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 40%, rgba(255,255,255,0.95) 75%);
   }
 
   body {
     margin: 0;
     min-width: 320px;
     min-height: 100vh;
+  }
+}
+
+@layer utilities {
+  .application-header-gradient {
+    background: var(--gradient-header-bg);
+    position: relative;
+  }
+
+  .application-header-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0.5rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-header-overlay);
+    pointer-events: none;
+  }
+
+  .application-header-gradient > * {
+    position: relative;
+    z-index: 1;
   }
 }
