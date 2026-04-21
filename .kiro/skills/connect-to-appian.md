@@ -1,16 +1,14 @@
-# Skill: Connect to Appian
+---
+name: Connect to Appian
+description: >
+  Rewrite the prototype's mock data layer (`src/db/`) to use real `fetch` calls against Appian Web API
+  endpoints. Page components remain unchanged — only the function bodies in `src/db/` are replaced.
+  Use this skill when the user says "connect to Appian", "switch to real APIs", "hook up the prototype
+  to the backend", or "replace mock data with real API calls". Prerequisite: run
+  `extract-prototype-contract` first and ensure the Appian app is imported.
+---
 
-Rewrite the prototype's mock data layer (`src/db/`) to use real `fetch` calls against Appian Web API endpoints. Page components remain unchanged — only the function bodies in `src/db/` are replaced.
-
-## When to Use
-
-Use this skill when the user says something like:
-- "Connect to Appian"
-- "Switch to real APIs"
-- "Hook up the prototype to the backend"
-- "Replace mock data with real API calls"
-
-**Prerequisite:** Run `extract-prototype-contract` first to produce `appian-output/api-contract.json`. The Appian app should already be imported and the web APIs should be accessible.
+# Connect to Appian
 
 ## Inputs
 

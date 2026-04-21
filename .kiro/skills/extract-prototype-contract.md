@@ -1,14 +1,13 @@
-# Skill: Extract Prototype Contract
+---
+name: Extract Prototype Contract
+description: >
+  Extract an API contract from the prototype's `src/db/` data layer, producing an `API_Contract` JSON
+  that can be used to generate an importable Appian app package. Use this skill when the user says
+  "extract the API contract", "generate the contract from the prototype", "what's the data model
+  for this prototype?", or "prepare for Appian app generation".
+---
 
-Extract an API contract from the prototype's `src/db/` data layer, producing an `API_Contract` JSON that can be used to generate an importable Appian app package.
-
-## When to Use
-
-Use this skill when the user says something like:
-- "Extract the API contract"
-- "Generate the contract from the prototype"
-- "What's the data model for this prototype?"
-- "Prepare for Appian app generation"
+# Extract Prototype Contract
 
 ## Inputs
 

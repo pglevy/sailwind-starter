@@ -1,16 +1,13 @@
-# Skill: Deploy to Appian
+---
+name: Deploy to Appian
+description: >
+  Deploy a generated Appian app package to a target environment using the Appian Deployment REST API (v2).
+  Handles the full lifecycle: inspect, deploy (with DDL), and poll for results. Use this skill when the
+  user says "deploy to Appian", "push this to my Appian environment", "import the app", or "run the
+  deployment". Prerequisite: run `generate-appian-app` first.
+---
 
-Deploy a generated Appian app package to a target environment using the Appian Deployment REST API (v2). This skill handles the full lifecycle: inspect, deploy (with DDL), and poll for results.
-
-## When to Use
-
-Use this skill when the user says something like:
-- "Deploy to Appian"
-- "Push this to my Appian environment"
-- "Import the app"
-- "Run the deployment"
-
-**Prerequisite:** Run `generate-appian-app` first to produce the package in `appian-output/`.
+# Deploy to Appian
 
 ## Inputs
 

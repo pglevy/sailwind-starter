@@ -1,16 +1,14 @@
-# Skill: Generate Appian App
+---
+name: Generate Appian App
+description: >
+  Generate an importable Appian application package (ZIP) from an `API_Contract` JSON. The package
+  includes record types, web APIs, groups, an application wrapper, DDL, and a manifest — everything
+  needed to stand up the data model in an Appian environment. Use this skill when the user says
+  "generate the Appian app", "create the Appian package", "build the app ZIP", or "hook this up to Appian".
+  Prerequisite: run the `extract-prototype-contract` skill first.
+---
 
-Generate an importable Appian application package (ZIP) from an `API_Contract` JSON. The package includes record types, web APIs, groups, an application wrapper, DDL, and a manifest — everything needed to stand up the data model in an Appian environment.
-
-## When to Use
-
-Use this skill when the user says something like:
-- "Generate the Appian app"
-- "Create the Appian package"
-- "Build the app ZIP"
-- "Hook this up to Appian"
-
-**Prerequisite:** Run the `extract-prototype-contract` skill first to produce `appian-output/api-contract.json`.
+# Generate Appian App
 
 ## Inputs
 
