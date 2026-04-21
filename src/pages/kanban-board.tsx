@@ -14,7 +14,6 @@ import {
   RichTextDisplayField,
   TextItem
 } from '@pglevy/sailwind'
-import { Trash2 } from 'lucide-react'
 import { getLists, type BoardList } from '../db/lists'
 import { getCards, createCard, updateCard, deleteCard, type Card } from '../db/cards'
 import { getTasks, createTask, updateTask, deleteTask, type Task } from '../db/tasks'
@@ -113,12 +112,12 @@ export default function KanbanBoard() {
   const totalCount = (cardId: number) => tasksForCard(cardId).length
 
   return (
-    <div className="min-h-screen bg-purple-50">
+    <div className="min-h-screen bg-gray-50">
       <ApplicationHeader name="Bubbly Board" userInitials="PL" />
 
       <div className="px-6 py-4">
-        <div className="flex items-center justify-between mb-4">
-          <HeadingField text="Active Cycle" size="LARGE" headingTag="H1" marginBelow="NONE" />
+        <div className="flex items-center justify-between mb-5">
+          <HeadingField text="Active Cycle" size="LARGE_PLUS" headingTag="H1" marginBelow="NONE" />
           <ButtonWidget
             label="New Card"
             style="SOLID"
@@ -138,7 +137,7 @@ export default function KanbanBoard() {
                 <div className="bg-purple-100 rounded-lg p-3">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
-                      <HeadingField text={list.name} size="STANDARD" marginBelow="NONE" headingTag="h2" />
+                      <HeadingField text={list.name} size="STANDARD" fontWeight="SEMI_BOLD" marginBelow="NONE" headingTag="h2" />
                       <TagField
                         tags={[{ text: String(listCards.length), backgroundColor: 'SECONDARY' }]}
                         size="SMALL"
@@ -179,7 +178,7 @@ export default function KanbanBoard() {
                                 ]}
                               />
                             )}
-                            <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
                               <ImageField
                                 images={[{
                                   imageType: 'user' as const,
@@ -194,7 +193,7 @@ export default function KanbanBoard() {
                                 marginBelow="NONE"
                               />
                               {total > 0 && (
-                                <div className="w-3/4">
+                                <div className="flex-1">
                                   <ProgressBar
                                     percentage={Math.round((done / total) * 100)}
                                     style="THIN"
@@ -256,23 +255,28 @@ export default function KanbanBoard() {
             {/* Description */}
             {selectedCard.description && (
               <div>
-                <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Description</p>
-                <p className="text-sm text-gray-700">{selectedCard.description}</p>
+                <HeadingField text="Description" size="SMALL" marginBelow="EVEN_LESS" />
+                <RichTextDisplayField
+                  value={[
+                    <TextItem key="desc" text={selectedCard.description} size="STANDARD" color="SECONDARY" />
+                  ]}
+                  marginBelow="NONE"
+                />
               </div>
             )}
 
             {/* Tasks checklist */}
             <div>
-              <p className="text-xs font-semibold text-gray-500 uppercase mb-2">
-                Tasks ({completedCount(selectedCard.id)}/{totalCount(selectedCard.id)})
-              </p>
+              <HeadingField text={`Tasks (${completedCount(selectedCard.id)}/${totalCount(selectedCard.id)})`} size="SMALL" marginBelow="EVEN_LESS" />
               {totalCount(selectedCard.id) > 0 && (
-                <div className="w-full bg-gray-200 rounded-full h-1.5 mb-3">
-                  <div
-                    className="bg-blue-500 h-1.5 rounded-full transition-all"
-                    style={{ width: `${totalCount(selectedCard.id) > 0 ? (completedCount(selectedCard.id) / totalCount(selectedCard.id)) * 100 : 0}%` }}
-                  />
-                </div>
+                <ProgressBar
+                  percentage={Math.round((completedCount(selectedCard.id) / totalCount(selectedCard.id)) * 100)}
+                  style="THIN"
+                  color="ACCENT"
+                  labelPosition="COLLAPSED"
+                  showPercentage={false}
+                  marginBelow="LESS"
+                />
               )}
               <div className="space-y-1">
                 {tasksForCard(selectedCard.id).map(task => (
@@ -286,13 +290,14 @@ export default function KanbanBoard() {
                     <span className={`text-sm flex-1 ${task.isDone ? 'line-through text-gray-500' : 'text-gray-700'}`}>
                       {task.title}
                     </span>
-                    <button
-                      className="opacity-0 group-hover:opacity-100 text-gray-500 hover:text-red-500 p-1 transition-opacity"
+                    <ButtonWidget
+                      icon="Trash2"
+                      style="GHOST"
+                      size="SMALL"
+                      color="SECONDARY"
                       onClick={() => handleDeleteTask(task.id)}
-                      aria-label={`Delete task: ${task.title}`}
-                    >
-                      <Trash2 size={14} />
-                    </button>
+                      className="opacity-0 group-hover:opacity-100"
+                    />
                   </div>
                 ))}
               </div>
@@ -320,12 +325,15 @@ export default function KanbanBoard() {
 
             {/* Metadata */}
             <div className="border-t pt-3 mt-3">
-              <div className="grid grid-cols-2 gap-2 text-xs text-gray-500">
-                <div>Created by {getDisplayName(selectedCard.createdBy)}</div>
-                <div className="text-right">{selectedCard.createdOn}</div>
-                <div>Modified by {getDisplayName(selectedCard.modifiedBy)}</div>
-                <div className="text-right">{selectedCard.modifiedOn}</div>
-              </div>
+              <HeadingField text="Details" size="SMALL" marginBelow="EVEN_LESS" />
+              <RichTextDisplayField
+                value={[
+                  <TextItem key="cb" text={`Created by ${getDisplayName(selectedCard.createdBy)} · ${selectedCard.createdOn}`} size="SMALL" color="SECONDARY" />,
+                  <br key="br1" />,
+                  <TextItem key="mb" text={`Modified by ${getDisplayName(selectedCard.modifiedBy)} · ${selectedCard.modifiedOn}`} size="SMALL" color="SECONDARY" />,
+                ]}
+                marginBelow="NONE"
+              />
             </div>
 
             {/* Delete card */}
