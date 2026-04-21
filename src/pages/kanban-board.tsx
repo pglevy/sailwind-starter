@@ -5,6 +5,7 @@ import {
   CardLayout,
   ImageField,
   TagField,
+  ProgressBar,
   ButtonWidget,
   ButtonArrayLayout,
   TextField,
@@ -13,7 +14,7 @@ import {
   RichTextDisplayField,
   TextItem
 } from '@pglevy/sailwind'
-import { Plus, CheckSquare, Trash2 } from 'lucide-react'
+import { Trash2 } from 'lucide-react'
 import { getLists, type BoardList } from '../db/lists'
 import { getCards, createCard, updateCard, deleteCard, type Card } from '../db/cards'
 import { getTasks, createTask, updateTask, deleteTask, type Task } from '../db/tasks'
@@ -112,8 +113,8 @@ export default function KanbanBoard() {
   const totalCount = (cardId: number) => tasksForCard(cardId).length
 
   return (
-    <div className="min-h-screen bg-blue-50">
-      <ApplicationHeader name="Bubbly Board" userInitials="AC" />
+    <div className="min-h-screen bg-purple-50">
+      <ApplicationHeader name="Bubbly Board" userInitials="PL" />
 
       <div className="px-6 py-4">
         <div className="flex items-center justify-between mb-4">
@@ -134,7 +135,7 @@ export default function KanbanBoard() {
             const listCards = cardsForList(list.id)
             return (
               <div key={list.id} className="shrink-0 w-96">
-                <div className="bg-gray-100 rounded-lg p-3">
+                <div className="bg-purple-100 rounded-lg p-3">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
                       <HeadingField text={list.name} size="STANDARD" marginBelow="NONE" headingTag="h2" />
@@ -144,13 +145,14 @@ export default function KanbanBoard() {
                         marginBelow="NONE"
                       />
                     </div>
-                    <button
-                      className="text-gray-500 hover:text-gray-700 p-1"
+                    <ButtonWidget
+                      icon="Plus"
+                      style="GHOST"
+                      size="SMALL"
+                      color="SECONDARY"
                       onClick={() => { setNewCardListId(list.id); setShowNewCardDialog(true) }}
-                      aria-label={`Add card to ${list.name}`}
-                    >
-                      <Plus size={16} />
-                    </button>
+                      accessibilityText={`Add card to ${list.name}`}
+                    />
                   </div>
 
                   <div className="space-y-2">
@@ -192,10 +194,17 @@ export default function KanbanBoard() {
                                 marginBelow="NONE"
                               />
                               {total > 0 && (
-                                <span className="flex items-center gap-1 text-sm text-gray-500">
-                                  <CheckSquare size={16} />
-                                  {done}/{total}
-                                </span>
+                                <div className="w-3/4">
+                                  <ProgressBar
+                                    percentage={Math.round((done / total) * 100)}
+                                    style="THIN"
+                                    color="#962FEA"
+                                    label={`${done} of ${total}`}
+                                    labelPosition="COLLAPSED"
+                                    marginBelow="NONE"
+                                    showPercentage={false}
+                                  />
+                                </div>
                               )}
                             </div>
                           </CardLayout>
@@ -216,7 +225,7 @@ export default function KanbanBoard() {
           open={true}
           onClose={() => { setSelectedCard(null); setNewTaskTitle('') }}
           title={selectedCard.name}
-          width="MEDIUM"
+          width="MEDIUM_PLUS"
         >
           <div className="space-y-4">
             {/* Move to list */}
