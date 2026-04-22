@@ -137,7 +137,7 @@ export default function KanbanBoard() {
                 <div className="bg-purple-100 rounded-lg p-3 shadow-md">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
-                      <HeadingField text={list.name} size="MEDIUM" fontWeight="SEMI_BOLD" marginBelow="NONE" headingTag="h2" />
+                      <HeadingField text={list.name} size="MEDIUM" fontWeight="SEMI_BOLD" marginBelow="NONE" headingTag="H2" />
                       <TagField
                         tags={[{ text: String(listCards.length), backgroundColor: '#D9AEFF' }]}
                         size="SMALL"
@@ -169,7 +169,7 @@ export default function KanbanBoard() {
                                 marginBelow="LESS"
                               />
                             )}
-                            <HeadingField text={card.name} size="SMALL" fontWeight="BOLD" marginBelow="NONE" headingTag="h2" />
+                            <HeadingField text={card.name} size="SMALL" fontWeight="BOLD" marginBelow="NONE" headingTag="H2" />
                             {card.description && (
                               <RichTextDisplayField
                                 labelPosition="COLLAPSED"
