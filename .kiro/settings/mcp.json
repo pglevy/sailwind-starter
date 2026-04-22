@@ -2,14 +2,34 @@
   "mcpServers": {
     "chrome-devtools": {
       "command": "npx",
-      "args": ["-y", "chrome-devtools-mcp@latest"],
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest"
+      ],
       "timeout": 120000,
       "connectionTimeout": 30000,
-      "disabled": false
+      "disabled": false,
+      "autoApprove": [
+        "take_screenshot",
+        "list_console_messages",
+        "list_network_requests",
+        "navigate_page",
+        "take_snapshot",
+        "click",
+        "wait_for",
+        "get_console_message",
+        "fill",
+        "fill"
+      ]
     },
     "playwright": {
       "command": "npx",
-      "args": ["@playwright/mcp@latest", "--browser", "chromium", "--headless"],
+      "args": [
+        "@playwright/mcp@latest",
+        "--browser",
+        "chromium",
+        "--headless"
+      ],
       "timeout": 120000,
       "connectionTimeout": 30000,
       "disabled": false

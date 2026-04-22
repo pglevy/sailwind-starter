@@ -5,9 +5,7 @@ export default function Home() {
   const [, setLocation] = useLocation()
 
   const pages = [
-    { title: 'Task Dashboard', path: '/task-dashboard', description: 'Example task management interface' },
-    { title: 'Application Status', path: '/application-status', description: 'Application tracking with milestones' },
-    { title: 'Document Review', path: '/document-review', description: 'Document approval workflow' },
+    { title: 'Kanban Board', path: '/', description: 'Project management board with lists, cards, and task checklists' },
   ]
 
   return (
@@ -22,7 +20,7 @@ export default function Home() {
       />
 
       <div className="bg-white rounded-lg shadow-md p-6">
-        <HeadingField text="Example Pages" size="MEDIUM_PLUS" fontWeight="SEMI_BOLD" marginBelow="STANDARD" />
+        <HeadingField text="Pages" size="MEDIUM_PLUS" fontWeight="SEMI_BOLD" marginBelow="STANDARD" />
         <div className="space-y-3">
           {pages.map((page, index) => (
             <div key={index}>

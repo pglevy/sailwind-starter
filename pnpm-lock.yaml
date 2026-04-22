@@ -9,8 +9,11 @@ importers:
   .:
     dependencies:
       '@pglevy/sailwind':
-        specifier: ^0.8.0
-        version: 0.8.0(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        specifier: ^0.10.2
+        version: 0.10.2(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      lucide-react:
+        specifier: ^1.8.0
+        version: 1.8.0(react@19.2.0)
       react:
         specifier: ^19.1.1
         version: 19.2.0
@@ -559,8 +562,8 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@pglevy/sailwind@0.8.0':
-    resolution: {integrity: sha512-9ZwI7nuSQln+zJtWHPqi/Yw8nsLaXY4rSfuNe5nU2piiGW0wUrC7uznMl61DKNE90q2TRP7knB1jI30b1KO19Q==}
+  '@pglevy/sailwind@0.10.2':
+    resolution: {integrity: sha512-WVl3eu7nA+h4t3JgXBz6E99bbJGN2u9zHw6Uj2GKyDibJIzZBRK0h7Iz1G6tDgN070rTw+LpvRnh7cnmCSL/cQ==}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
@@ -1634,6 +1637,11 @@ packages:
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
+  lucide-react@1.8.0:
+    resolution: {integrity: sha512-WuvlsjngSk7TnTBJ1hsCy3ql9V9VOdcPkd3PKcSmM34vJD8KG6molxz7m7zbYFgICwsanQWmJ13JlYs4Zp7Arw==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
@@ -2327,7 +2335,7 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
 
-  '@pglevy/sailwind@0.8.0(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@pglevy/sailwind@0.10.2(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@radix-ui/react-avatar': 1.1.10(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@radix-ui/react-dialog': 1.1.15(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -3336,6 +3344,10 @@ snapshots:
       yallist: 3.1.1
 
   lucide-react@0.545.0(react@19.2.0):
+    dependencies:
+      react: 19.2.0
+
+  lucide-react@1.8.0(react@19.2.0):
     dependencies:
       react: 19.2.0
 

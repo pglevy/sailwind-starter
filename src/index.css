@@ -3,106 +3,125 @@
 
 @source "../node_modules/@pglevy/sailwind/dist";
 
+/* ═══════════════════════════════════════════════════════════════════
+   Theme tokens — generated from tokens/tokens.json via `pnpm run generate:css`
+   Do not edit values inside GENERATED regions by hand.
+   ═══════════════════════════════════════════════════════════════════ */
+
 @theme {
-  /* Custom SAIL text size (overrides Tailwind default of 1.875rem/30px) */
-  --text-3xl: 1.75rem;       /* 28px - SAIL LARGE_PLUS */
+  /* BEGIN GENERATED:typography */
+  /* Text sizes */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: var(--text-sm);
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.75rem;
+  --text-4xl: 2rem;
+  /* END GENERATED:typography */
 
-  /* Intermediate spacing values (not in Tailwind default scale) */
-  --spacing-1\.5: 0.375rem;  /* 6px - for button py-1.5 */
-  --spacing-2\.5: 0.625rem;  /* 10px - for button py-2.5 */
+  /* BEGIN GENERATED:spacing */
+  /* Intermediate spacing */
+  --spacing-1\.5: 0.375rem;
+  --spacing-2\.5: 0.625rem;
 
-  /* Custom border radius (overrides Tailwind default of 0.125rem/2px) */
-  --radius-sm: 0.25rem;      /* 4px - SAIL SEMI_ROUNDED */
+  /* Border radius */
+  --radius-sm: 0.25rem;
+  --radius-none: 0;
+  --radius-md: 0.5rem;
+  /* END GENERATED:spacing */
 
-  /* Aurora Color Palette - mapped to consistent Tailwind steps (50, 100, 200, 500, 700, 900) */
+  /* BEGIN GENERATED:colors */
+  /* Red */
+  --color-red-50: #FDEDF0;
+  --color-red-100: #FED7DE;
+  --color-red-200: #FDADAD;
+  --color-red-500: #DE0037;
+  --color-red-700: #B2002C;
+  --color-red-900: #9F0019;
 
-  /* Red (Aurora: 0, 1, 2, 3, 35, 4) */
-  --color-red-50: #FDEDF0;   /* Red 0 */
-  --color-red-100: #FED7DE;  /* Red 1 */
-  --color-red-200: #FDADAD;  /* Red 2 */
-  --color-red-500: #DE0037;  /* Red 3 */
-  --color-red-700: #B2002C;  /* Red 35 */
-  --color-red-900: #9F0019;  /* Red 4 */
+  /* Orange */
+  --color-orange-50: #FFF5E6;
+  --color-orange-100: #FFEED3;
+  --color-orange-200: #FFDCA3;
+  --color-orange-500: #FAA92F;
+  --color-orange-700: #D97706;
+  --color-orange-900: #995C00;
 
-  /* Orange (Aurora: 0, 1, 2, 3, 35, 4) */
-  --color-orange-50: #FFF5E6;   /* Orange 0 */
-  --color-orange-100: #FFEED3;  /* Orange 1 */
-  --color-orange-200: #FFDCA3;  /* Orange 2 */
-  --color-orange-500: #FAA92F;  /* Orange 3 */
-  --color-orange-700: #D97706;  /* Orange 35 */
-  --color-orange-900: #995C00;  /* Orange 4 */
+  /* Yellow */
+  --color-yellow-50: #FFFCEB;
+  --color-yellow-100: #FFF6C9;
+  --color-yellow-200: #FDEB93;
+  --color-yellow-500: #FFD948;
+  --color-yellow-700: #FFC008;
+  --color-yellow-900: #856C00;
 
-  /* Yellow (Aurora: 0, 1, 2, 3, 35, 4) */
-  --color-yellow-50: #FFFCEB;   /* Yellow 0 */
-  --color-yellow-100: #FFF6C9;  /* Yellow 1 */
-  --color-yellow-200: #FDEB93;  /* Yellow 2 */
-  --color-yellow-500: #FFD948;  /* Yellow 3 */
-  --color-yellow-700: #FFC008;  /* Yellow 35 */
-  --color-yellow-900: #856C00;  /* Yellow 4 */
+  /* Green */
+  --color-green-50: #EDF7EE;
+  --color-green-100: #E3FBDF;
+  --color-green-200: #B2EAB1;
+  --color-green-500: #1CC101;
+  --color-green-700: #117C00;
+  --color-green-900: #0A4D00;
 
-  /* Green (Aurora: 0, 1, 2, 3, 4, 5 - no 35) */
-  --color-green-50: #EDF7EE;   /* Green 0 */
-  --color-green-100: #E3FBDF;  /* Green 1 */
-  --color-green-200: #B2EAB1;  /* Green 2 */
-  --color-green-500: #1CC101;  /* Green 3 */
-  --color-green-700: #117C00;  /* Green 4 */
-  --color-green-900: #0A4D00;  /* Green 5 */
+  /* Teal */
+  --color-teal-50: #E7F8F8;
+  --color-teal-100: #E2FAF9;
+  --color-teal-200: #A5E8E8;
+  --color-teal-500: #56ADC0;
+  --color-teal-700: #31808B;
+  --color-teal-900: #2C6770;
 
-  /* Teal (Aurora: 0, 1, 2, 3, 35, 4) */
-  --color-teal-50: #E7F8F8;   /* Teal 0 */
-  --color-teal-100: #E2FAF9;  /* Teal 1 */
-  --color-teal-200: #A5E8E8;  /* Teal 2 */
-  --color-teal-500: #56ADC0;  /* Teal 3 */
-  --color-teal-700: #31808B;  /* Teal 35 */
-  --color-teal-900: #2C6770;  /* Teal 4 */
+  /* Sky */
+  --color-sky-50: #EBF4FF;
+  --color-sky-100: #DBECFF;
+  --color-sky-200: #B8D9FF;
+  --color-sky-500: #3F8EEE;
+  --color-sky-700: #115EBB;
+  --color-sky-900: #0C4283;
 
-  /* Sky (Aurora: 0, 1, 2, 3, 35, 4) */
-  --color-sky-50: #EBF4FF;   /* Sky 0 */
-  --color-sky-100: #DBECFF;  /* Sky 1 */
-  --color-sky-200: #B8D9FF;  /* Sky 2 */
-  --color-sky-500: #3F8EEE;  /* Sky 3 */
-  --color-sky-700: #115EBB;  /* Sky 35 */
-  --color-sky-900: #0C4283;  /* Sky 4 */
+  /* Blue */
+  --color-blue-50: #F5F5FC;
+  --color-blue-100: #EDEEFA;
+  --color-blue-200: #DCDEF5;
+  --color-blue-500: #2322F0;
+  --color-blue-700: #152B99;
+  --color-blue-900: #020A50;
 
-  /* Blue (Aurora: 0, 1, 2, 3, 4, 5 - no 35) */
-  --color-blue-50: #F5F5FC;   /* Blue 0 */
-  --color-blue-100: #EDEEFA;  /* Blue 1 */
-  --color-blue-200: #DCDEF5;  /* Blue 2 */
-  --color-blue-500: #2322F0;  /* Blue 3 */
-  --color-blue-700: #152B99;  /* Blue 4 */
-  --color-blue-900: #020A50;  /* Blue 5 */
+  /* Purple */
+  --color-purple-50: #F9F2FF;
+  --color-purple-100: #F2E9FF;
+  --color-purple-200: #D9AEFF;
+  --color-purple-500: #B561FF;
+  --color-purple-700: #962FEA;
+  --color-purple-900: #790DA1;
 
-  /* Purple (Aurora: 0, 1, 2, 3, 35, 4) */
-  --color-purple-50: #F9F2FF;   /* Purple 0 */
-  --color-purple-100: #F2E9FF;  /* Purple 1 */
-  --color-purple-200: #D9AEFF;  /* Purple 2 */
-  --color-purple-500: #B561FF;  /* Purple 3 */
-  --color-purple-700: #962FEA;  /* Purple 35 */
-  --color-purple-900: #790DA1;  /* Purple 4 */
+  /* Pink */
+  --color-pink-50: #FFDEF3;
+  --color-pink-100: #FFDEF3;
+  --color-pink-200: #F7A7DA;
+  --color-pink-500: #E21496;
+  --color-pink-700: #BB117C;
+  --color-pink-900: #8C1565;
 
-  /* Pink (Aurora: 0, 1, 2, 3, 35, 4) */
-  --color-pink-50: #FFDEF3;   /* Pink 0 (note: Pink 0 and 1 are same in Aurora) */
-  --color-pink-100: #FFDEF3;  /* Pink 1 */
-  --color-pink-200: #F7A7DA;  /* Pink 2 */
-  --color-pink-500: #E21496;  /* Pink 3 */
-  --color-pink-700: #BB117C;  /* Pink 35 */
-  --color-pink-900: #8C1565;  /* Pink 4 */
+  /* Gray */
+  --color-gray-50: #F5F5F7;
+  --color-gray-100: #EDEDF2;
+  --color-gray-200: #E0E0E0;
+  --color-gray-500: #6C6C75;
+  --color-gray-700: #636363;
+  --color-gray-900: #222222;
 
-  /* Gray (Aurora: 0, 1, 2, 3, 4, 5 - no 35) */
-  --color-gray-50: #F5F5F7;   /* Gray 0 */
-  --color-gray-100: #EDEDF2;  /* Gray 1 */
-  --color-gray-200: #E0E0E0;  /* Gray 2 */
-  --color-gray-500: #6C6C75;  /* Gray 3 */
-  --color-gray-700: #636363;  /* Gray 4 */
-  --color-gray-900: #222222;  /* Gray 5 */
-
-  --color-black: var(--color-gray-900) /* PL: Use Gray 5 for `text-black` */
+  --color-black: var(--color-gray-900); /* Alias of gray-900 */
+  /* END GENERATED:colors */
 }
 
 @layer base {
   html {
     font-family: 'Open Sans', system-ui, -apple-system, sans-serif;
     font-weight: 400;
+    font-size: 1rem;
     color: #222222;
     background-color: #FFFFFF;
 
@@ -110,11 +129,42 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    /* ApplicationHeader Gradients */
+    --gradient-header-bg: linear-gradient(90deg, #2322F0 0%, #E21496 57%, #FFC008 83%, #FFD948 100%);
+    --gradient-header-overlay: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 40%, rgba(255,255,255,0.95) 75%);
+  }
+
+  code, pre, kbd, samp {
+    font-family: 'Geist Mono', 'Fira Code', monospace;
   }
 
   body {
     margin: 0;
     min-width: 320px;
     min-height: 100vh;
+  }
+}
+
+@layer utilities {
+  .application-header-gradient {
+    background: var(--gradient-header-bg);
+    position: relative;
+  }
+
+  .application-header-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0.5rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-header-overlay);
+    pointer-events: none;
+  }
+
+  .application-header-gradient > * {
+    position: relative;
+    z-index: 1;
   }
 }

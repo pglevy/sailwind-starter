@@ -186,6 +186,36 @@ import { CheckCircle, AlertCircle, FileText } from 'lucide-react'
 
 ## Development Workflow
 
+### Data Layer Convention
+
+**CRITICAL: All prototype data MUST live in `src/db/` as typed async functions.**
+
+- Never inline data directly in page components
+- Each entity gets its own file: `src/db/<entity>.ts` (plural, lowercase)
+- Each file exports: a TypeScript interface, seed data, and async CRUD functions
+- User-reference fields (like `assignee`, `createdBy`) are plain `string` fields containing Appian usernames
+- See `.kiro/steering/data-layer.md` for the full convention and examples
+
+```tsx
+// ✅ CORRECT - Import data from src/db/
+import { getTasks, type Task } from '../db/tasks'
+
+const [tasks, setTasks] = useState<Task[]>([])
+useEffect(() => { getTasks().then(setTasks) }, [])
+
+// ❌ WRONG - Inline data in components
+const tasks = [{ id: 1, title: "Review App", ... }]
+```
+
+### Appian Skills (in `.kiro/skills/`)
+
+| Skill | Purpose |
+|-------|---------|
+| `extract-prototype-contract` | Reads `src/db/`, produces `appian-output/api-contract.json` |
+| `generate-appian-app` | Takes contract, produces importable Appian app ZIP + DDL |
+| `deploy-to-appian` | Deploys the generated package to an Appian environment via the Deployment API |
+| `connect-to-appian` | Rewrites `src/db/` to use real `fetch` calls |
+
 ### Page Development (Default Location: `src/pages/`)
 
 **CRITICAL: This is a starter template. Components come from the npm package.**
