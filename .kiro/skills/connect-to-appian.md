@@ -146,7 +146,7 @@ The `users.ts` file contains mock usernames for display purposes. Since Appian's
 ### Step 6 — Verify
 
 1. Run `getDiagnostics` on all modified files to check for TypeScript errors.
-2. Run `npx vite build` to confirm the app still builds.
+2. Run `pnpm run build` to confirm the app still builds.
 3. Note that the app won't actually work until `VITE_API_BASE` is set to a real Appian environment URL and the web APIs are deployed.
 
 ### Step 7 — Present summary
