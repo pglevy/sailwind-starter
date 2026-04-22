@@ -13,7 +13,7 @@ import { resolve } from 'path'
 const PACKAGE = '@pglevy/sailwind'
 
 try {
-  const output = execSync(`npm outdated ${PACKAGE} --json`, {
+  const output = execSync(`pnpm outdated ${PACKAGE} --json`, {
     encoding: 'utf-8',
     stdio: ['pipe', 'pipe', 'pipe'],
   })
@@ -24,7 +24,7 @@ try {
   if (info && info.current !== info.latest) {
     console.log('')
     console.log(`  ⬆️  Sailwind update available: ${info.current} → ${info.latest}`)
-    console.log(`     Run: npm install ${PACKAGE}@latest`)
+    console.log(`     Run: pnpm add ${PACKAGE}@latest`)
     console.log('')
   }
 } catch (err) {
@@ -37,7 +37,7 @@ try {
       if (info && info.current !== info.latest) {
         console.log('')
         console.log(`  ⬆️  Sailwind update available: ${info.current} → ${info.latest}`)
-        console.log(`     Run: npm install ${PACKAGE}@latest`)
+        console.log(`     Run: pnpm add ${PACKAGE}@latest`)
         console.log('')
       }
     } catch {

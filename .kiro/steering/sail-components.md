@@ -21,7 +21,9 @@ import { ComponentName } from '@pglevy/sailwind'
 
 **Utility:** `FieldLabel`, `FieldWrapper`
 
-**Total: 29 components**
+**Other:** `GridColumn`, `ReadOnlyGrid`
+
+**Total: 31 components**
 
 Common name mistakes to avoid:
 - ❌ `Button` → ✅ `ButtonWidget`
