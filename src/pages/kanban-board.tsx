@@ -113,20 +113,20 @@ export default function KanbanBoard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <ApplicationHeader name="Bubbly Board" userInitials="PL" />
+      <ApplicationHeader name="Build Board" userInitials="PL" />
 
-      <div className="px-6 py-4">
-        <div className="flex items-center justify-between mb-5">
+      <div className="px-5 py-8">
+        {/* <div className="flex items-center justify-between mb-5">
           <HeadingField text="Active Cycle" size="LARGE_PLUS" headingTag="H1" marginBelow="NONE" />
           <ButtonWidget
             label="New Card"
             style="SOLID"
-            color="ACCENT"
+            color="#152B99"
             size="SMALL"
             icon="Plus"
             onClick={() => { setNewCardListId(lists[0]?.id ?? 1); setShowNewCardDialog(true) }}
           />
-        </div>
+        </div> */}
 
         {/* Board columns */}
         <div className="flex gap-4 overflow-x-auto pb-4" style={{ minHeight: 'calc(100vh - 180px)' }}>
@@ -134,12 +134,12 @@ export default function KanbanBoard() {
             const listCards = cardsForList(list.id)
             return (
               <div key={list.id} className="shrink-0 w-96">
-                <div className="bg-purple-100 rounded-lg p-3">
+                <div className="bg-purple-100 rounded-lg p-3 shadow-md">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
-                      <HeadingField text={list.name} size="STANDARD" fontWeight="SEMI_BOLD" marginBelow="NONE" headingTag="h2" />
+                      <HeadingField text={list.name} size="MEDIUM" fontWeight="SEMI_BOLD" marginBelow="NONE" headingTag="h2" />
                       <TagField
-                        tags={[{ text: String(listCards.length), backgroundColor: 'SECONDARY' }]}
+                        tags={[{ text: String(listCards.length), backgroundColor: '#D9AEFF' }]}
                         size="SMALL"
                         marginBelow="NONE"
                       />
@@ -147,8 +147,8 @@ export default function KanbanBoard() {
                     <ButtonWidget
                       icon="Plus"
                       style="GHOST"
-                      size="SMALL"
-                      color="SECONDARY"
+                      size="STANDARD"
+                      color="#962FEA"
                       onClick={() => { setNewCardListId(list.id); setShowNewCardDialog(true) }}
                       accessibilityText={`Add card to ${list.name}`}
                     />
@@ -161,7 +161,7 @@ export default function KanbanBoard() {
                       const total = cardTasks.length
                       return (
                         <div key={card.id} onClick={() => setSelectedCard(card)} className="cursor-pointer">
-                          <CardLayout padding="STANDARD" shape="SEMI_ROUNDED" showShadow={true} showBorder={false} marginBelow="STANDARD">
+                          <CardLayout padding="STANDARD" shape="SEMI_ROUNDED" showShadow={false} showBorder={true} marginBelow="STANDARD" className="border-1">
                             {card.isPriority && (
                               <TagField
                                 tags={[{ text: 'Priority', backgroundColor: 'NEGATIVE' }]}
@@ -169,12 +169,12 @@ export default function KanbanBoard() {
                                 marginBelow="LESS"
                               />
                             )}
-                            <HeadingField text={card.name} size="MEDIUM" fontWeight="SEMI_BOLD" marginBelow="NONE" headingTag="h2" />
+                            <HeadingField text={card.name} size="SMALL" fontWeight="BOLD" marginBelow="NONE" headingTag="h2" />
                             {card.description && (
                               <RichTextDisplayField
                                 labelPosition="COLLAPSED"
                                 value={[
-                                  <TextItem style="PLAIN" size="STANDARD" text={card.description}/>
+                                  <TextItem style="PLAIN" size="STANDARD" color="SECONDARY" text={card.description}/>
                                 ]}
                               />
                             )}
@@ -197,7 +197,7 @@ export default function KanbanBoard() {
                                   <ProgressBar
                                     percentage={Math.round((done / total) * 100)}
                                     style="THIN"
-                                    color="#962FEA"
+                                    color="#FAA92F"
                                     label={`${done} of ${total}`}
                                     labelPosition="COLLAPSED"
                                     marginBelow="NONE"
