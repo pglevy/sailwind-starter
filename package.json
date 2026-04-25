@@ -12,7 +12,7 @@
     "check:colors": "node scripts/check-color-palette.js"
   },
   "dependencies": {
-    "@pglevy/sailwind": "^0.10.3",
+    "@pglevy/sailwind": "^0.12.1",
     "lucide-react": "^1.8.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
