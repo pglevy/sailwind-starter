@@ -4,7 +4,18 @@ This document provides essential guidance for AI agents (Amazon Q and Kiro) work
 
 ## Critical Principles
 
-### 1. SAIL-Exact Parameters (UPPERCASE Required)
+### 1. Sailwind-First Big Picture (MANDATORY)
+
+**DEFAULT APPROACH FOR ALL UI WORK:** Build with components from `@pglevy/sailwind` first.
+
+- For new pages, clone tasks, and redesigns, start by mapping the interface to available Sailwind components.
+- Use raw HTML/Tailwind primitives only for parts the package truly does not support.
+- If raw HTML is used, explicitly state why the package component was not sufficient.
+- `src/components/` is for project-specific custom components only when a package component does not exist.
+
+**Clone behavior:** If asked to "clone" an existing page/app, reproduce structure and behavior using Sailwind components rather than copying raw DOM structure.
+
+### 2. SAIL-Exact Parameters (UPPERCASE Required)
 
 Always use UPPERCASE for SAIL parameter values:
 
@@ -16,7 +27,7 @@ Always use UPPERCASE for SAIL parameter values:
 <TagField size="standard" labelPosition="collapsed" />
 ```
 
-### 2. Import from Sailwind Package First
+### 3. Import from Sailwind Package First
 
 **PRIMARY SOURCE: Import components from the `@pglevy/sailwind` npm package.**
 
@@ -29,9 +40,10 @@ import { HeadingField } from '../components'
 ```
 
 **Component discovery order:**
-1. **FIRST**: Check Sailwind npm package documentation/available components list
-2. **SECOND**: Only if component doesn't exist in package, consider creating custom component in `src/components/`
-3. **LAST**: Raw HTML/third-party libraries (only when absolutely necessary)
+1. **FIRST**: Check `.kiro/steering/sail-components.md` (canonical, auto-synced from installed package exports)
+2. **SECOND**: If needed, verify in `node_modules/@pglevy/sailwind/dist/components/` type definitions
+3. **THIRD**: Only if component doesn't exist in package, consider creating custom component in `src/components/`
+4. **LAST**: Raw HTML/third-party libraries (only when absolutely necessary)
 
 **Note:** `src/components/` is for project-specific custom components only. Most components come from the package.
 
@@ -250,37 +262,15 @@ export default function PageName() {
 }
 ```
 
-### Available Sailwind Components (from npm package)
+### Available Sailwind Components (Canonical Source)
 
-**CRITICAL: Use EXACT component names below. They are case-sensitive!**
+**Do not maintain a manual component list in this file.**
 
-**Import these from `@pglevy/sailwind`:**
+Use `.kiro/steering/sail-components.md` as the source of truth for available components and exact names.
 
-**Form/Input Fields:**
-- `TextField`, `DropdownField`, `MultipleDropdownField`, `CheckboxField`
-- `RadioButtonField`, `SliderField`, `SwitchField`
-
-**Display Components:**
-- `HeadingField`, `RichTextDisplayField`, `TextItem`, `MessageBanner`
-- `CardLayout`, `ImageField`, `TagField`, `TagItem`, `StampField`, `ProgressBar`
-- `MilestoneField`, `Icon`
-
-**Interactive Components:**
-- `ButtonWidget`, `ButtonArrayLayout`
-- `DialogField`, `TabsField`, `ToggleField`
-
-**Utility Components:**
-- `TableOfContents`, `FieldLabel`, `FieldWrapper`, `CollapsibleSection`
-
-**Common Component Name Mistakes:**
-- ❌ `TextFieldInput` → ✅ `TextField`
-- ❌ `TextInput` → ✅ `TextField`
-- ❌ `Button` → ✅ `ButtonWidget`
-- ❌ `Card` → ✅ `CardLayout`
-- ❌ `Text` → ✅ `TextItem` or `RichTextDisplayField`
-- ❌ `Heading` → ✅ `HeadingField`
-- ❌ `Tabs` → ✅ `TabsField`
-- ❌ `Tag` → ✅ `TagField`
+- That file is auto-generated from installed package exports by `scripts/sync-sailwind-components.js`
+- It is triggered by `scripts/check-sailwind-update.js` (via `npm run dev` / predev workflow)
+- If component guidance seems stale, run: `node scripts/sync-sailwind-components.js`
 
 **For complete API details, see:** https://github.com/pglevy/sailwind
 
@@ -306,7 +296,7 @@ This allows users to easily navigate to your new page from the home screen.
 
 When encountering "Module has no exported member" errors:
 
-1. **FIRST: Check component name** - Compare against exact names in Available Components list above
+1. **FIRST: Check component name** - Compare against exact names in `.kiro/steering/sail-components.md` (canonical source)
 2. Verify you're importing from `@pglevy/sailwind` (not `../components`)
 3. Check the component name spelling and capitalization (case-sensitive!)
 4. Check if it's a data structure (like `UserImage`) vs a component
@@ -317,7 +307,7 @@ When encountering "Module has no exported member" errors:
 
 1. ❌ Looking in `src/components/` for Sailwind components (they're in the npm package!)
 2. ❌ Importing from `../components` instead of `@pglevy/sailwind`
-3. ❌ Using wrong component names (e.g., `TextField` instead of `TextFieldInput`)
+3. ❌ Using wrong component names (e.g., `TextFieldInput` instead of `TextField`)
 4. ❌ Importing `UserImage` as a component (it's a data structure)
 5. ❌ Using lowercase SAIL parameter values
 6. ❌ Using raw HTML when Sailwind component exists in the package
@@ -367,7 +357,7 @@ Use this checklist for EVERY page you create:
 
 - [ ] Page file created in `src/pages/`
 - [ ] All imports are from `@pglevy/sailwind` package
-- [ ] **Component names verified against Available Components list**
+- [ ] **Component names verified against `.kiro/steering/sail-components.md`**
 - [ ] All SAIL parameters use UPPERCASE values
 - [ ] Page added to routes in `src/App.tsx`
 - [ ] **Page link added to `src/pages/home.tsx` in the `pages` array**
