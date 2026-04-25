@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@pglevy/sailwind':
-        specifier: ^0.10.3
-        version: 0.10.3(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        specifier: ^0.12.1
+        version: 0.12.1(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       lucide-react:
         specifier: ^1.8.0
         version: 1.8.0(react@19.2.0)
@@ -562,8 +562,8 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@pglevy/sailwind@0.10.3':
-    resolution: {integrity: sha512-6AgQLm/DVWREulQbItntD8xsw8qVaGWcWQXsh2R9R6sF4B6cO1MwN671ahqGWb1zUvjhkPQRx1CQjcK/VfEPtQ==}
+  '@pglevy/sailwind@0.12.1':
+    resolution: {integrity: sha512-hX0fYsp4L8Xjm4fN+QYHbZxPyuFlO2DaUyDgBXO/l9CeZnofcJVV4A/Zt0Itb3kCaoLhi6/RaDwqkT/CCjgAZg==}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
@@ -2335,7 +2335,7 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
 
-  '@pglevy/sailwind@0.10.3(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@pglevy/sailwind@0.12.1(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@radix-ui/react-avatar': 1.1.10(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@radix-ui/react-dialog': 1.1.15(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
