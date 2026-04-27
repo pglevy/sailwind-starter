@@ -1,2 +1,3 @@
-@import "@pglevy/sailwind/index.css";
+@import "tailwindcss";
+@import "@pglevy/sailwind/theme.css";
 @source "../node_modules/@pglevy/sailwind/dist";
