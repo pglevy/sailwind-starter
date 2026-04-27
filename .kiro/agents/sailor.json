@@ -28,28 +28,34 @@
     "@playwright"
   ],
   "toolAliases": {},
-  "allowedTools": [
-    "read",
-    "introspect",
-    "todo",
-    "@chrome-devtools"
-  ],
+  "allowedTools": ["read", "introspect", "todo", "@chrome-devtools"],
   "resources": [
     "file://AGENTS.md",
     "file://README.md",
-    "file://.kiro/steering/GIT.md"
+    "file://CONTRIBUTING.md",
+    "skill://.kiro/skills/*/SKILL.md",
+    "skill://~/.kiro/skills/*/SKILL.md",
+    "file://.kiro/steering/**/*.md"
   ],
   "hooks": {},
   "toolsSettings": {
     "write": {
-      "allowedPaths": []
+      "allowedPaths": [
+        "public/**",
+        "schemas/**",
+        "src/**",
+        "*.md",
+        "*.json",
+        "*.ts"
+      ]
     },
     "shell": {
       "autoApprove": [
-        "npm run build",
-        "npm run dev",
-        "npm run lint",
-        "npm run preview"
+        "pnpm run build",
+        "pnpm run build 2>&1",
+        "pnpm run dev",
+        "pnpm run lint",
+        "pnpm run preview"
       ]
     }
   },

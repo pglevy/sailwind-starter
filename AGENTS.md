@@ -312,7 +312,7 @@ When encountering "Module has no exported member" errors:
 5. ❌ Using lowercase SAIL parameter values
 6. ❌ Using raw HTML when Sailwind component exists in the package
 7. ❌ Using emoji characters (✅❌📄) instead of Lucide icons
-8. ❌ Using color steps other than 50, 100, 200, 500, 700, 900
+8. ❌ Using color steps other than those defined in the tokens file (`node_modules/@pglevy/sailwind/dist/tokens.json`)
 9. ❌ Forgetting to add the page link to `src/pages/home.tsx`
 
 ## Component vs Page Development
@@ -349,7 +349,7 @@ When encountering "Module has no exported member" errors:
 - ✅ Existing Sailwind components used wherever available from the package
 - ✅ Pages added to routes in `src/App.tsx`
 - ✅ Visual testing passes without errors
-- ✅ Consistent Aurora color palette usage
+- ✅ Consistent Sailwind token color palette usage
 
 ## Before Declaring Page Complete
 
