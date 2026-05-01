@@ -34,10 +34,19 @@ function extractJsDoc(lines, lineIndex) {
 /**
  * Parse a single .d.ts file and return an array of prop objects.
  * Looks for the first `export interface *Props { ... }` block.
+ * Resolves local type aliases (e.g. type ButtonStyle = "SOLID" | "OUTLINE")
+ * so the prop table shows concrete values instead of alias names.
  */
 function parseProps(filePath) {
   const content = readFileSync(filePath, 'utf-8')
   const lines = content.split('\n')
+
+  // Collect local type aliases: type Name = "A" | "B" | ...
+  const typeAliases = {}
+  for (const line of lines) {
+    const m = line.match(/^type (\w+) = (.+);$/)
+    if (m) typeAliases[m[1]] = m[2]
+  }
 
   // Find the Props interface
   const ifaceStart = lines.findIndex(l => /export interface \w+Props/.test(l))
@@ -67,7 +76,7 @@ function parseProps(filePath) {
       if (match) {
         const [, name, optional, rawType] = match
         const required = optional !== '?'
-        const type = rawType
+        let type = rawType
           .replace(/React\.ReactNode/g, 'ReactNode')
           .replace(/\(\) => void/g, 'function')
           .replace(/\(value\?: any\) => void/g, 'function')
@@ -75,12 +84,19 @@ function parseProps(filePath) {
           .trim()
 
         // For complex inline types (Array<{...}>), simplify to the outer type
-        const simplified = type.replace(/Array<\{$/, 'Array<object>')
+        type = type.replace(/Array<\{$/, 'Array(object)')
           .replace(/Record<([^>]+)>/g, 'Record')
+
+        // Resolve local type aliases to their concrete values
+        if (typeAliases[type]) {
+          type = typeAliases[type]
+        }
+        // Also resolve union types that reference an alias: e.g. "ButtonStyle | string"
+        type = type.replace(/\b(\w+)\b/g, (match) => typeAliases[match] || match)
 
         const doc = extractJsDoc(lines, i)
 
-        props.push({ name, required, type: simplified, doc })
+        props.push({ name, required, type, doc })
       }
     }
 

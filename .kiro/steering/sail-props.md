@@ -33,7 +33,7 @@ Most components accept these optional props. They are not repeated in each table
 | `name` | `string` |  | Name of the application or object |
 | `userInitials` | `string` |  | User initials to display in avatar |
 | `showDesignerControls` | `boolean` |  | Show interface designer controls |
-| `objectType` | `ObjectType` |  | Type of object being displayed |
+| `objectType` | `'app' / 'interface' / 'record-type' / 'expression-rule'` |  | Type of object being displayed |
 | `iconSrc` | `string` |  | Path to custom icon image |
 | `previewEnabled` | `boolean` |  | Preview mode enabled |
 | `showStoriesView` | `boolean` |  | Stories view enabled |
@@ -55,10 +55,10 @@ Most components accept these optional props. They are not repeated in each table
 | Prop | Type | Req | Description |
 |------|------|:---:|-------------|
 | `label` | `string` |  | Text to display on the button |
-| `style` | `ButtonStyle` |  | Determines the button's appearance |
+| `style` | `SOLID / OUTLINE / GHOST / LINK` |  | Determines the button's appearance |
 | `color` | `SAILColorInput` |  | Enhancement to SAIL |
 | `size` | `SAILSize` |  | Determines size of the button |
-| `width` | `ButtonWidth` |  | Determines button width |
+| `width` | `MINIMIZE / FILL` |  | Determines button width |
 | `disabled` | `boolean` |  | Prevents user from clicking the button |
 | `submit` | `boolean` |  | Whether this button submits a form |
 | `validate` | `boolean` |  | Determines whether button performs validation |
@@ -67,7 +67,7 @@ Most components accept these optional props. They are not repeated in each table
 | `confirmButtonLabel` | `string` |  | Text for confirmation button |
 | `cancelButtonLabel` | `string` |  | Text for cancel button |
 | `icon` | `string` |  | Icon to display |
-| `iconPosition` | `IconPosition` |  | Position of icon |
+| `iconPosition` | `START / END` |  | Position of icon |
 | `tooltip` | `string` |  | Tooltip text on hover |
 | `loadingIndicator` | `boolean` |  | Loading indicator on press |
 | `value` | `any` |  | Value associated with this button |
@@ -79,14 +79,14 @@ Most components accept these optional props. They are not repeated in each table
 | Prop | Type | Req | Description |
 |------|------|:---:|-------------|
 | `children` | `ReactNode` | ✓ | Content to display inside the card |
-| `height` | `CardHeight` |  | Determines the height of the card |
-| `style` | `CardStyle / string` |  | Determines the card background color. Valid values: Any hex color (including transparency with 8 digits), or semantic values |
+| `height` | `AUTO / SHORT / MEDIUM / TALL / EXTRA_TALL` |  | Determines the height of the card |
+| `style` | `NONE / TRANSPARENT / STANDARD / ACCENT / SUCCESS / WARN / ERROR / INFO / CHARCOAL_SCHEME / NAVY_SCHEME / PLUM_SCHEME / string` |  | Determines the card background color. Valid values: Any hex color (including transparency with 8 digits), or semantic values |
 | `shape` | `SAILShape` |  | Determines the border radius |
 | `padding` | `SAILPadding` |  | Determines the padding inside the card |
 | `showBorder` | `boolean` |  | Whether to show card border |
 | `showShadow` | `boolean` |  | Whether to show card shadow |
 | `borderColor` | `SAILColorInput` |  | Determines the border color. Valid values: Any hex color (including transparency), or "STANDARD" (default), "ACCENT", "POSITIVE", "WARN", "NEGATIVE" |
-| `decorativeBarPosition` | `DecorativeBarPosition` |  | Position of decorative bar |
+| `decorativeBarPosition` | `TOP / START / NONE` |  | Position of decorative bar |
 | `decorativeBarColor` | `SAILColorInput` |  | Color of decorative bar (hex or semantic) |
 
 ### CheckboxField
@@ -103,12 +103,12 @@ Most components accept these optional props. They are not repeated in each table
 | `saveInto` | `(value: any[]) => void` |  | Callback when the user changes the selections |
 | `onChange` | `(value: any[]) => void` |  | Callback when the user changes the selections (React-style alias for saveInto) |
 | `align` | `SAILAlign / LEFT / CENTER / RIGHT` |  | Determines alignment of choice labels. Use with Grid Layout |
-| `choiceLayout` | `ChoiceLayout` |  | Determines the layout of choices |
-| `choiceStyle` | `ChoiceStyle` |  | Determines how choices are displayed |
-| `spacing` | `Spacing` |  | Determines space between options |
+| `choiceLayout` | `STACKED / COMPACT` |  | Determines the layout of choices |
+| `choiceStyle` | `STANDARD / CARDS` |  | Determines how choices are displayed |
+| `spacing` | `STANDARD / MORE / EVEN_MORE` |  | Determines space between options |
 | `data` | `any` |  | Data source (record type) - not implemented in prototype |
 | `sort` | `any[]` |  | Sort configurations - not implemented in prototype |
-| `choicePosition` | `ChoicePosition` |  | Determines whether checkboxes appear on left or right |
+| `choicePosition` | `START / END` |  | Determines whether checkboxes appear on left or right |
 
 ### DialogField
 
@@ -150,7 +150,7 @@ Most components accept these optional props. They are not repeated in each table
 | `validations` | `string[]` |  | Validation errors to display below the field |
 | `saveInto` | `(value: any) => void` |  | Callback when the user changes the selection |
 | `onChange` | `(value: any) => void` |  | Callback when the user changes the selection (React-style alias for saveInto) |
-| `searchDisplay` | `SearchDisplay` |  | Determines when a search box displays above options |
+| `searchDisplay` | `AUTO / ON / OFF` |  | Determines when a search box displays above options |
 | `data` | `any` |  | Data source (record type) - not implemented in prototype |
 | `sort` | `any[]` |  | Sort configurations - not implemented in prototype |
 
@@ -188,10 +188,10 @@ Most components accept these optional props. They are not repeated in each table
 | Prop | Type | Req | Description |
 |------|------|:---:|-------------|
 | `text` | `string` | ✓ | Text to display in the header |
-| `size` | `HeadingSize` |  | Determines the text size |
-| `headingTag` | `HeadingTag` |  | Determines the heading tag for screen readers |
+| `size` | `EXTRA_SMALL / SMALL / MEDIUM / MEDIUM_PLUS / LARGE / LARGE_PLUS` |  | Determines the text size |
+| `headingTag` | `H1 / H2 / H3 / H4 / H5 / H6` |  | Determines the heading tag for screen readers |
 | `color` | `SAILColorInput` |  | Determines the label color - hex color, semantic color, or palette token (e.g. TEAL_700) |
-| `fontWeight` | `FontWeight` |  | Determines the thickness of the text |
+| `fontWeight` | `LIGHT / REGULAR / SEMI_BOLD / BOLD` |  | Determines the thickness of the text |
 | `link` | `function` |  | Link to apply to the text (simplified - accepts onClick handler) |
 | `align` | `SAILAlign` |  | Determines alignment of the text |
 | `preventWrapping` | `boolean` |  | Prevents wrapping to multiple lines when true |
@@ -206,17 +206,17 @@ Most components accept these optional props. They are not repeated in each table
 | `size` | `SAILSizeExtended` |  | Icon size |
 | `color` | `SAILColorInput` |  | Icon color - semantic color, palette token (e.g. TEAL_700), or hex value |
 | `link` | `function` |  | Link behavior when icon is clicked |
-| `linkStyle` | `LinkStyle` |  | How the link is underlined |
+| `linkStyle` | `INLINE / STANDALONE` |  | How the link is underlined |
 
 ### ImageField
 
 | Prop | Type | Req | Description |
 |------|------|:---:|-------------|
 | `label` | `string` |  | Text to display as the field label |
-| `images` | `ImageFieldImage[]` | ✓ | Array of images to display (supports both document and user images) |
-| `size` | `ImageSize` |  | Determines how the images are sized |
+| `images` | `DocumentImageProps / UserImageProps[]` | ✓ | Array of images to display (supports both document and user images) |
+| `size` | `ICON / ICON_PLUS / TINY / EXTRA_SMALL / SMALL / SMALL_PLUS / MEDIUM / MEDIUM_PLUS / LARGE / LARGE_PLUS / EXTRA_LARGE / FIT / GALLERY` |  | Determines how the images are sized |
 | `isThumbnail` | `boolean` |  | Determines whether images can be viewed larger when clicked |
-| `style` | `ImageStyle` |  | Determines how the images are rendered |
+| `style` | `STANDARD / AVATAR` |  | Determines how the images are rendered |
 | `align` | `SAILAlign` |  | Determines alignment of the images |
 
 ### MessageBanner
@@ -244,9 +244,9 @@ Most components accept these optional props. They are not repeated in each table
 | `steps` | `string[]` | ✓ | Array of labels describing the sequence of steps |
 | `links` | `any[]` |  | Array of links to apply to the steps |
 | `active` | `number / null` |  | Index of the current step. When null, all steps are future. When -1, all steps are completed |
-| `orientation` | `Orientation` |  | Determines the layout of the milestone steps |
-| `color` | `Color` |  | Determines the fill color |
-| `stepStyle` | `StepStyle` |  | Determines the style of the milestone steps |
+| `orientation` | `HORIZONTAL / VERTICAL` |  | Determines the layout of the milestone steps |
+| `color` | `ACCENT / POSITIVE / NEGATIVE / WARN / SAILColorInput` |  | Determines the fill color |
+| `stepStyle` | `LINE / CHEVRON / DOT` |  | Determines the style of the milestone steps |
 
 ### MultipleDropdownField
 
@@ -262,7 +262,7 @@ Most components accept these optional props. They are not repeated in each table
 | `validations` | `string[]` |  | Validation errors to display below the field |
 | `saveInto` | `(value: any[] / null) => void` |  | Callback when the user changes the selections |
 | `onChange` | `(value: any[] / null) => void` |  | Callback when the user changes the selections (React-style alias for saveInto) |
-| `searchDisplay` | `SearchDisplay` |  | Determines when a search box displays above options |
+| `searchDisplay` | `AUTO / ON / OFF` |  | Determines when a search box displays above options |
 | `data` | `any` |  | Data source (record type) - not implemented in prototype |
 | `sort` | `any[]` |  | Sort configurations - not implemented in prototype |
 
@@ -289,12 +289,12 @@ Most components accept these optional props. They are not repeated in each table
 | `validations` | `string[]` |  | Validation errors to display below the field |
 | `saveInto` | `(value: any) => void` |  | Callback when the user changes the selection |
 | `onChange` | `(value: any) => void` |  | Callback when the user changes the selection (React-style alias for saveInto) |
-| `choiceLayout` | `ChoiceLayout` |  | Determines the layout of choices |
-| `choiceStyle` | `ChoiceStyle` |  | Determines how choices are displayed |
-| `spacing` | `Spacing` |  | Determines space between options |
+| `choiceLayout` | `STACKED / COMPACT` |  | Determines the layout of choices |
+| `choiceStyle` | `STANDARD / CARDS` |  | Determines how choices are displayed |
+| `spacing` | `STANDARD / MORE / EVEN_MORE` |  | Determines space between options |
 | `data` | `any` |  | Data source (record type) - not implemented in prototype |
 | `sort` | `any[]` |  | Sort configurations - not implemented in prototype |
-| `choicePosition` | `ChoicePosition` |  | Determines whether radio buttons appear on left or right |
+| `choicePosition` | `START / END` |  | Determines whether radio buttons appear on left or right |
 
 ### ReadOnlyGrid
 
@@ -340,7 +340,7 @@ Most components accept these optional props. They are not repeated in each table
 | Prop | Type | Req | Description |
 |------|------|:---:|-------------|
 | `label` | `string` |  | Text to display as the field label |
-| `align` | `TextAlign` |  | Alignment of the text value |
+| `align` | `LEFT / CENTER / RIGHT` |  | Alignment of the text value |
 | `value` | `ReactNode[]` |  | Array of rich text to display |
 | `preventWrapping` | `boolean` |  | Prevents wrapping to multiple lines |
 | `tooltip` | `string` |  | Tooltip text on mouseover |
@@ -382,7 +382,7 @@ Most components accept these optional props. They are not repeated in each table
 | `onChange` | `(value: number / number[]) => void` |  | Callback when the user changes the slider value (React-style alias for saveInto) |
 | `size` | `SAILSize` |  | Size of the slider |
 | `color` | `ACCENT / POSITIVE / NEGATIVE / SECONDARY / SAILColorInput` |  | Color of the slider track and thumb (hex or semantic) |
-| `orientation` | `SliderOrientation` |  | Orientation of the slider |
+| `orientation` | `HORIZONTAL / VERTICAL` |  | Orientation of the slider |
 | `showValue` | `boolean` |  | Show current value(s) as text |
 | `formatValue` | `(value: number) => string` |  | Custom formatter for displayed values |
 
@@ -393,9 +393,9 @@ Most components accept these optional props. They are not repeated in each table
 | `label` | `string` |  | Text to display as the field label |
 | `icon` | `string` |  | Icon to display inside the stamp |
 | `text` | `string` |  | Text to display within the stamp |
-| `backgroundColor` | `StampBackgroundColor` |  | Determines the background color |
-| `contentColor` | `StampContentColor` |  | Determines the icon color |
-| `size` | `StampSize` |  | Determines the size of the stamp |
+| `backgroundColor` | `SAILColorInput / TRANSPARENT` |  | Determines the background color |
+| `contentColor` | `SAILColorInput` |  | Determines the icon color |
+| `size` | `TINY / SMALL / MEDIUM / LARGE` |  | Determines the size of the stamp |
 | `align` | `SAILAlign` |  | Determines alignment of the stamp |
 | `tooltip` | `string` |  | Text to display on mouseover (web) or tap (mobile) |
 | `link` | `any` |  | Link to apply to the stamp |
@@ -438,7 +438,7 @@ Most components accept these optional props. They are not repeated in each table
 | `tags` | `TagItemProps[]` | ✓ | Array of tag items to display |
 | `label` | `string` |  | Text to display as the field label |
 | `align` | `SAILAlign` |  | Determines alignment of tags |
-| `size` | `TagSize` |  | Size of the tags |
+| `size` | `Extract(SAILSize, SMALL / STANDARD)` |  | Size of the tags |
 
 ### TagItem
 
@@ -462,11 +462,11 @@ Most components accept these optional props. They are not repeated in each table
 | `validations` | `string[]` |  | Validation errors to display below the field when the value is not null |
 | `saveInto` | `(value: string) => void` |  | Callback when the user changes the text |
 | `onChange` | `(value: string) => void` |  | Callback when the user changes the text (React-style alias for saveInto) |
-| `refreshAfter` | `RefreshAfter` |  | Determines when the interface is refreshed with the saved value |
-| `align` | `TextAlign` |  | Determines alignment of the text value |
+| `refreshAfter` | `KEYPRESS / UNFOCUS` |  | Determines when the interface is refreshed with the saved value |
+| `align` | `LEFT / CENTER / RIGHT` |  | Determines alignment of the text value |
 | `placeholder` | `string` |  | Text to display in the field when it is empty |
 | `masked` | `boolean` |  | Determines if the value is obscured from view (password field) |
-| `inputPurpose` | `InputPurpose` |  | Indicates the intent of input for accessibility improvements |
+| `inputPurpose` | `NAME / EMAIL / PHONE_NUMBER / STREET_ADDRESS / POSTAL_CODE / COUNTRY / CREDIT_CARD_NUMBER / FIRST_NAME / LAST_NAME / DOB / OFF` |  | Indicates the intent of input for accessibility improvements |
 | `characterLimit` | `number` |  | Determines the maximum number of characters |
 | `showCharacterCount` | `boolean` |  | Determines if the character count displays on the text field |
 
@@ -475,11 +475,11 @@ Most components accept these optional props. They are not repeated in each table
 | Prop | Type | Req | Description |
 |------|------|:---:|-------------|
 | `text` | `string / ReactNode / (string / ReactNode)[]` | ✓ | Array of text to display as a rich text item |
-| `style` | `TextStyle / TextStyle[]` |  | Text style(s) to apply. Multiple styles may be applied |
+| `style` | `PLAIN / EMPHASIS / STRONG / UNDERLINE / STRIKETHROUGH / PLAIN / EMPHASIS / STRONG / UNDERLINE / STRIKETHROUGH[]` |  | Text style(s) to apply. Multiple styles may be applied |
 | `size` | `SAILSizeExtended` |  | Text size |
 | `color` | `SAILColorInput` |  | Text color - semantic color, palette token (e.g. TEAL_700), or hex value |
 | `link` | `function` |  | Link to apply to the text |
-| `linkStyle` | `LinkStyle` |  | How the link is underlined |
+| `linkStyle` | `INLINE / STANDALONE` |  | How the link is underlined |
 
 ### ToggleField
 
@@ -495,7 +495,7 @@ Most components accept these optional props. They are not repeated in each table
 | `onChange` | `(value: boolean) => void` |  | Callback when the user toggles the button (React-style alias for saveInto) |
 | `size` | `SAILSize` |  | Size of the toggle button |
 | `color` | `ACCENT / POSITIVE / NEGATIVE / SECONDARY / STANDARD / SAILColorInput` |  | Color when toggle is pressed (hex or semantic) |
-| `style` | `ToggleStyle` |  | Determines the button's appearance |
+| `style` | `SOLID / OUTLINE / GHOST` |  | Determines the button's appearance |
 | `icon` | `string` |  | Icon to display in the button |
 | `iconPosition` | `START / END` |  | Position of icon relative to text |
 
