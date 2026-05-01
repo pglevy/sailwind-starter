@@ -1,0 +1,89 @@
+{
+  "name": "my-health-site",
+  "description": "Patient health portal with header banner, upcoming appointments sidebar, and tabbed health summary with category cards",
+  "components": {
+    "ImageField": {
+      "minCount": 1,
+      "notes": "Avatar in header (style=AVATAR, size=MEDIUM_PLUS)"
+    },
+    "HeadingField": {
+      "minCount": 6,
+      "notes": "H1 greeting, H2 Upcoming Appointments, H2 My Health, H3 per appointment card (x3)"
+    },
+    "RichTextDisplayField": {
+      "minCount": 5,
+      "notes": "Gender/age line in header, provider/address details in appointment cards, secondary text in health cards"
+    },
+    "CardLayout": {
+      "minCount": 11,
+      "notes": "1 header card (dark bg), 3 appointment cards, 7 health summary category cards"
+    },
+    "ButtonWidget": {
+      "minCount": 2,
+      "notes": "Request Appointment (SOLID, LARGE) and View All Appointments"
+    },
+    "ButtonArrayLayout": {
+      "minCount": 1,
+      "notes": "Wraps Request Appointment button and/or View All Appointments"
+    },
+    "TabsField": {
+      "count": 1,
+      "props": {
+        "tabs": 6
+      },
+      "notes": "Health Summary, Care Summaries, Vitals, Health Records, Tobacco History, Forms & Documents"
+    },
+    "Icon": {
+      "minCount": 7,
+      "notes": "Category icons in health summary cards (Lucide equivalents of SAIL icons) plus chevron-right per card"
+    }
+  },
+  "layout": {
+    "hasHeader": true,
+    "headerDescription": "Dark (#0E3842) card with avatar, greeting heading, gender/age, and Request Appointment button",
+    "hasSidebar": true,
+    "sidebarDescription": "Left narrow pane with Upcoming Appointments heading and 3 appointment cards, plus View All Appointments link",
+    "hasTabs": true,
+    "tabsDescription": "6-tab layout in main content area; only Health Summary tab has content",
+    "hasGrid": false,
+    "hasCardGroup": true,
+    "cardGroupDescription": "7 health category cards in 2-column layout with decorative left border, icon, label, secondary text, and chevron"
+  },
+  "sailMappings": {
+    "a!headerContentLayout": "Page layout with dark header section above two-column content",
+    "a!cardLayout (header)": "CardLayout with dark background color",
+    "a!sideBySideLayout": "Flexbox row (div with flex items-center gap-*)",
+    "a!paneLayout": "Two-column layout (sidebar + main)",
+    "a!pane (NARROW_PLUS)": "Sidebar column",
+    "a!tabLayout": "TabsField",
+    "a!tabItem": "Tab within TabsField",
+    "a!cardGroupLayout": "Grid of CardLayout components (2-column card grid)",
+    "a!cardLayout (appointment)": "CardLayout with border, SEMI_ROUNDED shape",
+    "a!cardLayout (health category)": "CardLayout with decorativeBarPosition=START, teal left border",
+    "a!headingField": "HeadingField",
+    "a!richTextDisplayField": "RichTextDisplayField or TextItem",
+    "a!richTextIcon": "Icon (Lucide equivalent)",
+    "a!imageField (AVATAR)": "ImageField with style=AVATAR",
+    "a!buttonWidget": "ButtonWidget",
+    "a!buttonArrayLayout": "ButtonArrayLayout",
+    "a!forEach": "Array.map() rendering repeated cards"
+  },
+  "data": {
+    "appointments": {
+      "count": 3,
+      "fields": ["appointment", "provider", "date", "address1", "address2", "address3"]
+    },
+    "healthCategories": {
+      "count": 7,
+      "fields": ["icon", "label", "secondaryText"]
+    }
+  },
+  "colors": {
+    "headerBackground": "#0E3842",
+    "accentPink": "#C22966",
+    "decorativeBar": "#1E798F",
+    "cardBorder": "#DCE6E8",
+    "contentBackground": "#F0F6F7",
+    "secondaryText": "#6b6b6b"
+  }
+}
