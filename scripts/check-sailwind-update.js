@@ -108,3 +108,14 @@ try {
 } catch {
   // Silently ignore
 }
+
+// --- Sync steering file props with package ---
+
+try {
+  execSync('node scripts/sync-sailwind-props.js', {
+    encoding: 'utf-8',
+    stdio: 'inherit',
+  })
+} catch {
+  // Silently ignore
+}

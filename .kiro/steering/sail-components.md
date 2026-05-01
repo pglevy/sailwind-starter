@@ -32,3 +32,4 @@ Common name mistakes to avoid:
 - ❌ `Heading` → ✅ `HeadingField`
 - ❌ `Tabs` → ✅ `TabsField`
 - ❌ `Tag` → ✅ `TagField`
+- ❌ `<UserImage />` → ✅ `<ImageField style="AVATAR" images={[{ imageType: 'user' as const, ... }]} />`
