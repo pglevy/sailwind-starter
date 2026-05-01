@@ -1,0 +1,27 @@
+{
+  "$comment": "App spec expected structure. Unlike inspo (single page), app specs may produce multiple pages and data entities.",
+  "name": "example-name",
+  "description": "Brief description of the app spec",
+  "pages": [
+    {
+      "name": "page-name",
+      "route": "/page-name",
+      "components": {
+        "HeadingField": { "minCount": 1 },
+        "CardLayout": { "minCount": 1 }
+      }
+    }
+  ],
+  "dataEntities": [
+    {
+      "file": "src/db/entity.ts",
+      "interface": "Entity",
+      "fields": ["id", "title", "status"],
+      "functions": ["getEntities", "getEntity", "createEntity"]
+    }
+  ],
+  "routes": {
+    "minCount": 1,
+    "$comment": "All pages registered in App.tsx and linked from home.tsx"
+  }
+}

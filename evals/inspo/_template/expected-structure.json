@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "Copy this file into each inspo example directory and fill in the expected components/layout for that example.",
+  "name": "example-name",
+  "description": "Brief description of the inspo example",
+  "components": {
+    "HeadingField": { "minCount": 1 },
+    "CardLayout": { "minCount": 1 },
+    "TabsField": { "count": 0, "props": { "tabs": 0 } },
+    "ButtonWidget": { "minCount": 0 },
+    "TagField": { "minCount": 0 },
+    "ReadOnlyGrid": { "count": 0 },
+    "ImageField": { "minCount": 0 }
+  },
+  "layout": {
+    "hasSidebar": false,
+    "hasHeader": true,
+    "hasTabs": false,
+    "hasGrid": false
+  },
+  "sailMappings": {
+    "$comment": "Map SAIL component names to expected Sailwind equivalents. Only relevant for S8/S9.",
+    "a!cardLayout": "CardLayout",
+    "a!headerContentLayout": "div with header section",
+    "a!tabsField": "TabsField"
+  }
+}
