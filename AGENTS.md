@@ -39,7 +39,10 @@ const tasks = [{ id: 1, title: "Review App", ... }]
 4. Add entry to `pages` array in `src/pages/home.tsx`
 5. Run `pnpm run build` — fix all errors before declaring done
 
-### Standard Page Structure
+### Basic Page Structure
+
+Adjust as needed:
+
 ```tsx
 import { HeadingField, CardLayout } from '@pglevy/sailwind'
 
