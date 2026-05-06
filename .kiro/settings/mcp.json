@@ -5,7 +5,7 @@
       "args": ["-y", "chrome-devtools-mcp@latest", "--no-usage-statistics"],
       "timeout": 120000,
       "connectionTimeout": 30000,
-      "disabled": true,
+      "disabled": false,
       "autoApprove": ["*"]
     },
     "playwright": {
@@ -13,7 +13,7 @@
       "args": ["@playwright/mcp@latest", "--browser", "chromium", "--headless"],
       "timeout": 120000,
       "connectionTimeout": 30000,
-      "disabled": false,
+      "disabled": true,
       "autoApprove": ["*"]
     }
   }
