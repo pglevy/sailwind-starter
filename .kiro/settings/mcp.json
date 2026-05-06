@@ -13,7 +13,7 @@
       "args": ["@playwright/mcp@latest", "--browser", "chromium", "--headless"],
       "timeout": 120000,
       "connectionTimeout": 30000,
-      "disabled": false,
+      "disabled": true,
       "autoApprove": ["*"]
     }
   }
