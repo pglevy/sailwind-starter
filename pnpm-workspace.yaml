@@ -1,2 +1,14 @@
+# Security: only allow these packages to run install scripts
 allowBuilds:
   esbuild: true
+  '@tailwindcss/oxide': true
+
+# Security: block packages published less than 2 days ago (supply chain protection)
+# Note: if a designer can't install a brand-new package, this is why
+minimumReleaseAge: 2880
+
+# Exempt first-party packages so designers can update sailwind immediately after a release
+minimumReleaseAgeExclude:
+  - '@pglevy/*'
+
+strictPeerDependencies: false
