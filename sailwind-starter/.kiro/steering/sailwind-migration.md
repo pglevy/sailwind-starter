@@ -27,7 +27,6 @@ Trigger this skill when the user says things like:
 Replace the project's tooling and config files with the latest from the starter template. These are the **scaffolding files** (everything outside `src/` and `public/`):
 
 **Config files to replace:**
-- `package.json` — Merge: keep user's `name`/`description`, take starter's `scripts`, `dependencies`, `devDependencies`
 - `vite.config.ts`
 - `tsconfig.json`, `tsconfig.app.json`, `tsconfig.node.json`
 - `eslint.config.js`
@@ -36,6 +35,13 @@ Replace the project's tooling and config files with the latest from the starter 
 - `.gitignore`
 - `.npmrc`
 - `pnpm-workspace.yaml` (if present)
+
+**Config files to merge:**
+- `package.json` — Special handling required:
+  - **Preserve**: `name`, `version`, `description`, all existing `dependencies` and `devDependencies`
+  - **Update**: `@pglevy/sailwind` to the starter's version
+  - **Add missing scripts**: `predev`, `check:colors` (if not present)
+  - **Update devDependencies**: Only update versions if there are known conflicts (e.g., TypeScript, Vite, ESLint major version bumps)
 
 **Directories to replace entirely:**
 - `scripts/` — Utility scripts (color checker, component sync, etc.)
@@ -58,11 +64,22 @@ Fetch each file from the template repo and write it directly:
 curl -o <local-path> https://raw.githubusercontent.com/pglevy/sailwind-starter/main/<file-path>
 ```
 
-For `package.json`, merge carefully:
+For `package.json`, merge carefully to preserve project dependencies:
 1. Fetch the starter's `package.json`
 2. Keep the user's `name`, `version`, and `description`
-3. Take the starter's `scripts`, `dependencies`, and `devDependencies`
-4. Write the merged result
+3. **Merge scripts**: Add any new starter scripts (like `predev`), keep existing project scripts
+4. **Merge dependencies**: 
+   - Keep ALL existing user dependencies (they're project-specific)
+   - Update `@pglevy/sailwind` to the starter's version
+   - Add `lucide-react` if not present (Sailwind requirement)
+5. **Merge devDependencies**: 
+   - Keep all existing devDependencies
+   - Update versions only if there are known conflicts
+   - Add any new starter devDependencies (like `tsx` for scripts)
+6. Update `packageManager` to match starter if present
+7. Write the merged result
+
+**Critical**: Never remove user dependencies. Projects may use additional UI libraries (@mui, @radix-ui), editors (@tiptap), animation (framer-motion), charts (recharts), etc. These are legitimate project needs, not migration targets.
 
 After replacing files:
 
