@@ -203,19 +203,63 @@ After the build passes, scan `src/` for convention issues. Check each category a
 
 #### Categories to scan:
 
-**1. Emoji → Lucide Icons**
+**1. Dependency Audit (Security)**
+Compare the project's `package.json` dependencies against the sailwind-starter template:
+
+```bash
+# Get template dependencies
+curl -s https://raw.githubusercontent.com/pglevy/sailwind-starter/main/package.json | grep -A 50 '"dependencies"'
+```
+
+List all dependencies that are NOT in the template. Present them as a security audit:
+
+```
+## Dependency Audit
+
+### Non-Template Dependencies (Supply-Chain Risk Review)
+
+The following dependencies are not part of sailwind-starter. We're preserving them, but consider whether you're still using them and remove if not needed to reduce supply-chain attack surface:
+
+**UI Libraries:**
+- @mui/material (v7.3.5) - Material-UI components
+- @radix-ui/react-dialog (v1.1.15) - Dialog primitives
+- @radix-ui/react-tabs (v1.1.13) - Tab primitives
+- @emotion/react (v11.14.0) - CSS-in-JS styling
+- @emotion/styled (v11.14.1) - Styled components
+
+**Icons:**
+- @fortawesome/fontawesome-svg-core (v7.1.0) - FontAwesome icons
+- @fortawesome/free-solid-svg-icons (v7.1.0) - FontAwesome icon set
+- @fortawesome/react-fontawesome (v3.1.0) - FontAwesome React wrapper
+
+**Utilities:**
+- @floating-ui/react (v0.27.16) - Positioning library
+- @tiptap/... - Rich text editor (if present)
+- framer-motion - Animation library (if present)
+- recharts - Charting library (if present)
+
+**Security Recommendation:** Review each dependency:
+1. Is it still being used in the codebase?
+2. Can it be replaced with a Sailwind component or native solution?
+3. Is it actively maintained? (check npm for last publish date)
+4. Does it have known vulnerabilities? (run `pnpm audit`)
+
+**Note:** Even well-known libraries like @radix-ui, @mui, and lucide-react represent supply-chain risk. Consider the tradeoff between functionality and attack surface.
+```
+
+**2. Emoji → Lucide Icons**
 ```bash
 grep -rn '[✅❌📄📋🔍⚠️✏️🗑️🔒🔓💡📈📊🎯🚀⭐️]' src/ --include="*.tsx"
 ```
 Suggest replacing each emoji with the appropriate `lucide-react` icon.
 
-**2. Raw HTML → Sailwind Components**
+**3. Raw HTML → Sailwind Components**
 ```bash
 grep -rn '<button\b\|<select\b\|<input\b\|<h[1-6]\b\|<img\b' src/ --include="*.tsx" | grep -v node_modules
 ```
 Flag HTML elements that have Sailwind equivalents (buttons, inputs, headings, images, etc.).
 
-**3. Custom Layout Components → Sailwind Layout Components**
+**4. Custom Layout Components → Sailwind Layout Components**
 ```bash
 grep -rn 'Header\|Footer\|Nav\|Sidebar' src/components/ --include="*.tsx"
 ```
@@ -233,19 +277,19 @@ Review each custom component to see if it can be replaced with the Sailwind vers
 - **Skip form libraries**: Elements managed by form libraries (react-hook-form, formik, etc.)
 - **Manual review recommended**: Present findings but let user decide which to replace
 
-**4. Off-Palette Colors**
+**5. Off-Palette Colors**
 ```bash
 node scripts/check-color-palette.js
 ```
 Finds Tailwind color classes using families or steps not in the Sailwind token palette.
 
-**5. Lowercase SAIL Parameters**
+**6. Lowercase SAIL Parameters**
 ```bash
 grep -rn 'size="\(small\|standard\|medium\|large\)"\|style="\(solid\|outline\|ghost\)"\|color="\(accent\|positive\|negative\)"' src/ --include="*.tsx"
 ```
 SAIL parameter values must be UPPERCASE.
 
-**6. Wrong Import Sources**
+**7. Wrong Import Sources**
 ```bash
 grep -rn "from '\.\./components\|from '\./components" src/ --include="*.tsx"
 ```
@@ -257,6 +301,16 @@ Present findings as a categorized summary with smart filtering:
 
 ```
 ## Migration Report
+
+### Dependency Audit (7 non-template dependencies)
+**Supply-Chain Risk Review** - These dependencies are not in sailwind-starter:
+- @mui/material (v7.3.5) - Used in 3 files
+- @radix-ui/react-dialog (v1.1.15) - Used in 2 files
+- @fortawesome/react-fontawesome (v3.1.0) - Used in 5 files
+...
+
+Run `pnpm audit` to check for known vulnerabilities.
+Consider: Can any be replaced with Sailwind components or removed?
 
 ### Emoji (3 files, 7 instances)
 - src/pages/dashboard.tsx:45 — ✅ → CheckCircle
