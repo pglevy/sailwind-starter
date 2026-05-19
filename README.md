@@ -247,30 +247,23 @@ kiro-cli --agent sailor
 
 ### For Kiro IDE Users
 
-**Development Environment Setup**
-- **Skill**: [pnpm-setup](https://github.com/pglevy/agent-skills) - Guided pnpm installation and migration (grab from the agent-skills repo and add to `.kiro/skills/`)
-- **Steering file**: `.kiro/steering/SETUP.md` - Detailed setup guidance available on request
-- **Kiro Power**: `.kiro/powers/setup/POWER.md` - Automated setup assistant (install from Powers panel)
+Skills live in `.kiro/skills/` and are invoked by telling Kiro what you want to do. No installation needed — they're already in the project.
 
-**Vercel Deployment**
-- **Kiro Power**: `.kiro/powers/vercel/POWER.md` - Complete guide for deploying prototypes to Vercel
-- Covers account setup, GitHub/GitLab integration, CLI usage, and secure preview sharing
-- Includes Deployment Protection and Shareable Links for controlled access
-
-**Upgrade Tooling from Template**
-- **Kiro Power**: `.kiro/powers/upgrade/POWER.md` - Syncs your project with the latest scripts, hooks, and steering files from the template repo
-- Fetches files directly from GitHub and compares against your local project
-- Suggests AGENTS.md sections that can be trimmed now that hooks and steering handle them
+| Skill | What it does |
+|-------|-------------|
+| **Setup Environment** | Checks for and installs Homebrew, nvm, Node.js, and pnpm, then gets the dev server running. Good for first-time setup or "command not found" errors. |
+| **Share Link** | Creates a temporary public URL to your local dev server using Cloudflare's free tunnel service — no deployment needed. |
+| **Upgrade from Template** | Syncs your project with the latest scripts, hooks, and steering files from the template repo by fetching directly from GitHub. |
+| **Extract Prototype Contract** | Reads `src/db/` and produces an `api-contract.json` describing the data model — the first step toward generating an Appian app. |
+| **Generate Appian App** | Takes the API contract and produces an importable Appian package (record types, web APIs, DDL, and more). |
+| **Deploy to Appian** | Deploys the generated package to an Appian environment via the Deployment REST API — inspect, import, and poll for results. |
+| **Connect to Appian** | Rewrites `src/db/` to use real `fetch` calls against the generated Appian web APIs. Page components stay unchanged. |
+| **Sailwind Migration** | Full migration for projects not yet on sailwind-starter conventions or old Sailwind versions. |
 
 **Git Workflow Guidance**
-- Designer-friendly git instructions in `.kiro/steering/GIT.md`
+- Designer-friendly git instructions in `.kiro/steering/git.md`
 - Automatically included in context when working with git
 - Helps with branching, commits, and pull requests
-
-**Component Library Reference**
-- `AGENTS.md` - Comprehensive guide for AI assistants
-- Includes component usage patterns, common mistakes, and validation requirements
-- Automatically loaded by the sailor agent
 
 ### For Both Kiro IDE & CLI
 
