@@ -1,9 +1,9 @@
 ---
-name: Sailwind Migration
+name: sailwind-migration
 description: >
   FULL MIGRATION for projects that don't follow sailwind-starter conventions or are on old Sailwind versions.
   Performs complete scaffolding replacement, CSS import fixes, public asset copying, build fixing, and optional
-  code convention updates (emoji→icons, HTML→components). Use this for brownfield projects, old Sailwind versions,
+  code convention updates (emoji→icons, HTML→components). Use for brownfield projects, old Sailwind versions,
   or when components render grey/unstyled. For projects already using sailwind-starter that just need tooling updates,
   use the "upgrade-from-template" skill instead.
 ---
@@ -14,7 +14,7 @@ description: >
 
 ## When to Use This Skill vs Upgrade-from-Template
 
-### ✅ Use **Sailwind Migration** (this skill) when:
+### Use **Sailwind Migration** (this skill) when:
 - Project is on old Sailwind version (v0.5.0, v0.10.0, etc.)
 - Project doesn't follow sailwind-starter structure
 - Components render grey/unstyled (missing CSS imports)
@@ -23,7 +23,7 @@ description: >
 - Want to fix code conventions (emoji → icons, HTML → components)
 - First-time migration to sailwind-starter
 
-### ✅ Use **Upgrade-from-Template** skill when:
+### Use **Upgrade-from-Template** skill when:
 - Project already uses sailwind-starter structure
 - Just need latest scripts/hooks/steering files
 - Want incremental updates with comparison
@@ -399,29 +399,29 @@ Remind the user to commit when satisfied.
 
 After migration, verify these critical elements:
 
-### ✅ CSS Imports (CRITICAL)
+### CSS Imports (CRITICAL)
 - [ ] `src/index.css` contains `@import "@pglevy/sailwind/theme.css"`
 - [ ] `src/index.css` contains `@source "../node_modules/@pglevy/sailwind/dist"`
 - [ ] Dev server shows components with proper Appian styling (not grey)
 - [ ] ApplicationHeader shows blue-to-purple gradient
 
-### ✅ Public Assets
+### Public Assets
 - [ ] `public/images/icon-appian-header.png` exists
 - [ ] All other Appian icons copied from sailwind-starter
 - [ ] ApplicationHeader displays logo correctly
 
-### ✅ Package Configuration
+### Package Configuration
 - [ ] `@pglevy/sailwind` version matches sailwind-starter
 - [ ] `lucide-react` is installed
 - [ ] All user dependencies preserved
 - [ ] `pnpm install` completed successfully
 
-### ✅ Build & Dev
+### Build & Dev
 - [ ] `pnpm build` passes with no errors
 - [ ] `pnpm run dev` starts successfully
 - [ ] Steering files auto-generated in `.kiro/steering/`
 
-### ✅ Component Usage
+### Component Usage
 - [ ] Pages import from `@pglevy/sailwind` (not `../components`)
 - [ ] SAIL parameter values are UPPERCASE
 - [ ] No emoji in code (use Lucide icons instead)
@@ -444,4 +444,3 @@ After completing this full migration, use the **`upgrade-from-template` skill** 
 - Run periodically to stay current with template improvements
 
 **This migration skill is for the big one-time overhaul. The upgrade skill is for ongoing maintenance.**
-

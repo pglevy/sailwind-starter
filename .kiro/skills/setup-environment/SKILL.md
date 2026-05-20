@@ -1,5 +1,5 @@
 ---
-name: Setup Environment
+name: setup-environment
 description: >
   Set up a macOS development environment for the Sailwind Starter project. Checks for and installs
   Homebrew, nvm, Node.js, and pnpm, then installs project dependencies and starts the dev server.

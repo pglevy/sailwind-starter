@@ -1,5 +1,5 @@
 ---
-name: Extract Prototype Contract
+name: extract-prototype-contract
 description: >
   Extract an API contract from the prototype's `src/db/` data layer, producing an `API_Contract` JSON
   that can be used to generate an importable Appian app package. Use this skill when the user says

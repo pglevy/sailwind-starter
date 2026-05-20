@@ -1,5 +1,5 @@
 ---
-name: Upgrade from Template
+name: upgrade-from-template
 description: >
   Sync an existing Sailwind Starter project with the latest tooling from the template repo.
   Fetches files directly from GitHub so the skill never goes stale. Use this skill when the user
@@ -58,8 +58,8 @@ This guarantees byte-for-byte identical copies from the source. Create any missi
 - `.kiro/steering/sail-components.md` — Available component list (auto-synced by predev script)
 
 **Skills:**
-- `.kiro/skills/setup-environment.md` — Environment setup skill
-- `.kiro/skills/upgrade-from-template.md` — This skill (self-update)
+- `.kiro/skills/setup-environment/SKILL.md` — Environment setup skill
+- `.kiro/skills/upgrade-from-template/SKILL.md` — This skill (self-update)
 
 ### Step 2 — Check package.json scripts
 

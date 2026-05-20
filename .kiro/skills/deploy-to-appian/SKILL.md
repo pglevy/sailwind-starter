@@ -1,5 +1,5 @@
 ---
-name: Deploy to Appian
+name: deploy-to-appian
 description: >
   Deploy a generated Appian app package to a target environment using the Appian Deployment REST API (v2).
   Handles the full lifecycle: inspect, deploy (with DDL), and poll for results. Use this skill when the

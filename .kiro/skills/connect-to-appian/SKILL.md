@@ -1,5 +1,5 @@
 ---
-name: Connect to Appian
+name: connect-to-appian
 description: >
   Rewrite the prototype's mock data layer (`src/db/`) to use real `fetch` calls against Appian Web API
   endpoints. Page components remain unchanged — only the function bodies in `src/db/` are replaced.

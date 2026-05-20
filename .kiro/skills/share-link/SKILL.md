@@ -1,5 +1,5 @@
 ---
-name: Share Link
+name: share-link
 description: >
   Share your local dev server with others via a public URL using Cloudflare's free quick tunnel service.
   Creates a temporary public link to your localhost so teammates or stakeholders can preview your prototype

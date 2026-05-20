@@ -1,5 +1,5 @@
 ---
-name: Generate Appian App
+name: generate-appian-app
 description: >
   Generate an importable Appian application package (ZIP) from an `API_Contract` JSON. The package
   includes record types, web APIs, groups, an application wrapper, DDL, and a manifest — everything
