@@ -21,9 +21,9 @@ import { ComponentName } from '@pglevy/sailwind'
 
 **Utility:** `FieldLabel`, `FieldWrapper`
 
-**Other:** `GridColumn`, `ReadOnlyGrid`, `RecordView`, `SiteNav`
+**Other:** `ChatAssistantMessage`, `ChatConfirmation`, `ChatFeedback`, `ChatInput`, `ChatPanel`, `ChatUserMessage`, `GridColumn`, `ParagraphField`, `ReadOnlyGrid`, `RecordView`, `SiteNav`
 
-**Total: 33 components**
+**Total: 40 components**
 
 Common name mistakes to avoid:
 - ❌ `Button` → ✅ `ButtonWidget`

@@ -7,7 +7,7 @@ fileMatchPattern: "src/pages/**"
 
 All props for every Sailwind component, parsed from the installed package. Use exact prop names and values — do not guess.
 
-**34 components** | All prop values must be UPPERCASE where the type is a SAIL enum.
+**41 components** | All prop values must be UPPERCASE where the type is a SAIL enum.
 
 ## Common Props (omitted from tables below)
 
@@ -41,6 +41,7 @@ Most components accept these optional props. They are not repeated in each table
 | `onStoryToggle` | `function` |  | Callback when stories toggle changes |
 | `onBackClick` | `function` |  | Callback when back button clicked |
 | `appianLogoSrc` | `string` |  | Path to Appian logo image |
+| `backgroundColor` | `string` |  | Background color for the header (hex). Foreground colors auto-swap for contrast. |
 | `additionalButtons` | `Array(object)` |  | Additional buttons to display before the right-side controls |
 
 ### ButtonArrayLayout
@@ -89,6 +90,59 @@ Most components accept these optional props. They are not repeated in each table
 | `decorativeBarPosition` | `TOP / START / NONE` |  | Position of decorative bar |
 | `decorativeBarColor` | `SAILColorInput` |  | Color of decorative bar (hex or semantic) |
 
+### ChatAssistantMessage
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `message` | `string` | ✓ |  |
+
+### ChatConfirmation
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `message` | `string` | ✓ | Confirmation message to display |
+| `primaryAction` | `ChatConfirmationAction` | ✓ | Primary action button |
+| `secondaryAction` | `ChatConfirmationAction` |  | Optional secondary action button |
+| `completed` | `boolean` |  | Whether the confirmation has been acted on |
+
+### ChatFeedback
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `style` | `'DEFAULT' / 'AGENT_EVALUATION'` |  | Color scheme style - "DEFAULT": Blue icon when selected, no background - "AGENT_EVALUATION": Thumbs up uses green, thumbs down uses red with backgrounds / |
+| `showDetailsDialog` | `boolean` |  | Whether clicking thumbs up/down should open a dialog for detailed feedback |
+| `showFeedbackOptions` | `boolean` |  | Whether to show selectable options in the dialog |
+| `feedbackOptions` | `FeedbackOptions` |  | Selectable options for categorizing feedback |
+| `dialogConfig` | `{` |  | Custom dialog configuration |
+| `onFeedbackSubmit` | `(details: FeedbackDetails) => void` |  | Callback when feedback is submitted |
+
+### ChatInput
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `placeholder` | `string` |  | Placeholder text for the input |
+| `onSubmit` | `(message: string) => void` |  | Callback when message is submitted |
+| `disabled` | `boolean` |  | Whether the input is disabled |
+| `value` | `string` |  | Value of the input (controlled) |
+| `saveInto` | `(value: string) => void` |  | Callback when value changes (controlled) |
+| `showUpload` | `boolean` |  | Whether to show the upload/attach button |
+
+### ChatPanel
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `title` | `string` |  | Title displayed in the header |
+| `headerActions` | `ChatPanelHeaderAction[]` |  | Action buttons displayed in the header |
+| `children` | `ReactNode` | ✓ | Content to display in the scrollable area |
+| `footer` | `ReactNode` |  | Content to display in the footer (typically ChatInput) |
+| `height` | `SAILGridHeight` |  | Height of the panel |
+
+### ChatUserMessage
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `message` | `string` | ✓ |  |
+
 ### CheckboxField
 
 | Prop | Type | Req | Description |
@@ -102,7 +156,7 @@ Most components accept these optional props. They are not repeated in each table
 | `validations` | `string[]` |  | Validation errors to display below the field |
 | `saveInto` | `(value: any[]) => void` |  | Callback when the user changes the selections |
 | `onChange` | `(value: any[]) => void` |  | Callback when the user changes the selections (React-style alias for saveInto) |
-| `align` | `SAILAlign / LEFT / CENTER / RIGHT` |  | Determines alignment of choice labels. Use with Grid Layout |
+| `align` | `SAILAlignLegacy` |  | Determines alignment of choice labels. Use with Grid Layout |
 | `choiceLayout` | `STACKED / COMPACT` |  | Determines the layout of choices |
 | `choiceStyle` | `STANDARD / CARDS` |  | Determines how choices are displayed |
 | `spacing` | `STANDARD / MORE / EVEN_MORE` |  | Determines space between options |
@@ -266,6 +320,28 @@ Most components accept these optional props. They are not repeated in each table
 | `data` | `any` |  | Data source (record type) - not implemented in prototype |
 | `sort` | `any[]` |  | Sort configurations - not implemented in prototype |
 
+### ParagraphField
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `label` | `string` |  | Text to display as the field label |
+| `required` | `boolean` |  | Determines if a value is required to submit the form |
+| `readOnly` | `boolean` |  | Determines if the field should display as not editable |
+| `disabled` | `boolean` |  | Determines if the field should display as potentially editable but grayed out |
+| `value` | `string` |  | Text to display in the paragraph field |
+| `validations` | `string[]` |  | Validation errors to display below the field when the value is not null |
+| `saveInto` | `(value: string) => void` |  | Callback when the user changes the text |
+| `onChange` | `(value: string) => void` |  | Callback when the user changes the text (React-style alias for saveInto) |
+| `refreshAfter` | `KEYPRESS / UNFOCUS` |  | Determines when the interface is refreshed with the saved value |
+| `placeholder` | `string` |  | Text to display in the field when it is empty |
+| `characterLimit` | `number` |  | Determines the maximum number of characters |
+| `showCharacterCount` | `boolean` |  | Determines if the character count displays on the field |
+| `height` | `SHORT / MEDIUM / TALL / EXTRA_TALL` |  | Determines the height of the paragraph field |
+| `width` | `NARROW / MEDIUM / FULL` |  | Determines the width of the paragraph field |
+| `linkify` | `boolean` |  | Determines if URLs in read-only mode are automatically converted to links |
+| `borderless` | `boolean` |  | Removes border and background for embedding inside custom containers |
+| `onKeyDown` | `(e: React.KeyboardEvent(HTMLTextAreaElement)) => void` |  | Keyboard event handler passed through to the textarea |
+
 ### ProgressBar
 
 | Prop | Type | Req | Description |
@@ -307,7 +383,7 @@ Most components accept these optional props. They are not repeated in each table
 | `pageSize` | `number` |  | Maximum rows per page. Default: 10 |
 | `initialSorts` | `SortInfo[]` |  | Initial sort configurations |
 | `selectable` | `boolean` |  | Whether rows are selectable |
-| `selectionStyle` | `CHECKBOX / ROW_HIGHLIGHT` |  | Selection visual style |
+| `selectionStyle` | `CHECKBOX / ROW_HIGHLIGHT / CHECKBOX_SUBTLE_HIGHLIGHT / SUBTLE_HIGHLIGHT` |  | Selection visual style |
 | `selectionValue` | `(string / number)[]` |  | Currently selected row identifiers |
 | `selectionSaveInto` | `(selectedIds: (string / number)[]) => void` |  | Callback when selection changes |
 | `validations` | `string[]` |  | Validation messages to display below the grid |
@@ -316,6 +392,7 @@ Most components accept these optional props. They are not repeated in each table
 | `borderStyle` | `STANDARD / LIGHT` |  | Border style |
 | `shadeAlternateRows` | `boolean` |  | Whether to shade alternate rows |
 | `rowHeader` | `number` |  | Index of column to use as row header for accessibility |
+| `pagingControls` | `STANDARD / ROW_COUNT` |  | Determines if the paging includes the total row count. "STANDARD" hides total count for performance; "ROW_COUNT" shows total count and first/last controls. |
 
 ### RecordView
 
@@ -340,7 +417,7 @@ Most components accept these optional props. They are not repeated in each table
 | Prop | Type | Req | Description |
 |------|------|:---:|-------------|
 | `label` | `string` |  | Text to display as the field label |
-| `align` | `LEFT / CENTER / RIGHT` |  | Alignment of the text value |
+| `align` | `SAILAlignLegacy` |  | Alignment of the text value |
 | `value` | `ReactNode[]` |  | Array of rich text to display |
 | `preventWrapping` | `boolean` |  | Prevents wrapping to multiple lines |
 | `tooltip` | `string` |  | Tooltip text on mouseover |
@@ -463,7 +540,7 @@ Most components accept these optional props. They are not repeated in each table
 | `saveInto` | `(value: string) => void` |  | Callback when the user changes the text |
 | `onChange` | `(value: string) => void` |  | Callback when the user changes the text (React-style alias for saveInto) |
 | `refreshAfter` | `KEYPRESS / UNFOCUS` |  | Determines when the interface is refreshed with the saved value |
-| `align` | `LEFT / CENTER / RIGHT` |  | Determines alignment of the text value |
+| `align` | `SAILAlignLegacy` |  | Determines alignment of the text value |
 | `placeholder` | `string` |  | Text to display in the field when it is empty |
 | `masked` | `boolean` |  | Determines if the value is obscured from view (password field) |
 | `inputPurpose` | `NAME / EMAIL / PHONE_NUMBER / STREET_ADDRESS / POSTAL_CODE / COUNTRY / CREDIT_CARD_NUMBER / FIRST_NAME / LAST_NAME / DOB / OFF` |  | Indicates the intent of input for accessibility improvements |
@@ -508,3 +585,4 @@ Most components accept these optional props. They are not repeated in each table
 | `altText` | `string` |  | Alternate text for accessibility and screen readers |
 | `caption` | `string` |  | Optional caption text for mouseover (tooltip) |
 | `link` | `function` |  | Link behavior when image is clicked |
+| `backgroundColor` | `string` |  | Background color for the initials fallback (hex or CSS color) |

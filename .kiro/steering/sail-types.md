@@ -14,6 +14,7 @@ type SAILMarginSize = "NONE" | "EVEN_LESS" | "LESS" | "STANDARD" | "MORE" | "EVE
 type SAILSize = "SMALL" | "STANDARD" | "MEDIUM" | "LARGE"
 type SAILSizeExtended = SAILSize | "MEDIUM_PLUS" | "LARGE_PLUS" | "EXTRA_LARGE"
 type SAILAlign = "START" | "CENTER" | "END"
+type SAILAlignLegacy = "START" | "CENTER" | "END" | "LEFT" | "RIGHT"
 type SAILLabelPosition = "ABOVE" | "ADJACENT" | "COLLAPSED" | "JUSTIFIED"
 type SAILSemanticColor = "ACCENT" | "POSITIVE" | "NEGATIVE" | "SECONDARY" | "STANDARD"
 type { SAILPaletteColor } from './palette-colors.generated'
