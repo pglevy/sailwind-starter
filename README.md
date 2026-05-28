@@ -251,7 +251,8 @@ Skills live in `.kiro/skills/` and are invoked by telling Kiro what you want to 
 
 | Skill | What it does |
 |-------|-------------|
-| **Setup Environment** | Checks for and installs Homebrew, nvm, Node.js, and pnpm, then gets the dev server running. Good for first-time setup or "command not found" errors. |
+| **Configure Environment** | Checks for and installs Homebrew, nvm, Node.js, and pnpm, then gets the dev server running. Good for refreshing setup or "command not found" errors. |
+| **Security Audit** | Scans the project for exposed secrets, suspicious packages, misconfigured security settings, and common mistakes. Good for periodic checkups or before making a repo public. |
 | **Share Link** | Creates a temporary public URL to your local dev server using Cloudflare's free tunnel service — no deployment needed. |
 | **Upgrade from Template** | Syncs your project with the latest scripts, hooks, and steering files from the template repo by fetching directly from GitHub. |
 | **Extract Prototype Contract** | Reads `src/db/` and produces an `api-contract.json` describing the data model — the first step toward generating an Appian app. |
