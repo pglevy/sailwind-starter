@@ -9,7 +9,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "check:colors": "node scripts/check-color-palette.js"
+    "check:colors": "node scripts/check-color-palette.js",
+    "deploy:site": "bash scripts/deploy-site.sh"
   },
   "dependencies": {
     "@pglevy/sailwind": "^0.15.0",
