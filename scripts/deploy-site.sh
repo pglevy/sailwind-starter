@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# deploy-site.sh — Build sailwind-starter, copy to ux-sites repo, and open a merge request
+# deploy-site.sh — Build sailwind-starter, push to ux-sites repo, and open a merge request
 # Usage: pnpm run deploy:site --site <site-name>
 set -euo pipefail
 
@@ -26,26 +26,32 @@ if [[ -z "$SITE_NAME" ]]; then
 fi
 
 # --- Config ------------------------------------------------------------------
-SITES_REPO="/Users/philip.levy/Documents/GitLab/ux-sites"
-TARGET="$SITES_REPO/sites/$SITE_NAME"
+SITES_REPO_URL="https://gitlab.appian-stratus.com/docs/ux-sites.git"
 BRANCH="deploy/$SITE_NAME-$(shuf -i 10000-99999 -n 1)"
 SOURCE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+TMP_DIR="$(mktemp -d)"
+
+# Clean up temp dir on exit (success or failure)
+trap 'rm -rf "$TMP_DIR"' EXIT
 
 # --- Build -------------------------------------------------------------------
 echo "▸ Building site..."
 cd "$SOURCE_DIR"
 pnpm build
 
-# --- Sync to ux-sites --------------------------------------------------------
-echo "▸ Syncing build to ux-sites/sites/$SITE_NAME..."
+# --- Clone ux-sites into temp dir --------------------------------------------
+echo "▸ Cloning ux-sites..."
+git clone --depth 1 "$SITES_REPO_URL" "$TMP_DIR/ux-sites"
+
+# --- Sync build to target folder ---------------------------------------------
+TARGET="$TMP_DIR/ux-sites/sites/$SITE_NAME"
+echo "▸ Syncing build to sites/$SITE_NAME..."
 rm -rf "$TARGET"
 cp -r "$SOURCE_DIR/dist" "$TARGET"
 
 # --- Branch, commit, push, MR ------------------------------------------------
 echo "▸ Creating branch and MR..."
-cd "$SITES_REPO"
-git checkout main
-git pull
+cd "$TMP_DIR/ux-sites"
 git checkout -b "$BRANCH"
 git add "sites/$SITE_NAME"
 git commit -m "Deploy $SITE_NAME site build"
