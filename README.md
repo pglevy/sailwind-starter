@@ -16,12 +16,11 @@ Perfect for designers and developers who want to quickly mock up Appian interfac
 
 ## 🚀 Quick Start
 
-### 1. Use This Template
+### 1. Download Template
 
-1. **Click "Use this template" button** on GitHub to create a new repository
-    - *Make it private for internal work!*
-2. **Download your new repository** (or clone if using git)
-3. **Open folder in VS Code** (or preferred IDE)
+[Download a copy](https://github.com/pglevy/sailwind-starter/archive/refs/heads/main.zip) of the template, extract the zip, and open in your preferred code editor.
+
+(We don't recommend GitHub for private repos but if you're working in public, feel free to use the `Use this template` option to create a new GitHub repo based on this template.)
 
 ### 2. Install pnpm
 
@@ -30,8 +29,6 @@ This project uses [pnpm](https://pnpm.io/) as its package manager. If you don't 
 ```bash
 corepack enable
 ```
-
-That's it — corepack reads the `packageManager` field in `package.json` and sets up the right version of pnpm automatically.
 
 Alternatively, install pnpm directly:
 
@@ -60,7 +57,7 @@ pnpm run dev
 Open [http://localhost:5173](http://localhost:5173) to see your prototype!
 
 > [!Tip]
-> Need some extra help getting set up? If you're using Kiro IDE, there's a setup power built in, or you can grab the [pnpm-setup skill](https://github.com/pglevy/agent-skills) for step-by-step guidance. See the [options below](#for-kiro-ide-users) for more details.
+> Need some extra help getting set up? Ask your agent to use the `configure-environment` skill.
 
 ## 🪝 Agent Hooks
 
