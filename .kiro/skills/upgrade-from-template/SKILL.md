@@ -47,6 +47,7 @@ This guarantees byte-for-byte identical copies from the source. Create any missi
 - `scripts/check-color-palette.js` — Lints Tailwind classes for off-palette color steps
 - `scripts/check-sailwind-update.js` — Predev script: checks for Sailwind updates + syncs steering files
 - `scripts/sync-sailwind-components.js` — Generates steering file with available component names from package
+- `scripts/deploy-site.sh` — Shell script called by the `deploy:site` npm script; builds and deploys to ux-sites repo via MR
 
 **Hooks:**
 - `.kiro/hooks/check-color-palette.kiro.hook` — Manual trigger to run color palette check
@@ -58,17 +59,20 @@ This guarantees byte-for-byte identical copies from the source. Create any missi
 - `.kiro/steering/sail-components.md` — Available component list (auto-synced by predev script)
 
 **Skills:**
-- `.kiro/skills/setup-environment/SKILL.md` — Environment setup skill
 - `.kiro/skills/upgrade-from-template/SKILL.md` — This skill (self-update)
+
+> **Note on skills:** Do NOT hardcode additional skill paths here. The skills in `.kiro/skills/` vary between projects. Instead, after syncing the above files, do a general check: list the skills available in the template's GitHub tree and compare against what exists locally, then surface any that are missing.
 
 ### Step 2 — Check package.json scripts
 
 Fetch `package.json` from the template repo. Compare ONLY the `scripts` section with the local `package.json`.
 
-- Flag any missing script entries (e.g., `check:colors`, `predev`)
+- Flag any missing script entries (e.g., `check:colors`, `predev`, `deploy:site`)
 - Flag any scripts with different commands
 - Do NOT touch `dependencies`, `devDependencies`, or any other section
 - Ask the user before adding or changing any scripts
+
+**Important:** For any script that calls an external file (e.g., `bash scripts/deploy-site.sh`), verify that file is listed in the Step 1 files-to-sync list and has already been fetched. Do NOT report the script as non-functional or missing based on a 404 for the shell script — the shell scripts are synced as part of Step 1 above. Base your script comparison solely on the `package.json` `scripts` section.
 
 ### Step 3 — Run steering sync
 
