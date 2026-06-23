@@ -330,6 +330,7 @@ pnpm run build         # Build for production
 pnpm run preview       # Preview production build
 pnpm run lint          # Lint code
 pnpm run check:colors  # Check for off-palette Tailwind color steps
+pnpm run deploy:site   # Deploy to GitLab site (Appian internal)
 ```
 
 ## 📚 Documentation
