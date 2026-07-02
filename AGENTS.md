@@ -69,6 +69,16 @@ export default function PageName() {
 | `deploy-to-appian` | Deploys the generated package to an Appian environment |
 | `connect-to-appian` | Rewrites `src/db/` to use real `fetch` calls |
 
+## UX Content Standards (Global Skill)
+
+A global skill (`ux-content-standards`) audits UI text against Appian's UX writing guidelines — buttons, labels, dialogs, errors, tooltips, placeholders, and other copy.
+
+**When to offer it:** Proactively suggest running this skill when the user is wrapping up a prototype, reviewing copy, or asks about content quality. Do not run it automatically on every task.
+
+**How to trigger it:** The user can say "check content standards", "audit my copy", or "run ux-content-standards". The skill fetches the live ruleset from the internal GitLab repo via `glab` — so `glab` must be authenticated for it to work.
+
+> ⚠️ This is a user-level skill at `~/.kiro/skills/ux-content-standards`. If it isn't installed, let the user know they need to install it separately.
+
 ## Before Declaring Page Complete
 
 - [ ] All imports from `@pglevy/sailwind`
