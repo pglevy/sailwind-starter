@@ -14,8 +14,8 @@ importers:
   .:
     dependencies:
       '@pglevy/sailwind':
-        specifier: ^0.16.1
-        version: 0.16.1(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        specifier: ^0.18.0
+        version: 0.18.0(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       lucide-react:
         specifier: ^1.8.0
         version: 1.8.0(react@19.2.0)
@@ -422,8 +422,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@pglevy/sailwind@0.16.1':
-    resolution: {integrity: sha512-ZJo8BTHmOj/O+x79pG3x8pEjkImgRRdJxVf1oNivZ7/mCvCV9yHHTkdyePHHlJjS5OmSnllADEghy2YFCyOo/w==}
+  '@pglevy/sailwind@0.18.0':
+    resolution: {integrity: sha512-v52rvGW8HOwhu1BMaI+asGTMtrB1oXWERLuyNOGCrAGes8SohzxqpEPJShdRI0fZhK5KnMv+FWJVOXzrBj3SAQ==}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
@@ -2214,7 +2214,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@pglevy/sailwind@0.16.1(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@pglevy/sailwind@0.18.0(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@radix-ui/react-avatar': 1.2.2(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@radix-ui/react-dialog': 1.1.19(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
