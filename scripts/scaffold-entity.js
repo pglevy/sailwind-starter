@@ -42,7 +42,25 @@ function parseArgs(argv) {
   return args
 }
 
+// A handful of common irregular plurals that the suffix rules below can't
+// derive. Not exhaustive — use --file to override anything not covered here.
+const IRREGULAR_PLURALS = {
+  person: 'people',
+  child: 'children',
+  mouse: 'mice',
+  goose: 'geese',
+  tooth: 'teeth',
+  foot: 'feet',
+  woman: 'women',
+  man: 'men',
+}
+
 function pluralize(word) {
+  const irregular = IRREGULAR_PLURALS[word.toLowerCase()]
+  if (irregular) {
+    // Preserve the original capitalization style (word starts uppercase or not)
+    return /^[A-Z]/.test(word) ? irregular.charAt(0).toUpperCase() + irregular.slice(1) : irregular
+  }
   if (/[sxz]$/.test(word) || /[^aeiou]h$/.test(word)) return word + 'es'
   if (/[^aeiou]y$/.test(word)) return word.slice(0, -1) + 'ies'
   return word + 's'

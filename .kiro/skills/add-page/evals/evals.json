@@ -1,0 +1,30 @@
+{
+  "skill_name": "add-page",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Can you set up a new page for showing our vendor directory? Call it 'Vendor Directory' — quick description could be 'Browse and search approved vendors'.",
+      "expected_output": "A new src/pages/vendor-directory.tsx scaffolded via scripts/scaffold-page.js, registered as a route in src/App.tsx, and linked from src/pages/home.tsx. The page imports only from @pglevy/sailwind, and pnpm run build passes.",
+      "files": [],
+      "expectations": [
+        "src/pages/vendor-directory.tsx exists",
+        "scripts/scaffold-page.js was used to create the page rather than the file being hand-written from scratch",
+        "src/App.tsx imports the new component from './pages/vendor-directory' and includes it in the pages array with path '/vendor-directory'",
+        "src/pages/home.tsx's pages array includes an entry with path '/vendor-directory'",
+        "The generated page file's only import from a UI library is from '@pglevy/sailwind'",
+        "pnpm run build exits with code 0"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I need an invoice review page, but I want the URL to be /invoices/review instead of whatever the default would be.",
+      "expected_output": "A page is scaffolded with a custom route of exactly /invoices/review (using the --path flag), while the file and component names still follow the project's naming convention.",
+      "files": [],
+      "expectations": [
+        "The route registered in src/App.tsx is exactly '/invoices/review'",
+        "scripts/scaffold-page.js was invoked with a --path flag rather than editing App.tsx by hand to get the custom path",
+        "pnpm run build exits with code 0"
+      ]
+    }
+  ]
+}

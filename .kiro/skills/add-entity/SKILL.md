@@ -46,7 +46,7 @@ This generates `src/db/comments.ts` with:
 
 Flags:
 - `--no-audit` — skip the four audit fields if they genuinely don't apply
-- `--file <name>` — override the generated file name if the auto-pluralization guesses wrong (rare, but irregular plurals like "Person" → "People" aren't handled automatically)
+- `--file <name>` — override the generated file name if the auto-pluralization guesses wrong. Common irregulars (person→people, child→children, etc.) are handled automatically; this is an escape hatch for anything more unusual
 - `--force` — overwrite an existing file with the same name
 
 ### 3. Fill in realistic seed data
