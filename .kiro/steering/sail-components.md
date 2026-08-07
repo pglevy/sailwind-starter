@@ -15,15 +15,15 @@ import { ComponentName } from '@pglevy/sailwind'
 
 **Display:** `HeadingField`, `RichTextDisplayField`, `TextItem`, `Icon`, `ImageField`, `MessageBanner`, `TagField`, `TagItem`, `StampField`, `ProgressBar`, `MilestoneField`
 
-**Input:** `TextField`, `DropdownField`, `MultipleDropdownField`, `CheckboxField`, `RadioButtonField`, `SwitchField`, `ToggleField`, `SliderField`
+**Input:** `TextField`, `DropdownField`, `MultipleDropdownField`, `CheckboxField`, `RadioButtonField`, `ToggleField`, `SliderField`
 
 **Actions:** `ButtonWidget`, `ButtonArrayLayout`, `DialogField`, `TabsField`
 
 **Utility:** `FieldLabel`, `FieldWrapper`
 
-**Other:** `ChatAssistantMessage`, `ChatConfirmation`, `ChatFeedback`, `ChatInput`, `ChatPanel`, `ChatUserMessage`, `GridColumn`, `ParagraphField`, `ReadOnlyGrid`, `RecordView`, `SiteNav`
+**Other:** `AgentSteps`, `ButtonToggle`, `ChatAssistantMessage`, `ChatConfirmation`, `ChatFeedback`, `ChatInput`, `ChatPanel`, `ChatUserMessage`, `FileCard`, `GridColumn`, `Paging`, `ParagraphField`, `ReadOnlyGrid`, `RecordView`, `SiteNav`, `TaskPlan`, `TaskProgress`
 
-**Total: 40 components**
+**Total: 45 components**
 
 Common name mistakes to avoid:
 - ❌ `Button` → ✅ `ButtonWidget`

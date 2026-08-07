@@ -7,7 +7,7 @@ fileMatchPattern: "src/pages/**"
 
 All props for every Sailwind component, parsed from the installed package. Use exact prop names and values — do not guess.
 
-**41 components** | All prop values must be UPPERCASE where the type is a SAIL enum.
+**47 components** | All prop values must be UPPERCASE where the type is a SAIL enum.
 
 ## Common Props (omitted from tables below)
 
@@ -25,6 +25,13 @@ Most components accept these optional props. They are not repeated in each table
 | `instructions` | `string` | Supplemental text about this field |
 | `validationGroup` | `string` | Validation group name (no spaces) |
 | `requiredMessage` | `string` | Custom message when required and not provided |
+
+### AgentSteps
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `steps` | `AgentStep[]` | ✓ | Array of steps to display |
+| `size` | `SMALL / STANDARD / LARGE` |  | Size of step text: SMALL (12px), STANDARD (14px), LARGE (18px) |
 
 ### ApplicationHeader
 
@@ -50,6 +57,24 @@ Most components accept these optional props. They are not repeated in each table
 |------|------|:---:|-------------|
 | `buttons` | `ButtonWidgetProps[]` | ✓ | Array of button configurations |
 | `align` | `SAILAlign` |  | Determines alignment of buttons |
+
+### ButtonToggle
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `label` | `string` |  | Text to display as the field label |
+| `text` | `string` |  | Text to display on the toggle button |
+| `required` | `boolean` |  | Determines if a value is required to submit the form |
+| `disabled` | `boolean` |  | Determines if the field should display as grayed out |
+| `value` | `boolean` |  | Current pressed state (true = pressed, false = unpressed) |
+| `validations` | `string[]` |  | Validation errors to display below the field |
+| `saveInto` | `(value: boolean) => void` |  | Callback when the user toggles the button |
+| `onChange` | `(value: boolean) => void` |  | Callback when the user toggles the button (React-style alias for saveInto) |
+| `size` | `SAILSize` |  | Size of the toggle button |
+| `color` | `ACCENT / POSITIVE / NEGATIVE / SECONDARY / STANDARD / SAILColorInput` |  | Color when toggle is pressed (hex or semantic) |
+| `style` | `SOLID / OUTLINE / GHOST` |  | Determines the button's appearance |
+| `icon` | `string` |  | Icon to display in the button |
+| `iconPosition` | `START / END` |  | Position of icon relative to text |
 
 ### ButtonWidget
 
@@ -226,6 +251,17 @@ Most components accept these optional props. They are not repeated in each table
 | `children` | `ReactNode` | ✓ | The input/control element to render |
 | `footer` | `ReactNode` |  | Optional additional content below instructions (validation errors, etc.) |
 
+### FileCard
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `fileName` | `string` | ✓ | The file name to display |
+| `fileSize` | `number` | ✓ | The file size in bytes |
+| `showRemove` | `boolean` |  | Whether to show the remove button |
+| `onRemove` | `function` |  | Callback when the remove button is clicked |
+| `fileType` | `string` |  | Optional file type override (inferred from fileName if not provided) |
+| `maxWidth` | `string` |  | Maximum width of the component (CSS value) |
+
 ### GridColumn
 
 | Prop | Type | Req | Description |
@@ -267,10 +303,11 @@ Most components accept these optional props. They are not repeated in each table
 | Prop | Type | Req | Description |
 |------|------|:---:|-------------|
 | `label` | `string` |  | Text to display as the field label |
-| `images` | `DocumentImageProps / UserImageProps[]` | ✓ | Array of images to display (supports both document and user images) |
+| `images` | `DocumentImageProps / UserImageProps / WebImageProps[]` | ✓ | Array of images to display (supports both document and user images) |
 | `size` | `ICON / ICON_PLUS / TINY / EXTRA_SMALL / SMALL / SMALL_PLUS / MEDIUM / MEDIUM_PLUS / LARGE / LARGE_PLUS / EXTRA_LARGE / FIT / GALLERY` |  | Determines how the images are sized |
 | `isThumbnail` | `boolean` |  | Determines whether images can be viewed larger when clicked |
 | `style` | `STANDARD / AVATAR` |  | Determines how the images are rendered |
+| `shape` | `SAILShape` |  | Determines the border radius of images. Ignored when style is "AVATAR" (always circular). |
 | `align` | `SAILAlign` |  | Determines alignment of the images |
 
 ### MessageBanner
@@ -319,6 +356,16 @@ Most components accept these optional props. They are not repeated in each table
 | `searchDisplay` | `AUTO / ON / OFF` |  | Determines when a search box displays above options |
 | `data` | `any` |  | Data source (record type) - not implemented in prototype |
 | `sort` | `any[]` |  | Sort configurations - not implemented in prototype |
+
+### Paging
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `totalCount` | `number` | ✓ | Total number of items |
+| `pageSize` | `number` | ✓ | Number of items per page |
+| `currentPage` | `number` | ✓ | Current page number (1-based) |
+| `onPageChange` | `(page: number) => void` | ✓ | Callback when page changes |
+| `pagingControls` | `'STANDARD' / 'ROW_COUNT'` |  | Determines if the paging includes the total row count. "STANDARD" hides total count; "ROW_COUNT" shows total count and first/last controls. |
 
 ### ParagraphField
 
@@ -478,21 +525,6 @@ Most components accept these optional props. They are not repeated in each table
 | `link` | `any` |  | Link to apply to the stamp |
 | `shape` | `SAILShape` |  | Determines the stamp shape |
 
-### SwitchField
-
-| Prop | Type | Req | Description |
-|------|------|:---:|-------------|
-| `label` | `string` |  | Text to display as the field label |
-| `required` | `boolean` |  | Determines if a value is required to submit the form |
-| `disabled` | `boolean` |  | Determines if the field should display as grayed out |
-| `value` | `boolean` |  | Current checked state (true = on, false = off) |
-| `validations` | `string[]` |  | Validation errors to display below the field |
-| `saveInto` | `(value: boolean) => void` |  | Callback when the user toggles the switch |
-| `onChange` | `(value: boolean) => void` |  | Callback when the user toggles the switch (React-style alias for saveInto) |
-| `size` | `SAILSize` |  | Size of the switch and its label |
-| `color` | `ACCENT / POSITIVE / NEGATIVE / SECONDARY / STANDARD / SAILColorInput` |  | Color when switch is on (hex or semantic) |
-| `switchLabelPosition` | `LEFT / RIGHT` |  | Position of the inline label relative to the switch control: LEFT or RIGHT |
-
 ### TabsField
 
 | Prop | Type | Req | Description |
@@ -503,10 +535,15 @@ Most components accept these optional props. They are not repeated in each table
 | `onValueChange` | `(value: string) => void` |  | Callback when active tab changes |
 | `variant` | `TabsVariant` |  | Visual variant for tab styling |
 | `orientation` | `HORIZONTAL / VERTICAL` |  | Orientation of the tabs (only applies to UNDERLINE variant) |
+| `align` | `SAILAlign` |  | Alignment of tab labels in vertical orientation |
 | `size` | `SAILSize` |  | Size of the tab triggers |
+| `density` | `TabsDensity` |  | Spacing density for tab triggers |
 | `loop` | `boolean` |  | Whether tabs should loop when navigating with keyboard |
 | `color` | `ACCENT / POSITIVE / NEGATIVE / SECONDARY / SAILColorInput` |  | Color scheme for active tabs (hex or semantic) |
 | `activationMode` | `AUTOMATIC / MANUAL` |  | Activation mode - whether tabs activate on focus or click |
+| `navigationOnly` | `boolean` |  | Whether to suppress rendering of the content panel (navigation-only mode) |
+| `contentsPadding` | `SAILMarginSize` |  | Determines the space between the tab edges and its contents (default: STANDARD) |
+| `fullWidthSeparator` | `boolean` |  | Whether the separator line extends to the full width of the parent container |
 
 ### TagField
 
@@ -526,6 +563,22 @@ Most components accept these optional props. They are not repeated in each table
 | `textColor` | `SAILColorInput` |  | Text color - hex value, semantic color, palette token, or "STANDARD" |
 | `tooltip` | `string` |  | Tooltip text to display on hover |
 | `link` | `string` |  | Link to apply to the tag (href string for React implementation) |
+
+### TaskPlan
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `tasks` | `TaskPlanItem[]` | ✓ | The list of task plan items |
+| `editing` | `boolean` |  | Whether the plan is in edit mode |
+| `onTasksChange` | `(tasks: TaskPlanItem[]) => void` |  | Callback when tasks are updated in edit mode |
+
+### TaskProgress
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `title` | `string` |  | Section title displayed in the collapsible header |
+| `tasks` | `Task[]` | ✓ | Array of tasks to display |
+| `defaultOpen` | `boolean` |  | Whether the task list starts expanded |
 
 ### TextField
 
@@ -562,19 +615,14 @@ Most components accept these optional props. They are not repeated in each table
 
 | Prop | Type | Req | Description |
 |------|------|:---:|-------------|
-| `label` | `string` |  | Text to display as the field label |
-| `text` | `string` |  | Text to display on the toggle button |
+| `choiceLabel` | `string` |  | Text to display as the label next to the toggle |
 | `required` | `boolean` |  | Determines if a value is required to submit the form |
 | `disabled` | `boolean` |  | Determines if the field should display as grayed out |
-| `value` | `boolean` |  | Current pressed state (true = pressed, false = unpressed) |
+| `value` | `boolean` |  | Current checked state (true = on, false = off) |
 | `validations` | `string[]` |  | Validation errors to display below the field |
-| `saveInto` | `(value: boolean) => void` |  | Callback when the user toggles the button |
-| `onChange` | `(value: boolean) => void` |  | Callback when the user toggles the button (React-style alias for saveInto) |
-| `size` | `SAILSize` |  | Size of the toggle button |
-| `color` | `ACCENT / POSITIVE / NEGATIVE / SECONDARY / STANDARD / SAILColorInput` |  | Color when toggle is pressed (hex or semantic) |
-| `style` | `SOLID / OUTLINE / GHOST` |  | Determines the button's appearance |
-| `icon` | `string` |  | Icon to display in the button |
-| `iconPosition` | `START / END` |  | Position of icon relative to text |
+| `saveInto` | `(value: boolean) => void` |  | Callback when the user toggles the switch |
+| `onChange` | `(value: boolean) => void` |  | Callback when the user toggles the switch (React-style alias for saveInto) |
+| `choicePosition` | `START / END` |  | Determines whether the toggle appears on the left or right of the choice label. Valid values: "START" (default), "END" |
 
 ### UserImage
 
@@ -585,4 +633,13 @@ Most components accept these optional props. They are not repeated in each table
 | `altText` | `string` |  | Alternate text for accessibility and screen readers |
 | `caption` | `string` |  | Optional caption text for mouseover (tooltip) |
 | `link` | `function` |  | Link behavior when image is clicked |
-| `backgroundColor` | `string` |  | Background color for the initials fallback (hex or CSS color) |
+| `backgroundColor` | `string` |  | Background color for the initials fallback. Accepts SAIL color tokens (e.g. "ACCENT", "TEAL_200") or hex strings (e.g. "#4A90D9") |
+
+### WebImage
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `source` | `string` | ✓ | The external URL of the image |
+| `altText` | `string` |  | Alternate text for accessibility and screen readers |
+| `caption` | `string` |  | Optional caption text for mouseover and slideshow mode |
+| `link` | `function` |  | Link behavior when image is clicked |
