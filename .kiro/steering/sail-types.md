@@ -8,7 +8,7 @@ fileMatchPattern: "src/pages/**"
 When building pages with Sailwind components, use these exact type values for component parameters. These are the actual types from the `@pglevy/sailwind` package. Do not guess or assume values outside these sets.
 
 ```typescript
-type SAILShape = "SQUARED" | "SEMI_ROUNDED" | "ROUNDED"
+type SAILShape = "SQUARED" | "SEMI_ROUNDED" | "ROUNDED" | "CIRCLE"
 type SAILPadding = "NONE" | "EVEN_LESS" | "LESS" | "STANDARD" | "MORE" | "EVEN_MORE"
 type SAILMarginSize = "NONE" | "EVEN_LESS" | "LESS" | "STANDARD" | "MORE" | "EVEN_MORE"
 type SAILSize = "SMALL" | "STANDARD" | "MEDIUM" | "LARGE"
