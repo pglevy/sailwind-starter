@@ -19,7 +19,7 @@ If these seem stale: `node scripts/sync-sailwind-components.js` and `node script
 
 ## Data Layer Convention
 
-All prototype data MUST live in `src/db/` as typed async functions. See `.kiro/steering/data-layer.md` for the full convention.
+All prototype data MUST live in `src/db/` as typed async functions. See `.kiro/steering/data-layer.md` for the full convention. Use the `add-entity` skill to scaffold new entity modules in the correct shape.
 
 ```tsx
 // ✅ CORRECT
@@ -33,11 +33,15 @@ const tasks = [{ id: 1, title: "Review App", ... }]
 
 ## Page Development Workflow
 
+> **Fast path:** Use the `add-page` skill to scaffold the file, route registration, and home page link in one step (`node scripts/scaffold-page.js --name "..."`). It does steps 1, 3, and 4 below for you — go straight to step 2.
+
 1. Create file in `src/pages/`
 2. Import components from `@pglevy/sailwind`
 3. Add route to `src/App.tsx`
 4. Add entry to `pages` array in `src/pages/home.tsx`
 5. Run `pnpm run build` — fix all errors before declaring done
+
+If the page needs data, use the `add-entity` skill to scaffold the `src/db/` module rather than inlining data — see Data Layer Convention below.
 
 ### Basic Page Structure
 
@@ -87,3 +91,5 @@ A global skill (`ux-content-standards`) audits UI text against Appian's UX writi
 - [ ] Page added to routes in `src/App.tsx`
 - [ ] Page link added to `src/pages/home.tsx`
 - [ ] `pnpm run build` passes with no errors
+
+> **Fast path:** Run the `prototype-review` skill (`node scripts/prototype-review.js`) as a final pass — it checks the first four items above automatically, plus routing completeness, and flags anything worth a second look before you call the page done.

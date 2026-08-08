@@ -1,0 +1,224 @@
+#!/usr/bin/env node
+
+/**
+ * Scaffolds a new data entity module in src/db/ following this project's
+ * data layer convention (see .kiro/steering/data-layer.md):
+ *   - Singular PascalCase interface, `id: number` always first
+ *   - Plural lowercase file name
+ *   - Async CRUD functions (get, getOne, create, update, delete)
+ *   - Mock data + real-fetch fallback wired through src/db/api-config.ts,
+ *     matching the pattern already used by src/db/tasks.ts and src/db/lists.ts
+ *
+ * Usage:
+ *   node scripts/scaffold-entity.js --name Comment --fields "text:string,cardId:number,authorUsername:string"
+ *
+ * Flags:
+ *   --name      Required. Singular PascalCase entity name, e.g. "Comment"
+ *   --fields    Optional. Comma-separated field:type pairs (beyond id + audit fields)
+ *               Supported types: string, number, boolean
+ *   --no-audit  Optional. Skip createdBy/createdOn/modifiedBy/modifiedOn fields
+ *   --file      Optional. Override the generated file name (without .ts)
+ *   --force     Optional. Overwrite the file if it already exists
+ */
+
+import { writeFileSync, existsSync } from 'fs'
+import { resolve } from 'path'
+
+function parseArgs(argv) {
+  const args = {}
+  for (let i = 0; i < argv.length; i++) {
+    const arg = argv[i]
+    if (arg.startsWith('--')) {
+      const key = arg.slice(2)
+      const next = argv[i + 1]
+      if (next && !next.startsWith('--')) {
+        args[key] = next
+        i++
+      } else {
+        args[key] = true
+      }
+    }
+  }
+  return args
+}
+
+// A handful of common irregular plurals that the suffix rules below can't
+// derive. Not exhaustive — use --file to override anything not covered here.
+const IRREGULAR_PLURALS = {
+  person: 'people',
+  child: 'children',
+  mouse: 'mice',
+  goose: 'geese',
+  tooth: 'teeth',
+  foot: 'feet',
+  woman: 'women',
+  man: 'men',
+}
+
+function pluralize(word) {
+  const irregular = IRREGULAR_PLURALS[word.toLowerCase()]
+  if (irregular) {
+    // Preserve the original capitalization style (word starts uppercase or not)
+    return /^[A-Z]/.test(word) ? irregular.charAt(0).toUpperCase() + irregular.slice(1) : irregular
+  }
+  if (/[sxz]$/.test(word) || /[^aeiou]h$/.test(word)) return word + 'es'
+  if (/[^aeiou]y$/.test(word)) return word.slice(0, -1) + 'ies'
+  return word + 's'
+}
+
+function lowerFirst(word) {
+  return word.charAt(0).toLowerCase() + word.slice(1)
+}
+
+const args = parseArgs(process.argv.slice(2))
+
+if (!args.name) {
+  console.error('Usage: node scripts/scaffold-entity.js --name Comment --fields "text:string,cardId:number"')
+  process.exit(1)
+}
+
+const entityName = String(args.name).charAt(0).toUpperCase() + String(args.name).slice(1)
+const includeAudit = !args['no-audit']
+const fileName = args.file ? String(args.file) : pluralize(entityName.toLowerCase())
+const varSingular = lowerFirst(entityName)
+const varPlural = args.file ? String(args.file) : pluralize(varSingular)
+const entityPlural = entityName.charAt(0).toUpperCase() + pluralize(varSingular).slice(1)
+const mockVarName = `mock${entityPlural}`
+
+const ENTITY_PATH = resolve(`src/db/${fileName}.ts`)
+
+if (existsSync(ENTITY_PATH) && !args.force) {
+  console.error(`✗ src/db/${fileName}.ts already exists. Use --force to overwrite.`)
+  process.exit(1)
+}
+
+// Parse custom fields
+const VALID_TYPES = new Set(['string', 'number', 'boolean'])
+const customFields = []
+if (args.fields) {
+  const pairs = String(args.fields).split(',').map(s => s.trim()).filter(Boolean)
+  for (const pair of pairs) {
+    const [name, type] = pair.split(':').map(s => s.trim())
+    if (!name || !type) {
+      console.error(`✗ Invalid field spec "${pair}". Expected format: fieldName:type`)
+      process.exit(1)
+    }
+    if (!VALID_TYPES.has(type)) {
+      console.error(`✗ Unsupported type "${type}" for field "${name}". Use one of: ${[...VALID_TYPES].join(', ')}`)
+      process.exit(1)
+    }
+    customFields.push({ name, type })
+  }
+}
+
+if (customFields.length === 0) {
+  console.warn('⚠ No --fields provided — generating entity with just id (and audit fields, if enabled). Add fields manually or re-run with --fields.')
+}
+
+const auditFields = includeAudit
+  ? [
+      { name: 'createdBy', type: 'string' },
+      { name: 'createdOn', type: 'string' },
+      { name: 'modifiedBy', type: 'string' },
+      { name: 'modifiedOn', type: 'string' },
+    ]
+  : []
+
+const allFields = [{ name: 'id', type: 'number' }, ...customFields, ...auditFields]
+
+// --- Build interface ---
+
+const interfaceLines = allFields.map(f => `  ${f.name}: ${f.type}`).join('\n')
+
+// --- Build one sample mock record ---
+
+function sampleValue(field) {
+  if (field.name === 'id') return '1'
+  if (field.type === 'number') return '0'
+  if (field.type === 'boolean') return 'false'
+  if (field.name === 'createdBy' || field.name === 'modifiedBy') return "'alice.chen'"
+  if (field.name === 'createdOn' || field.name === 'modifiedOn') return "'2026-04-01'"
+  if (field.name.endsWith('Username') || field.name === 'assignee') return "'alice.chen'"
+  return `'Sample ${field.name}'`
+}
+
+const sampleRecord = `{ ${allFields.map(f => `${f.name}: ${sampleValue(f)}`).join(', ')} }`
+
+// --- Build the file ---
+
+const content = `/**
+ * ${entityName} — TODO: describe this entity and how it relates to others.
+ * Generated by scripts/scaffold-entity.js — review field types and mock data before use.
+ */
+
+import { apiBase, buildHeaders, isConnected } from './api-config'
+
+export interface ${entityName} {
+${interfaceLines}
+}
+
+const ${mockVarName}: ${entityName}[] = [
+  ${sampleRecord},
+]
+
+export async function get${entityPlural}(): Promise<${entityName}[]> {
+  if (!isConnected()) return [...${mockVarName}]
+  const res = await fetch(\`\${apiBase}/${varPlural}\`, { headers: buildHeaders() })
+  if (!res.ok) throw new Error(\`API error: \${res.status}\`)
+  return res.json()
+}
+
+export async function get${entityName}(id: number): Promise<${entityName} | undefined> {
+  if (!isConnected()) return ${mockVarName}.find(r => r.id === id)
+  const all = await get${entityPlural}()
+  return all.find(r => r.id === id)
+}
+
+export async function create${entityName}(data: Omit<${entityName}, 'id'>): Promise<${entityName}> {
+  if (!isConnected()) {
+    const new${entityName}: ${entityName} = { ...data, id: Math.max(0, ...${mockVarName}.map(r => r.id)) + 1 }
+    ${mockVarName}.push(new${entityName})
+    return new${entityName}
+  }
+  const res = await fetch(\`\${apiBase}/write${entityName}\`, { method: 'POST', headers: buildHeaders(), body: JSON.stringify(data) })
+  if (!res.ok) throw new Error(\`API error: \${res.status}\`)
+  const records = await res.json()
+  return Array.isArray(records) ? records[0] : records
+}
+
+export async function update${entityName}(id: number, data: Partial<${entityName}>): Promise<${entityName} | undefined> {
+  if (!isConnected()) {
+    const idx = ${mockVarName}.findIndex(r => r.id === id)
+    if (idx === -1) return undefined
+    ${mockVarName}[idx] = { ...${mockVarName}[idx], ...data }
+    return ${mockVarName}[idx]
+  }
+  const res = await fetch(\`\${apiBase}/write${entityName}\`, { method: 'POST', headers: buildHeaders(), body: JSON.stringify({ id, ...data }) })
+  if (!res.ok) throw new Error(\`API error: \${res.status}\`)
+  const records = await res.json()
+  return Array.isArray(records) ? records[0] : records
+}
+
+export async function delete${entityName}(id: number): Promise<boolean> {
+  if (!isConnected()) {
+    const idx = ${mockVarName}.findIndex(r => r.id === id)
+    if (idx === -1) return false
+    ${mockVarName}.splice(idx, 1)
+    return true
+  }
+  const res = await fetch(\`\${apiBase}/delete${entityName}\`, { method: 'POST', headers: buildHeaders(), body: JSON.stringify({ id }) })
+  if (!res.ok) throw new Error(\`API error: \${res.status}\`)
+  return true
+}
+`
+
+writeFileSync(ENTITY_PATH, content)
+console.log(`✓ Created src/db/${fileName}.ts with ${entityName} interface and CRUD functions`)
+console.log('')
+console.log('Next steps:')
+console.log(`  1. Review the generated interface and mock data in src/db/${fileName}.ts`)
+console.log('  2. Add a few more realistic mock records (the generator only creates one sample row)')
+console.log(`  3. Import and use it in a page: import { get${entityPlural} } from '../db/${fileName}'`)
+if (!includeAudit) {
+  console.log('  4. Note: audit fields (createdBy/createdOn/modifiedBy/modifiedOn) were skipped (--no-audit)')
+}
