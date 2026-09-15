@@ -1,0 +1,33 @@
+{
+  "skill_name": "prototype-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I just finished a first draft of the vendor-directory page (attached) — before I show it to anyone, can you check it against our project conventions and fix what's actually wrong?",
+      "expected_output": "Runs node scripts/prototype-review.js against the page, correctly triages findings, fixes real violations (lowercase size/align prop values, the emoji, the hardcoded vendors array moved to src/db/, the raw button), and does NOT 'fix' the MessageBanner icon=\"info\" prop, which is correct as-is.",
+      "files": ["evals/files/vendor-directory.tsx"],
+      "expectations": [
+        "scripts/prototype-review.js was run against the page",
+        "size=\"large\" and align=\"center\" are corrected to UPPERCASE (SIZE=\"LARGE\", align=\"CENTER\")",
+        "The emoji is replaced with a Lucide icon import, not left in place",
+        "The inline vendors array is moved into a src/db/ entity module rather than staying hardcoded in the page",
+        "The raw <button> element is either replaced with ButtonWidget or the agent explains why it was left as-is",
+        "MessageBanner's icon=\"info\" prop is left unchanged and not incorrectly 'fixed' to uppercase",
+        "pnpm run build exits with code 0 after fixes"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Give this task-dashboard page (attached) one more look before I call it done.",
+      "expected_output": "Runs node scripts/prototype-review.js, correctly reports that the page is clean (or only pre-existing/non-issues), and does not invent violations that the script didn't actually flag — the page already follows all four rules correctly.",
+      "files": ["evals/files/task-dashboard-clean.tsx"],
+      "expectations": [
+        "scripts/prototype-review.js was run against the page",
+        "The agent's summary does not claim there are UPPERCASE prop violations, since none exist in this file",
+        "The agent does not flag the MessageBanner icon=\"info\" prop as a violation",
+        "The agent does not flag the small 'tabs' config array as an inline-data violation",
+        "The agent's report matches what the script actually found — no fabricated issues"
+      ]
+    }
+  ]
+}

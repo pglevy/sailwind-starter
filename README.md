@@ -109,6 +109,8 @@ Each entity gets its own file (e.g., `src/db/tasks.ts`) with:
 
 User-reference fields (like `assignee`, `createdBy`) store Appian usernames as plain strings.
 
+> **Tip:** Ask your agent to use the `add-entity` skill to scaffold a new entity module — it generates the interface, seed data, and CRUD functions in the correct shape automatically.
+
 ### Appian App Generation
 
 Three skills in `.kiro/skills/` enable going from prototype to Appian app:
@@ -164,6 +166,8 @@ const pages = [
 ```
 
 That's it! Your page is now accessible at `/my-prototype`.
+
+> **Tip:** Ask your agent to use the `add-page` skill to do steps 1 and 2 (plus adding a link on the home page) in one shot — it's faster and less error-prone than doing it by hand.
 
 ## 🧩 Available Components
 
@@ -252,6 +256,9 @@ Skills live in `.kiro/skills/` and are invoked by telling Kiro what you want to 
 | **Security Audit** | Scans the project for exposed secrets, suspicious packages, misconfigured security settings, and common mistakes. Good for periodic checkups or before making a repo public. |
 | **Share Link** | Creates a temporary public URL to your local dev server using Cloudflare's free tunnel service — no deployment needed. |
 | **Upgrade from Template** | Syncs your project with the latest scripts, hooks, and steering files from the template repo by fetching directly from GitHub. |
+| **Add Page** | Scaffolds a new page in `src/pages/`, registers its route in `App.tsx`, and links it from the home page — all in one step. |
+| **Add Entity** | Scaffolds a new `src/db/` entity module (interface, seed data, CRUD functions) following the data-layer convention. |
+| **Prototype Review** | Scans pages against the four non-negotiable rules (Sailwind imports, UPPERCASE props, Lucide icons, data in `src/db/`) plus routing completeness. Good to run before calling a page done. |
 | **Extract Prototype Contract** | Reads `src/db/` and produces an `api-contract.json` describing the data model — the first step toward generating an Appian app. |
 | **Generate Appian App** | Takes the API contract and produces an importable Appian package (record types, web APIs, DDL, and more). |
 | **Deploy to Appian** | Deploys the generated package to an Appian environment via the Deployment REST API — inspect, import, and poll for results. |
