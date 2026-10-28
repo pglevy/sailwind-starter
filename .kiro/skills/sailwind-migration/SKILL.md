@@ -10,7 +10,7 @@ description: >
 
 # Sailwind Migration Skill
 
-**FULL MIGRATION** for projects that don't follow sailwind-starter conventions or are on old Sailwind versions (v0.5.0 → v0.13.2+).
+**FULL MIGRATION** for projects that don't follow sailwind-starter conventions or are on old Sailwind versions (v0.5.0 → the current sailwind-starter version).
 
 ## When to Use This Skill vs Upgrade-from-Template
 
@@ -144,7 +144,7 @@ For `package.json`, merge carefully to preserve project dependencies:
 3. **Merge scripts**: Add any new starter scripts (like `predev`), keep existing project scripts
 4. **Merge dependencies**: 
    - Keep ALL existing user dependencies (they're project-specific)
-   - Update `@pglevy/sailwind` to match the exact version from sailwind-starter (e.g., `^0.13.2`)
+   - Update `@pglevy/sailwind` to match the exact version from sailwind-starter (read it from the starter's `package.json`; do not hardcode a version)
    - Add `lucide-react` if not present (Sailwind requirement)
 5. **Merge devDependencies**: 
    - Keep all existing devDependencies
@@ -431,7 +431,7 @@ After migration, verify these critical elements:
 ## Important Notes
 
 - **Git is the safety net.** All changes happen in the user's existing repo. They can `git diff` to review or `git checkout .` to revert.
-- **Steering files auto-regenerate.** `sail-components.md` and `sail-types.md` are synced from the installed package on `pnpm run dev`. No need to maintain them manually.
+- **Steering files auto-regenerate.** `sail-components.md`, `sail-props.md`, and `sail-types.md` are synced from the installed package on `pnpm run dev`. No need to maintain them manually.
 - **Don't memorize component lists or parameter values.** Point to the steering files — they stay current automatically.
 - **Never force changes to `src/`.** Phase 3-4 are suggestions the user opts into, not automatic rewrites.
 

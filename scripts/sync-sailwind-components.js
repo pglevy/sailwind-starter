@@ -37,25 +37,14 @@ try {
 
   const sorted = [...componentNames].sort()
 
-  // Check if steering file needs updating
-  let currentSteering = ''
-  try {
-    currentSteering = readFileSync(STEERING_PATH, 'utf-8')
-  } catch {
-    // File doesn't exist yet
-  }
-
-  const allPresent = sorted.every(name => currentSteering.includes(name))
-  if (allPresent && currentSteering) {
-    process.exit(0)
-  }
-
   // Categorize components for readability
   const categories = {
-    'Layout': ['CardLayout', 'CollapsibleSection', 'ApplicationHeader', 'SideNavAdmin'],
+    'Layout': ['BoxLayout', 'CardLayout', 'CollapsibleSection', 'ApplicationHeader', 'SideNavAdmin'],
     'Display': ['HeadingField', 'RichTextDisplayField', 'TextItem', 'Icon', 'ImageField', 'MessageBanner', 'TagField', 'TagItem', 'StampField', 'ProgressBar', 'MilestoneField'],
     'Input': ['TextField', 'DropdownField', 'MultipleDropdownField', 'CheckboxField', 'RadioButtonField', 'SwitchField', 'ToggleField', 'SliderField'],
     'Actions': ['ButtonWidget', 'ButtonArrayLayout', 'DialogField', 'TabsField'],
+    'Grids': ['ReadOnlyGrid', 'GridColumn', 'Paging'],
+    'AI & Chat': ['ChatPanel', 'ChatInput', 'ChatUserMessage', 'ChatAssistantMessage', 'ChatConfirmation', 'ChatFeedback', 'AgentSteps', 'TaskPlan', 'TaskProgress'],
     'Utility': ['FieldLabel', 'FieldWrapper'],
   }
 
@@ -91,12 +80,25 @@ ${componentList}
 Common name mistakes to avoid:
 - ❌ \`Button\` → ✅ \`ButtonWidget\`
 - ❌ \`Card\` → ✅ \`CardLayout\`
+- ❌ \`Box\` → ✅ \`BoxLayout\`
 - ❌ \`Text\` → ✅ \`TextItem\` or \`RichTextDisplayField\`
 - ❌ \`Heading\` → ✅ \`HeadingField\`
 - ❌ \`Tabs\` → ✅ \`TabsField\`
 - ❌ \`Tag\` → ✅ \`TagField\`
 - ❌ \`<UserImage />\` → ✅ \`<ImageField style="AVATAR" images={[{ imageType: 'user' as const, ... }]} />\`
 `
+
+  // Compare full content so removed or renamed components are picked up too
+  let currentSteering = ''
+  try {
+    currentSteering = readFileSync(STEERING_PATH, 'utf-8')
+  } catch {
+    // File doesn't exist yet
+  }
+
+  if (currentSteering === content) {
+    process.exit(0)
+  }
 
   writeFileSync(STEERING_PATH, content)
   console.log(`  ✅ Updated .kiro/steering/sail-components.md with ${sorted.length} components from package.`)

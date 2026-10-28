@@ -10,7 +10,7 @@ Perfect for designers and developers who want to quickly mock up Appian interfac
 - 🚀 **Instant Setup** - Clone and run with a single command
 - 🗺️ **Automatic Routing** - Just add files to `/src/pages/` and they're automatically routed
 - 📋 **Table of Contents** - Built-in navigation for all your prototype pages
-- 🎭 **Example Pages** - Three full example pages to learn from
+- 🎭 **Example Page** - A Kanban board built with lists, cards, and task checklists to learn from
 - 💅 **Tailwind CSS v4** - Pre-configured and optimized
 - 🤖 **LLM-Friendly** - Designed to work seamlessly with AI coding assistants
 
@@ -66,7 +66,7 @@ This project includes Kiro agent hooks (`.kiro/hooks/`) that automate common che
 | Hook | What it does |
 |------|-------------|
 | **Verify Build** | Asks the agent to run `pnpm run build` and fix any errors before declaring work complete |
-| **Check Color Palette** | Runs `scripts/check-color-palette.js` to warn about Tailwind color classes using steps outside the approved set (50, 100, 200, 500, 700, 900) |
+| **Check Color Palette** | Runs `scripts/check-color-palette.js` to warn about Tailwind color classes that aren't in the Sailwind palette (15 color families, steps 50–900) |
 | **Check Sailwind Updates** | Checks if a newer version of `@pglevy/sailwind` is available and offers to update |
 
 These hooks reduce the amount of guidance needed in AGENTS.md by handling checks programmatically instead of through written instructions.
@@ -79,20 +79,20 @@ sailwind-starter/
 │   ├── db/              # Data layer (mock APIs, transition-ready)
 │   │   ├── types.ts     # Shared type utilities
 │   │   ├── users.ts     # Mock usernames for user-reference fields
-│   │   ├── tasks.ts     # Example entity module
-│   │   ├── applications.ts
-│   │   └── documents.ts
+│   │   ├── api-config.ts
+│   │   ├── lists.ts     # Example entity modules (Kanban board)
+│   │   ├── cards.ts
+│   │   └── tasks.ts
 │   ├── pages/           # Your prototype pages go here!
 │   │   ├── home.tsx
-│   │   ├── task-dashboard.tsx
-│   │   ├── application-status.tsx
-│   │   ├── document-review.tsx
+│   │   ├── kanban-board.tsx
 │   │   └── not-found.tsx
 │   ├── App.tsx          # Routing configuration
 │   ├── main.tsx
-│   └── index.css
+│   └── index.css        # Tailwind + Sailwind theme imports
+├── scripts/             # Predev checks and steering sync (see below)
 ├── schemas/             # JSON schemas for contract validation
-├── public               # Images go here
+├── public               # Images referenced by path in data go here
 ├── package.json
 ├── README.md
 └── AGENTS.md
@@ -167,37 +167,16 @@ That's it! Your page is now accessible at `/my-prototype`.
 
 ## 🧩 Available Components
 
-Sailwind provides all the SAIL components you need:
+Sailwind provides the SAIL components you need. The full, current list lives in `.kiro/steering/sail-components.md`, with every prop in `sail-props.md` and every SAIL type in `sail-types.md`. These files are generated from the installed package each time you run `pnpm run dev`, so they always match your Sailwind version. You can also browse the [Storybook component reference](https://pglevy.github.io/sailwind/components/).
 
-### Layout
-- `CardLayout` - Container with card styling
-- `TableOfContents` - Automatic navigation
+A quick tour of what's in the package:
 
-### Display
-- `HeadingField` - Various heading sizes
-- `RichTextDisplayField` - Rich text with formatting
-- `ImageField` - Images with sizing options
-- `StampField` - Status stamps
-- `MessageBanner` - Info, success, warning, error messages
-- `TagField` - Tags and labels
-- `ProgressBar` - Progress indicators
-- `MilestoneField` - Step-by-step progress
-
-### Input
-- `TextField` - Text input with labels
-- `CheckboxField` - Checkboxes
-- `RadioButtonField` - Radio buttons
-- `DropdownField` - Dropdown select
-- `MultipleDropdownField` - Multi-select dropdown
-- `SwitchField` - Toggle switch
-- `ToggleField` - Button toggle
-- `SliderField` - Numeric slider
-
-### Actions
-- `ButtonWidget` - Buttons with various styles
-- `ButtonArrayLayout` - Button groups
-- `DialogField` - Modal dialogs
-- `TabsField` - Tabbed content
+- **Layout** - `BoxLayout`, `CardLayout`, `ApplicationHeader`, `SideNavAdmin`
+- **Display** - `HeadingField`, `RichTextDisplayField`, `ImageField` (including built-in illustrations), `StampField`, `MessageBanner`, `TagField`, `ProgressBar`, `MilestoneField`
+- **Input** - `TextField`, `ParagraphField`, `CheckboxField`, `RadioButtonField`, `DropdownField`, `MultipleDropdownField`, `ToggleField`, `SliderField`
+- **Actions** - `ButtonWidget`, `ButtonArrayLayout`, `DialogField`, `TabsField`
+- **Grids** - `ReadOnlyGrid`, `GridColumn`, `Paging`
+- **AI & chat** - `ChatPanel`, `ChatInput`, `ChatUserMessage`, `ChatAssistantMessage`, `AgentSteps`, `TaskPlan`, `TaskProgress`
 
 ## 💡 Working with AI Assistants
 
@@ -214,7 +193,7 @@ Create a new page called "vendor-registration" that includes:
 
 ### Modifying Existing Pages
 ```
-Update the task-dashboard page to show tasks in a table format instead of cards,
+Update the kanban-board page to show tasks in a table format instead of cards,
 with columns for task name, assignee, due date, and priority
 ```
 
@@ -266,15 +245,28 @@ Skills live in `.kiro/skills/` and are invoked by telling Kiro what you want to 
 ### For Both Kiro IDE & CLI
 
 **Steering Files** (`.kiro/steering/`)
-- `AGENTS.md` - Component library reference and best practices
-- `GIT.md` - Git workflow guidance for designers
-- `SETUP.md` - Development environment setup instructions
+- `data-layer.md` - Data layer convention for `src/db/`
+- `git.md` - Git workflow guidance for designers
+- `publishing.md` - Sharing and publishing prototypes
+- `sail-components.md`, `sail-props.md`, `sail-types.md` - Component names, props, and SAIL types, generated from the installed `@pglevy/sailwind` package
 
-These files provide context to Kiro automatically, making it easier to work with the Sailwind component library and follow project conventions.
+`AGENTS.md` at the project root holds the core component library rules. These files provide context to Kiro automatically, making it easier to work with the Sailwind component library and follow project conventions.
+
+The three `sail-*.md` files are regenerated by `pnpm run dev` (via the `predev` script), so they follow whatever Sailwind version you have installed. After updating Sailwind, run `node scripts/check-sailwind-update.js` to refresh them without starting the dev server.
 
 ## 🖼️ Adding Images
 
-Place your images in the `/public` folder and reference them with relative paths:
+Sailwind components take images as URL strings, so there are two places to put your own images. A rule of thumb: if you `import` it, it goes in `src/assets/`. If you type its path in a string, it goes in `public/`.
+
+**Import from `src/assets/`** for images your code refers to directly, like a logo or an empty-state illustration. Vite resolves the path wherever the prototype is deployed, and the build fails if the file is missing:
+
+```tsx
+import logo from '../assets/logo.png'
+
+<ImageField images={[{ source: logo, altText: 'Company logo' }]} size="MEDIUM" />
+```
+
+**Put in `public/`** for images named in mock data (like a `photoUrl` per user) or files that need a fixed URL:
 
 ```
 public/
@@ -284,17 +276,19 @@ public/
 └── vite.svg
 ```
 
-Reference in your components:
 ```tsx
-<img src="images/logo.png" alt="Logo" />
-<img src="images/photo.jpg" alt="Photo" />
+{ name: 'Jane Doe', photoUrl: 'images/avatars/jane.png' }
 ```
 
-**Why `/public`?**
-- Simple and fast for prototyping
-- No imports needed - just drop images and reference them
-- Easy to swap images without touching code
-- Predictable URLs for dynamic image names
+Leave off the leading slash (`images/avatars/jane.png`, not `/images/avatars/jane.png`). Prototypes are often deployed in a subfolder, and a leading slash points to the root of the site instead. Files in `public/` aren't checked at build time, so a wrong path only shows up as a broken image.
+
+Sailwind also ships built-in illustrations for empty states and similar spots:
+
+```tsx
+<ImageField images={[{ imageType: 'illustration' as const, illustration: 'NO_DATA' }]} />
+```
+
+See `IllustrationImage` in `.kiro/steering/sail-props.md` for the available names.
 
 ## 🎨 Styling
 
@@ -322,7 +316,7 @@ See the full [SAIL-to-Tailwind mapping](https://github.com/pglevy/sailwind/blob/
 ## 🔧 Available Scripts
 
 ```bash
-pnpm run dev           # Start development server
+pnpm run dev           # Start development server (predev syncs steering files with the installed Sailwind version)
 pnpm run build         # Build for production
 pnpm run preview       # Preview production build
 pnpm run lint          # Lint code

@@ -9,7 +9,7 @@
  */
 
 import { readFileSync, writeFileSync, readdirSync, existsSync } from 'fs'
-import { resolve } from 'path'
+import { resolve, dirname } from 'path'
 
 const STEERING_PATH = resolve('.kiro/steering/sail-props.md')
 const COMPONENTS_DIR = resolve('node_modules/@pglevy/sailwind/dist/components')
@@ -24,29 +24,60 @@ function extractJsDoc(lines, lineIndex) {
   if (i < 0 || !lines[i].trim().endsWith('*/')) return ''
   const commentLines = []
   while (i >= 0 && !lines[i].trim().startsWith('/**')) {
-    commentLines.unshift(lines[i].trim().replace(/^\* ?/, ''))
+    // Drop the closing marker first so a lone `*/` line doesn't leave a stray "/"
+    const text = lines[i].trim().replace(/\s*\*\/$/, '').replace(/^\* ?/, '')
+    if (text) commentLines.unshift(text)
     i--
   }
-  if (i >= 0) commentLines.unshift(lines[i].trim().replace(/^\/\*\* ?/, '').replace(/ ?\*\/$/, ''))
+  if (i >= 0) {
+    const first = lines[i].trim().replace(/^\/\*\* ?/, '').replace(/ ?\*\/$/, '')
+    if (first) commentLines.unshift(first)
+  }
   return commentLines.join(' ').trim()
+}
+
+/**
+ * Collect type aliases for a .d.ts file so prop tables can show concrete values.
+ * - Local aliases, exported or not: `type Name = ...;` / `export type Name = ...;`
+ * - Aliases imported from a sibling file, one hop deep (e.g. IllustrationName
+ *   from './illustrations/illustrationSpecs'). Shared SAIL* types are skipped on
+ *   purpose; they are documented in sail-types.md.
+ */
+function collectTypeAliases(filePath, lines) {
+  const typeAliases = {}
+  for (const line of lines) {
+    const m = line.match(/^(?:export )?type (\w+) = (.+);$/)
+    if (m) typeAliases[m[1]] = m[2]
+  }
+
+  for (const line of lines) {
+    const m = line.match(/^import \{ (.+) \} from '(\.\/[^']+)';?$/)
+    if (!m) continue
+    const target = resolve(dirname(filePath), `${m[2]}.d.ts`)
+    if (!existsSync(target)) continue
+    const targetContent = readFileSync(target, 'utf-8')
+    for (const raw of m[1].split(',')) {
+      const name = raw.trim().split(/\s+as\s+/)[0]
+      if (!name || name.startsWith('SAIL') || typeAliases[name]) continue
+      const alias = targetContent.match(new RegExp(`^(?:export )?type ${name} = (.+);$`, 'm'))
+      if (alias) typeAliases[name] = alias[1]
+    }
+  }
+
+  return typeAliases
 }
 
 /**
  * Parse a single .d.ts file and return an array of prop objects.
  * Looks for the first `export interface *Props { ... }` block.
- * Resolves local type aliases (e.g. type ButtonStyle = "SOLID" | "OUTLINE")
+ * Resolves type aliases (e.g. type ButtonStyle = "SOLID" | "OUTLINE")
  * so the prop table shows concrete values instead of alias names.
  */
 function parseProps(filePath) {
   const content = readFileSync(filePath, 'utf-8')
   const lines = content.split('\n')
 
-  // Collect local type aliases: type Name = "A" | "B" | ...
-  const typeAliases = {}
-  for (const line of lines) {
-    const m = line.match(/^type (\w+) = (.+);$/)
-    if (m) typeAliases[m[1]] = m[2]
-  }
+  const typeAliases = collectTypeAliases(filePath, lines)
 
   // Find the Props interface
   const ifaceStart = lines.findIndex(l => /export interface \w+Props/.test(l))
@@ -87,12 +118,20 @@ function parseProps(filePath) {
         type = type.replace(/Array<\{$/, 'Array(object)')
           .replace(/Record<([^>]+)>/g, 'Record')
 
-        // Resolve local type aliases to their concrete values
-        if (typeAliases[type]) {
-          type = typeAliases[type]
+        // Inline object types (statusLabels: {...}) — the nested lines are skipped below
+        if (type === '{') type = 'object'
+
+        // Resolve type aliases to their concrete values, including aliases used inside
+        // unions ("ButtonStyle | string") and arrays ("ImageFieldImage[]"). A union that
+        // is an array element is wrapped in parens so `A | B[]` isn't misread.
+        // Two passes handle an alias that refers to another alias.
+        for (let pass = 0; pass < 2; pass++) {
+          type = type.replace(/\b(\w+)\b(\[\])?/g, (match, word, arr) => {
+            const value = typeAliases[word]
+            if (!value) return match
+            return arr && value.includes('|') ? `(${value})[]` : value + (arr || '')
+          })
         }
-        // Also resolve union types that reference an alias: e.g. "ButtonStyle | string"
-        type = type.replace(/\b(\w+)\b/g, (match) => typeAliases[match] || match)
 
         const doc = extractJsDoc(lines, i)
 
@@ -169,13 +208,6 @@ try {
 
   const sorted = Object.keys(components).sort()
 
-  // Check if update needed
-  let current = ''
-  try { current = readFileSync(STEERING_PATH, 'utf-8') } catch { /* new file */ }
-  if (current.includes(`**${sorted.length} components**`) && sorted.every(n => current.includes(`### ${n}`))) {
-    process.exit(0)
-  }
-
   const sections = sorted.map(name => {
     return `### ${name}\n\n${propsToTable(components[name])}`
   }).join('\n')
@@ -209,6 +241,14 @@ Most components accept these optional props. They are not repeated in each table
 | \`requiredMessage\` | \`string\` | Custom message when required and not provided |
 
 ${sections}`
+
+  // Compare full content so changed props, types, and descriptions are picked up,
+  // not just added or removed components
+  let current = ''
+  try { current = readFileSync(STEERING_PATH, 'utf-8') } catch { /* new file */ }
+  if (current === output) {
+    process.exit(0)
+  }
 
   writeFileSync(STEERING_PATH, output)
   console.log(`  ✅ Updated .kiro/steering/sail-props.md with props for ${sorted.length} components.`)
