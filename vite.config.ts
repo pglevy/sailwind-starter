@@ -8,4 +8,8 @@ export default defineConfig({
   server: {
     allowedHosts: ['.trycloudflare.com'],
   },
+  build: {
+    // Set the warning limit to 1000 kB (1 MB)
+    chunkSizeWarningLimit: 1000, 
+  }
 })

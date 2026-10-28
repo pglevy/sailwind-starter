@@ -24,6 +24,7 @@ dist-ssr
 *.sw?
 .kiro/sessions
 .kiro/specs
+gitignore
 
 # Generated Appian app artifacts
 appian-output/
