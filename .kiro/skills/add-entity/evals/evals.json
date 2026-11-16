@@ -1,0 +1,32 @@
+{
+  "skill_name": "add-entity",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I need to track vendor invoices in the prototype. Each invoice has an invoice number, a dollar amount, which vendor it's for, and whether it's been paid yet.",
+      "expected_output": "src/db/invoices.ts scaffolded via scripts/scaffold-entity.js with an Invoice interface (id first, then invoiceNumber:string, amount:number, a vendor reference, and a paid:boolean), plus full CRUD functions and audit fields, following the data-layer convention.",
+      "files": [],
+      "expectations": [
+        "src/db/invoices.ts exists and was generated via scripts/scaffold-entity.js rather than hand-written",
+        "The Invoice interface's first field is 'id: number'",
+        "The interface includes a boolean field representing paid/unpaid status",
+        "The interface includes a number field representing the invoice amount",
+        "getInvoices, getInvoice, createInvoice, updateInvoice, and deleteInvoice are all exported",
+        "The file imports apiBase, buildHeaders, and isConnected from './api-config'",
+        "pnpm run build exits with code 0"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Add a lightweight Person entity for tracking prototype contacts — just name and email. No need for audit fields on this one.",
+      "expected_output": "src/db/people.ts (correct irregular plural, not 'persons') with a Person interface containing only id, name, and email — no createdBy/createdOn/modifiedBy/modifiedOn — plus CRUD functions using correctly pluralized names like getPeople.",
+      "files": [],
+      "expectations": [
+        "The generated file uses the correct English plural form (getPeople / mockPeople), not 'getPersons'",
+        "The --no-audit flag was used, so the interface has no createdBy, createdOn, modifiedBy, or modifiedOn fields",
+        "The Person interface contains exactly id, name, and email",
+        "pnpm run build exits with code 0"
+      ]
+    }
+  ]
+}
