@@ -15,7 +15,7 @@ These are auto-generated from the installed package and loaded automatically whe
 - **`.kiro/steering/sail-props.md`** — full prop tables for every component (use this to avoid guessing)
 - **`.kiro/steering/sail-types.md`** — all SAIL enum types and valid values
 
-If these seem stale: `node scripts/sync-sailwind-components.js` and `node scripts/sync-sailwind-props.js`
+If these seem stale (for example after updating `@pglevy/sailwind`): `node scripts/check-sailwind-update.js` regenerates all three from the installed package. `pnpm run dev` does the same automatically.
 
 ## Data Layer Convention
 

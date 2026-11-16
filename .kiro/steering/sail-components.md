@@ -11,23 +11,28 @@ Import these from `@pglevy/sailwind`. Do not look in `src/components/` for these
 import { ComponentName } from '@pglevy/sailwind'
 ```
 
-**Layout:** `CardLayout`, `CollapsibleSection`, `ApplicationHeader`, `SideNavAdmin`
+**Layout:** `BoxLayout`, `CardLayout`, `CollapsibleSection`, `ApplicationHeader`, `SideNavAdmin`
 
 **Display:** `HeadingField`, `RichTextDisplayField`, `TextItem`, `Icon`, `ImageField`, `MessageBanner`, `TagField`, `TagItem`, `StampField`, `ProgressBar`, `MilestoneField`
 
-**Input:** `TextField`, `DropdownField`, `MultipleDropdownField`, `CheckboxField`, `RadioButtonField`, `SwitchField`, `ToggleField`, `SliderField`
+**Input:** `TextField`, `DropdownField`, `MultipleDropdownField`, `CheckboxField`, `RadioButtonField`, `ToggleField`, `SliderField`
 
 **Actions:** `ButtonWidget`, `ButtonArrayLayout`, `DialogField`, `TabsField`
 
+**Grids:** `ReadOnlyGrid`, `GridColumn`, `Paging`
+
+**AI & Chat:** `ChatPanel`, `ChatInput`, `ChatUserMessage`, `ChatAssistantMessage`, `ChatConfirmation`, `ChatFeedback`, `AgentSteps`, `TaskPlan`, `TaskProgress`
+
 **Utility:** `FieldLabel`, `FieldWrapper`
 
-**Other:** `ChatAssistantMessage`, `ChatConfirmation`, `ChatFeedback`, `ChatInput`, `ChatPanel`, `ChatUserMessage`, `GridColumn`, `ParagraphField`, `ReadOnlyGrid`, `RecordView`, `SiteNav`
+**Other:** `ButtonToggle`, `FileCard`, `ParagraphField`, `RecordView`, `SiteNav`
 
-**Total: 40 components**
+**Total: 46 components**
 
 Common name mistakes to avoid:
 - ❌ `Button` → ✅ `ButtonWidget`
 - ❌ `Card` → ✅ `CardLayout`
+- ❌ `Box` → ✅ `BoxLayout`
 - ❌ `Text` → ✅ `TextItem` or `RichTextDisplayField`
 - ❌ `Heading` → ✅ `HeadingField`
 - ❌ `Tabs` → ✅ `TabsField`

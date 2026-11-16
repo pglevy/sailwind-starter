@@ -1,0 +1,6 @@
+---
+inclusion: manual
+description: "Checks if a newer version of @pglevy/sailwind is available and offers to update it for you."
+---
+
+Run `pnpm outdated @pglevy/sailwind --json` to check if a newer version is available. If there is an update, tell the user what version they're on and what's available, then ask if they'd like you to run `pnpm install @pglevy/sailwind@latest` to update. If they're already on the latest version, let them know they're all set.

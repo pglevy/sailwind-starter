@@ -47,6 +47,7 @@ This guarantees byte-for-byte identical copies from the source. Create any missi
 - `scripts/check-color-palette.js` — Lints Tailwind classes for off-palette color steps
 - `scripts/check-sailwind-update.js` — Predev script: checks for Sailwind updates + syncs steering files
 - `scripts/sync-sailwind-components.js` — Generates steering file with available component names from package
+- `scripts/sync-sailwind-props.js` — Generates steering file with every component's props and enum values from package (called by `check-sailwind-update.js`; without it the props steering file is silently never created)
 - `scripts/deploy-site.sh` — Shell script called by the `deploy:site` npm script; builds and deploys to ux-sites repo via MR
 
 **Hooks:**
@@ -57,6 +58,7 @@ This guarantees byte-for-byte identical copies from the source. Create any missi
 **Steering files:**
 - `.kiro/steering/sail-types.md` — SAIL type definitions (auto-synced by predev script)
 - `.kiro/steering/sail-components.md` — Available component list (auto-synced by predev script)
+- `.kiro/steering/sail-props.md` — Component prop reference (auto-synced by predev script)
 
 **Skills:**
 - `.kiro/skills/upgrade-from-template/SKILL.md` — This skill (self-update)
@@ -76,10 +78,9 @@ Fetch `package.json` from the template repo. Compare ONLY the `scripts` section 
 
 ### Step 3 — Run steering sync
 
-After any file changes are applied, run the sync scripts to generate steering files from the locally installed Sailwind package:
+After any file changes are applied, run the sync script to generate all three steering files (`sail-types.md`, `sail-components.md`, `sail-props.md`) from the locally installed Sailwind package. It calls the components and props sync scripts itself:
 
 ```bash
-node scripts/sync-sailwind-components.js
 node scripts/check-sailwind-update.js
 ```
 
@@ -95,6 +96,7 @@ Scan the local `AGENTS.md` for sections that are now redundant given the hooks a
 | Color palette / approved Tailwind color steps | `check-color-palette` hook + `scripts/check-color-palette.js` |
 | Common SAIL Type Definitions | `sail-types.md` steering file (auto-synced from package) |
 | Available Sailwind Components list | `sail-components.md` steering file (auto-synced from package) |
+| Component prop names and values | `sail-props.md` steering file (auto-synced from package) |
 
 These are suggestions only. Do NOT automatically edit AGENTS.md. Let the user decide what to keep or remove.
 

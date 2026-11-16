@@ -26,7 +26,7 @@ if [[ -z "$SITE_NAME" ]]; then
 fi
 
 # --- Config ------------------------------------------------------------------
-SITES_REPO_URL="https://gitlab.appian-stratus.com/docs/ux-sites.git"
+SITES_REPO_URL="git@gitlab.appian-stratus.com:docs/ux-sites.git"
 BRANCH="deploy/$SITE_NAME-$(shuf -i 10000-99999 -n 1)"
 SOURCE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 TMP_DIR="$(mktemp -d)"

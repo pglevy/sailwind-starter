@@ -4,15 +4,19 @@
  * Color Palette Checker
  *
  * Scans source files for Tailwind color classes and validates them against
- * the Sailwind design token palette (v0.12.1+).
+ * the Sailwind design token palette.
  *
- * The palette defines 15 color families, each with steps 50–900:
- *   red, burnt-orange, orange, amber, yellow, lime, green, teal,
- *   cyan, sky, blue, violet, purple, pink, gray
+ * The palette defines 22 color families, each with steps 50–950:
+ *   slate, gray, zinc, neutral, stone, red, orange, amber, yellow, lime,
+ *   green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia,
+ *   pink, rose
  *
  * This script flags:
- *   1. Off-palette color families (e.g. slate, zinc, indigo, rose)
- *   2. Usage is informational — all 10 steps (50–900) are valid per family
+ *   1. Removed families from the previous palette (e.g. burnt-orange) — these
+ *      no longer exist and have no direct replacement, so they must be changed
+ *      intentionally.
+ *   2. Off-palette families that were never part of the Sailwind palette.
+ *   3. Invalid steps (valid: 50–950).
  *
  * Usage:
  *   node scripts/check-color-palette.js              # check all src files
@@ -24,33 +28,49 @@ import { join, relative } from 'path'
 
 // Color families defined in the Sailwind palette (from tokens.json / SAILPaletteColor)
 const PALETTE_FAMILIES = new Set([
+  'slate',
+  'gray',
+  'zinc',
+  'neutral',
+  'stone',
   'red',
-  'burnt-orange',
   'orange',
   'amber',
   'yellow',
   'lime',
   'green',
+  'emerald',
   'teal',
   'cyan',
   'sky',
   'blue',
+  'indigo',
   'violet',
   'purple',
+  'fuchsia',
   'pink',
-  'gray',
+  'rose',
+])
+
+// Families that existed in a previous Sailwind palette but have since been
+// removed. These have no direct replacement — flag them loudly so they get
+// changed intentionally rather than silently rendering without a color.
+const REMOVED_FAMILIES = new Set([
+  'burnt-orange',
 ])
 
 // Valid steps for every palette family
-const VALID_STEPS = new Set(['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'])
+const VALID_STEPS = new Set(['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'])
 
 // Tailwind utility prefixes that take color values
 const PREFIXES = '(?:bg|text|border|ring|shadow|outline|divide|from|to|via|accent|caret|fill|stroke|decoration)'
 
-// All color family names the regex should match — palette families + common off-palette ones
-// We match broadly so we can flag off-palette families as warnings.
+// All color family names the regex should match — palette families, removed
+// families, and common off-palette ones. We match broadly so we can flag
+// anything that isn't a current palette family.
 const ALL_FAMILIES = [
-  // Palette families (order matters: burnt-orange before orange so regex is greedy-correct)
+  // Multi-word / removed families first so the regex alternation matches them
+  // before a shorter prefix (e.g. burnt-orange before orange).
   'burnt-orange',
   // Standard Tailwind families (superset)
   'slate', 'gray', 'zinc', 'neutral', 'stone',
@@ -91,47 +111,38 @@ function checkFile(filePath) {
     while ((match = COLOR_CLASS_REGEX.exec(line)) !== null) {
       const [fullMatch, prefix, color, step] = match
 
-      if (!PALETTE_FAMILIES.has(color)) {
+      if (REMOVED_FAMILIES.has(color)) {
+        // Family was removed from the palette — no direct replacement.
+        warnings.push({
+          line: index + 1,
+          column: match.index + 1,
+          class: fullMatch,
+          type: 'removed-family',
+          message: `"${color}" was removed from the Sailwind palette — there is no direct replacement, so pick a new color intentionally`,
+        })
+      } else if (!PALETTE_FAMILIES.has(color)) {
         // Off-palette family entirely
-        const suggestion = suggestFamily(color)
         warnings.push({
           line: index + 1,
           column: match.index + 1,
           class: fullMatch,
           type: 'off-palette-family',
-          message: `"${color}" is not in the Sailwind palette${suggestion ? ` (try ${suggestion})` : ''}`,
+          message: `"${color}" is not in the Sailwind palette`,
         })
       } else if (!VALID_STEPS.has(step)) {
-        // Valid family but non-standard step (shouldn't happen with 50-900, but catches e.g. 950)
+        // Valid family but non-standard step
         warnings.push({
           line: index + 1,
           column: match.index + 1,
           class: fullMatch,
           type: 'invalid-step',
-          message: `step ${step} is not defined in the palette (valid: 50–900 in increments of 100, plus 50)`,
+          message: `step ${step} is not defined in the palette (valid: 50–950)`,
         })
       }
     }
   })
 
   return warnings
-}
-
-/**
- * Suggest the closest palette family for an off-palette Tailwind color.
- */
-function suggestFamily(family) {
-  const suggestions = {
-    'slate': 'gray',
-    'zinc': 'gray',
-    'neutral': 'gray',
-    'stone': 'gray',
-    'emerald': 'green or teal',
-    'indigo': 'blue or violet',
-    'fuchsia': 'pink or purple',
-    'rose': 'red or pink',
-  }
-  return suggestions[family] || null
 }
 
 // --- Main ---
@@ -141,6 +152,7 @@ const targetFiles = args.length > 0
   ? args
   : findFiles('src')
 
+let removedCount = 0
 let offPaletteCount = 0
 let invalidStepCount = 0
 
@@ -151,28 +163,33 @@ for (const file of targetFiles) {
     console.log(`\n${relPath}:`)
     for (const w of warnings) {
       console.log(`  Line ${w.line}: "${w.class}" — ${w.message}`)
+      if (w.type === 'removed-family') removedCount++
       if (w.type === 'off-palette-family') offPaletteCount++
       if (w.type === 'invalid-step') invalidStepCount++
     }
   }
 }
 
-const totalWarnings = offPaletteCount + invalidStepCount
+const totalWarnings = removedCount + offPaletteCount + invalidStepCount
 
 if (totalWarnings === 0) {
   console.log('✓ All color classes use Sailwind palette families and valid steps')
 } else {
   console.log(`\n⚠ Found ${totalWarnings} color class${totalWarnings === 1 ? '' : 'es'} outside the Sailwind palette.`)
+  if (removedCount > 0) {
+    console.log(`  ${removedCount} using removed families (burnt-orange) — these need a new color`)
+  }
   if (offPaletteCount > 0) {
-    console.log(`  ${offPaletteCount} using non-palette families (slate, zinc, emerald, indigo, etc.)`)
+    console.log(`  ${offPaletteCount} using non-palette families`)
   }
   if (invalidStepCount > 0) {
     console.log(`  ${invalidStepCount} using invalid steps`)
   }
   console.log('')
-  console.log('  Palette families: red, burnt-orange, orange, amber, yellow, lime, green,')
-  console.log('                    teal, cyan, sky, blue, violet, purple, pink, gray')
-  console.log('  Valid steps:      50, 100, 200, 300, 400, 500, 600, 700, 800, 900')
+  console.log('  Palette families: slate, gray, zinc, neutral, stone, red, orange, amber,')
+  console.log('                    yellow, lime, green, emerald, teal, cyan, sky, blue,')
+  console.log('                    indigo, violet, purple, fuchsia, pink, rose')
+  console.log('  Valid steps:      50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950')
   console.log('')
   console.log('  These are warnings only — override intentionally if needed.')
 }

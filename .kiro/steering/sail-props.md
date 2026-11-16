@@ -7,7 +7,7 @@ fileMatchPattern: "src/pages/**"
 
 All props for every Sailwind component, parsed from the installed package. Use exact prop names and values — do not guess.
 
-**41 components** | All prop values must be UPPERCASE where the type is a SAIL enum.
+**49 components** | All prop values must be UPPERCASE where the type is a SAIL enum.
 
 ## Common Props (omitted from tables below)
 
@@ -25,6 +25,13 @@ Most components accept these optional props. They are not repeated in each table
 | `instructions` | `string` | Supplemental text about this field |
 | `validationGroup` | `string` | Validation group name (no spaces) |
 | `requiredMessage` | `string` | Custom message when required and not provided |
+
+### AgentSteps
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `steps` | `AgentStep[]` | ✓ | Array of steps to display |
+| `size` | `SMALL / STANDARD / LARGE` |  | Size of step text: SMALL (12px), STANDARD (14px), LARGE (18px) |
 
 ### ApplicationHeader
 
@@ -44,12 +51,49 @@ Most components accept these optional props. They are not repeated in each table
 | `backgroundColor` | `string` |  | Background color for the header (hex). Foreground colors auto-swap for contrast. |
 | `additionalButtons` | `Array(object)` |  | Additional buttons to display before the right-side controls |
 
+### BoxLayout
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `label` | `string` |  | Text to display as the box's title in the header |
+| `children` | `ReactNode` |  | Components and layouts to display within the box |
+| `style` | `STANDARD / ACCENT / SUCCESS / INFO / WARN / ERROR / (string & {})` |  | Determines the box header color. A semantic value also sets the border color unless borderColor is set; "INFO" and "ERROR" also set the label text color. Accepts a hex color (optional 2-digit alpha suffix) or a semantic value. |
+| `isCollapsible` | `boolean` |  | Determines if an expand/collapse control appears in the box header |
+| `isInitiallyCollapsed` | `boolean` |  | Determines if the box is collapsed when the interface first loads |
+| `padding` | `SAILPadding` |  | Determines the space between the box edges and its contents |
+| `shape` | `Exclude(SAILShape, 'CIRCLE')` |  | Determines the box shape: "SQUARED", "SEMI_ROUNDED", or "ROUNDED" |
+| `showBorder` | `boolean` |  | Determines whether the box has an outer border |
+| `showShadow` | `boolean` |  | Determines whether the box has an outer shadow |
+| `labelSize` | `LARGE_PLUS / LARGE / MEDIUM_PLUS / MEDIUM / SMALL / EXTRA_SMALL` |  | Determines the label size |
+| `labelHeadingTag` | `H1 / H2 / H3 / H4 / H5 / H6` |  | Determines the heading tag associated with the label for screen readers. Default depends on labelSize (mirrors HeadingField's size->tag table). |
+| `borderWeight` | `THIN / MEDIUM / THICK` |  | Determines the box border thickness |
+| `borderColor` | `STANDARD / ACCENT / POSITIVE / WARN / NEGATIVE / INFO / (string & {})` |  | Determines the border color. When left at "STANDARD", a semantic style sets a matching border color. Accepts a hex color (optional 2-digit alpha suffix) or a semantic value. |
+| `labelFontWeight` | `LIGHT / REGULAR / SEMI_BOLD / BOLD` |  | Determines the font weight of the label |
+
 ### ButtonArrayLayout
 
 | Prop | Type | Req | Description |
 |------|------|:---:|-------------|
 | `buttons` | `ButtonWidgetProps[]` | ✓ | Array of button configurations |
 | `align` | `SAILAlign` |  | Determines alignment of buttons |
+
+### ButtonToggle
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `label` | `string` |  | Text to display as the field label |
+| `text` | `string` |  | Text to display on the toggle button |
+| `required` | `boolean` |  | Determines if a value is required to submit the form |
+| `disabled` | `boolean` |  | Determines if the field should display as grayed out |
+| `value` | `boolean` |  | Current pressed state (true = pressed, false = unpressed) |
+| `validations` | `string[]` |  | Validation errors to display below the field |
+| `saveInto` | `(value: boolean) => void` |  | Callback when the user toggles the button |
+| `onChange` | `(value: boolean) => void` |  | Callback when the user toggles the button (React-style alias for saveInto) |
+| `size` | `SAILSize` |  | Size of the toggle button |
+| `color` | `ACCENT / POSITIVE / NEGATIVE / SECONDARY / STANDARD / SAILColorInput` |  | Color when toggle is pressed (hex or semantic) |
+| `style` | `SOLID / OUTLINE / GHOST` |  | Determines the button's appearance |
+| `icon` | `string` |  | Icon to display in the button |
+| `iconPosition` | `START / END` |  | Position of icon relative to text |
 
 ### ButtonWidget
 
@@ -71,9 +115,9 @@ Most components accept these optional props. They are not repeated in each table
 | `iconPosition` | `START / END` |  | Position of icon |
 | `tooltip` | `string` |  | Tooltip text on hover |
 | `loadingIndicator` | `boolean` |  | Loading indicator on press |
-| `value` | `any` |  | Value associated with this button |
-| `saveInto` | `function` |  | Click handler (maps to saveInto in SAIL) |
-| `onClick` | `function` |  | Click handler (React-style alias for saveInto) |
+| `value` | `SAILAny` |  | Value associated with this button |
+| `saveInto` | `(value?: SAILAny) => void` |  | Click handler (maps to saveInto in SAIL) |
+| `onClick` | `(value?: SAILAny) => void` |  | Click handler (React-style alias for saveInto) |
 
 ### CardLayout
 
@@ -109,11 +153,11 @@ Most components accept these optional props. They are not repeated in each table
 
 | Prop | Type | Req | Description |
 |------|------|:---:|-------------|
-| `style` | `'DEFAULT' / 'AGENT_EVALUATION'` |  | Color scheme style - "DEFAULT": Blue icon when selected, no background - "AGENT_EVALUATION": Thumbs up uses green, thumbs down uses red with backgrounds / |
+| `style` | `'DEFAULT' / 'AGENT_EVALUATION'` |  | Color scheme style - "DEFAULT": Blue icon when selected, no background - "AGENT_EVALUATION": Thumbs up uses green, thumbs down uses red with backgrounds |
 | `showDetailsDialog` | `boolean` |  | Whether clicking thumbs up/down should open a dialog for detailed feedback |
 | `showFeedbackOptions` | `boolean` |  | Whether to show selectable options in the dialog |
 | `feedbackOptions` | `FeedbackOptions` |  | Selectable options for categorizing feedback |
-| `dialogConfig` | `{` |  | Custom dialog configuration |
+| `dialogConfig` | `object` |  | Custom dialog configuration |
 | `onFeedbackSubmit` | `(details: FeedbackDetails) => void` |  | Callback when feedback is submitted |
 
 ### ChatInput
@@ -150,18 +194,18 @@ Most components accept these optional props. They are not repeated in each table
 | `label` | `string` |  | Text to display as the field label |
 | `required` | `boolean` |  | Determines if a value is required to submit the form |
 | `disabled` | `boolean` |  | Determines if the field should display as grayed out |
-| `choiceLabels` | `any[]` | ✓ | Array of options for the user to select |
-| `choiceValues` | `any[]` | ✓ | Array of values associated with the corresponding choices |
-| `value` | `any[]` |  | Values of choices to display as selected |
+| `choiceLabels` | `(string / number)[]` | ✓ | Array of options for the user to select. SAIL types this as List of Variant to allow record-type references; Sailwind takes a flat list of text or numbers. |
+| `choiceValues` | `SAILAny[]` | ✓ | Array of values associated with the corresponding choices |
+| `value` | `SAILAny[]` |  | Values of choices to display as selected |
 | `validations` | `string[]` |  | Validation errors to display below the field |
-| `saveInto` | `(value: any[]) => void` |  | Callback when the user changes the selections |
-| `onChange` | `(value: any[]) => void` |  | Callback when the user changes the selections (React-style alias for saveInto) |
+| `saveInto` | `(value: SAILAny[]) => void` |  | Callback when the user changes the selections |
+| `onChange` | `(value: SAILAny[]) => void` |  | Callback when the user changes the selections (React-style alias for saveInto) |
 | `align` | `SAILAlignLegacy` |  | Determines alignment of choice labels. Use with Grid Layout |
 | `choiceLayout` | `STACKED / COMPACT` |  | Determines the layout of choices |
 | `choiceStyle` | `STANDARD / CARDS` |  | Determines how choices are displayed |
 | `spacing` | `STANDARD / MORE / EVEN_MORE` |  | Determines space between options |
-| `data` | `any` |  | Data source (record type) - not implemented in prototype |
-| `sort` | `any[]` |  | Sort configurations - not implemented in prototype |
+| `data` | `SAILAny` |  | Data source (record type) - not implemented in prototype |
+| `sort` | `SortInfo[]` |  | Sort configurations - not implemented in prototype |
 | `choicePosition` | `START / END` |  | Determines whether checkboxes appear on left or right |
 
 ### DialogField
@@ -174,8 +218,9 @@ Most components accept these optional props. They are not repeated in each table
 | `title` | `string` |  | Dialog title text |
 | `description` | `string` |  | Dialog description text |
 | `children` | `ReactNode` | ✓ | Main content of the dialog |
-| `width` | `DialogWidth` |  | Width of the dialog |
-| `height` | `DialogHeight` |  | Height of the dialog |
+| `width` | `NARROW / MEDIUM / MEDIUM_PLUS / WIDE / FIT` |  | Width of the dialog |
+| `height` | `AUTO / FIT / SHORT / MEDIUM / TALL / EXTRA_TALL` |  | Height of the dialog |
+| `background` | `STANDARD / GLASS` |  | Surface treatment: opaque (STANDARD) or translucent glassmorphism (GLASS). Not in SAIL. |
 | `showCloseButton` | `boolean` |  | Whether to show the close button |
 | `closeOnOutsideClick` | `boolean` |  | Whether clicking outside closes the dialog |
 | `closeOnEscape` | `boolean` |  | Whether pressing escape closes the dialog |
@@ -197,16 +242,16 @@ Most components accept these optional props. They are not repeated in each table
 | `label` | `string` |  | Text to display as the field label |
 | `required` | `boolean` |  | Determines if a value is required to submit the form |
 | `disabled` | `boolean` |  | Determines if the field should display as grayed out |
-| `choiceLabels` | `any[]` | ✓ | Array of options for the user to select |
-| `choiceValues` | `any[]` | ✓ | Array of values associated with the corresponding choices |
+| `choiceLabels` | `(string / number)[]` | ✓ | Array of options for the user to select. SAIL types this as List of Variant to allow record-type references; Sailwind takes a flat list of text or numbers. |
+| `choiceValues` | `SAILAny[]` | ✓ | Array of values associated with the corresponding choices |
 | `placeholder` | `string` |  | Text to display when nothing is selected and value is null |
-| `value` | `any` |  | Value of the choice to display as selected |
+| `value` | `SAILAny` |  | Value of the choice to display as selected |
 | `validations` | `string[]` |  | Validation errors to display below the field |
-| `saveInto` | `(value: any) => void` |  | Callback when the user changes the selection |
-| `onChange` | `(value: any) => void` |  | Callback when the user changes the selection (React-style alias for saveInto) |
+| `saveInto` | `(value: SAILAny) => void` |  | Callback when the user changes the selection |
+| `onChange` | `(value: SAILAny) => void` |  | Callback when the user changes the selection (React-style alias for saveInto) |
 | `searchDisplay` | `AUTO / ON / OFF` |  | Determines when a search box displays above options |
-| `data` | `any` |  | Data source (record type) - not implemented in prototype |
-| `sort` | `any[]` |  | Sort configurations - not implemented in prototype |
+| `data` | `SAILAny` |  | Data source (record type) - not implemented in prototype |
+| `sort` | `SortInfo[]` |  | Sort configurations - not implemented in prototype |
 
 ### FieldLabel
 
@@ -226,16 +271,27 @@ Most components accept these optional props. They are not repeated in each table
 | `children` | `ReactNode` | ✓ | The input/control element to render |
 | `footer` | `ReactNode` |  | Optional additional content below instructions (validation errors, etc.) |
 
+### FileCard
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `fileName` | `string` | ✓ | The file name to display |
+| `fileSize` | `number` | ✓ | The file size in bytes |
+| `showRemove` | `boolean` |  | Whether to show the remove button |
+| `onRemove` | `function` |  | Callback when the remove button is clicked |
+| `fileType` | `string` |  | Optional file type override (inferred from fileName if not provided) |
+| `maxWidth` | `string` |  | Maximum width of the component (CSS value) |
+
 ### GridColumn
 
 | Prop | Type | Req | Description |
 |------|------|:---:|-------------|
 | `label` | `string` |  | Text to display as the column header |
 | `sortField` | `string` |  | Field name used for sorting when this column header is clicked |
-| `value` | `string / ((row: any, index: number) => ReactNode)` |  | Display value for each cell. Can be: - A string field name to look up on each row object - A function (row: any, index: number) => React.ReactNode / |
+| `value` | `string / ((row: SAILAny, index: number) => ReactNode)` |  | Display value for each cell. Can be: - A string field name to look up on each row object - A function (row, index) => React.ReactNode |
 | `align` | `SAILAlign` |  | Alignment for header and cell content |
 | `width` | `SAILGridColumnWidth` |  | Column width |
-| `backgroundColor` | `SAILColorInput / ((row: any) => string)` |  | Background color for cells — hex color or semantic name |
+| `backgroundColor` | `SAILColorInput / ((row: SAILAny) => string)` |  | Background color for cells — hex color or semantic name |
 
 ### HeadingField
 
@@ -262,15 +318,24 @@ Most components accept these optional props. They are not repeated in each table
 | `link` | `function` |  | Link behavior when icon is clicked |
 | `linkStyle` | `INLINE / STANDALONE` |  | How the link is underlined |
 
+### IllustrationImage
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `imageType` | `'illustration'` | ✓ | Discriminator to identify this as an illustration image |
+| `illustration` | `'TEST_CASES' / 'TRIGGERS' / 'HISTORY' / 'NO_DATA' / 'PROCESS_MODELS' / 'RECORD_TYPES' / 'INTERFACES' / 'EXPRESSION_RULES' / 'AI_SKILLS' / 'AI_AGENTS' / 'CASES' / 'DASHBOARDS' / 'DOCUMENT_PROCESSING' / 'INTEGRATIONS' / 'TASK_LIST' / 'SEARCH_RESULTS' / 'DOCUMENT_LIST' / 'CONVERSATION' / 'AI_CHAT' / 'COMMENTS' / 'USERS'` | ✓ | Which illustration to draw |
+| `showAnimation` | `boolean` |  | Whether the illustration draws itself in when it appears |
+
 ### ImageField
 
 | Prop | Type | Req | Description |
 |------|------|:---:|-------------|
 | `label` | `string` |  | Text to display as the field label |
-| `images` | `DocumentImageProps / UserImageProps[]` | ✓ | Array of images to display (supports both document and user images) |
+| `images` | `(DocumentImageProps / UserImageProps / WebImageProps / IllustrationImageProps)[]` | ✓ | Array of images to display (document, user, web and illustration images) |
 | `size` | `ICON / ICON_PLUS / TINY / EXTRA_SMALL / SMALL / SMALL_PLUS / MEDIUM / MEDIUM_PLUS / LARGE / LARGE_PLUS / EXTRA_LARGE / FIT / GALLERY` |  | Determines how the images are sized |
 | `isThumbnail` | `boolean` |  | Determines whether images can be viewed larger when clicked |
 | `style` | `STANDARD / AVATAR` |  | Determines how the images are rendered |
+| `shape` | `SAILShape` |  | Determines the border radius of images. Ignored when style is "AVATAR" (always circular). |
 | `align` | `SAILAlign` |  | Determines alignment of the images |
 
 ### MessageBanner
@@ -279,12 +344,12 @@ Most components accept these optional props. They are not repeated in each table
 |------|------|:---:|-------------|
 | `primaryText` | `string` |  | Text to display on the first line inside the banner |
 | `secondaryText` | `string` |  | Text to display beneath the primary text inside the banner |
-| `backgroundColor` | `BackgroundColor` |  | Background color - semantic values or hex color (with optional transparency) |
-| `highlightColor` | `HighlightColor` |  | Color of the decorative bar and icon - semantic values or hex color |
+| `backgroundColor` | `INFO / SUCCESS / WARN / ERROR / string` |  | Background color - semantic values or hex color (with optional transparency) |
+| `highlightColor` | `INFO / POSITIVE / WARN / NEGATIVE / string` |  | Color of the decorative bar and icon - semantic values or hex color |
 | `icon` | `info / success / warning / error` |  | Icon to display before the primary text (decorative only) |
 | `showDecorativeBar` | `boolean` |  | Whether to show the decorative bar |
 | `shape` | `SAILShape` |  | Banner shape |
-| `announceBehavior` | `AnnounceBehavior` |  | Screen reader behavior for announcing banner text |
+| `announceBehavior` | `DISPLAY_ONLY / DISPLAY_AND_ANNOUNCE / ANNOUNCE_ONLY` |  | Screen reader behavior for announcing banner text |
 | `buttons` | `ButtonWidgetProps[]` |  | Optional buttons to display to the right of the content |
 | `buttonsAlign` | `SAILAlign` |  | Alignment of the optional buttons |
 | `showCloseButton` | `boolean` |  | Whether to show a close button in the upper right |
@@ -296,11 +361,15 @@ Most components accept these optional props. They are not repeated in each table
 |------|------|:---:|-------------|
 | `label` | `string` |  | Text to display as the field label |
 | `steps` | `string[]` | ✓ | Array of labels describing the sequence of steps |
-| `links` | `any[]` |  | Array of links to apply to the steps |
+| `links` | `SAILDynamicLink[]` |  | Array of links to apply to the steps. A link with showWhen false leaves its step unlinked. |
 | `active` | `number / null` |  | Index of the current step. When null, all steps are future. When -1, all steps are completed |
 | `orientation` | `HORIZONTAL / VERTICAL` |  | Determines the layout of the milestone steps |
-| `color` | `ACCENT / POSITIVE / NEGATIVE / WARN / SAILColorInput` |  | Determines the fill color |
-| `stepStyle` | `LINE / CHEVRON / DOT` |  | Determines the style of the milestone steps |
+| `color` | `ACCENT / POSITIVE / NEGATIVE / WARN / SAILColorInput` |  | Determines the fill color of the current step |
+| `completedColor` | `ACCENT / POSITIVE / NEGATIVE / WARN / SAILColorInput` |  | Determines the fill color of completed steps (NUMBERED and MINIMAL styles). Not in SAIL. |
+| `stepStyle` | `LINE / CHEVRON / DOT / NUMBERED / MINIMAL` |  | Determines the style of the milestone steps. The NUMBERED and MINIMAL values are not in SAIL. |
+| `showStepNumbers` | `boolean` |  | NUMBERED style only: show the "STEP n" caption above each step label. Not in SAIL. |
+| `showStepStatus` | `boolean` |  | NUMBERED style only: show status text ("Completed"/"In Progress"/"Pending") below each label. Not in SAIL. |
+| `statusLabels` | `object` |  | Status wording used for visible status text and screen reader announcements. Defaults come from the locale bundle; override for different terminology. Not in SAIL. |
 
 ### MultipleDropdownField
 
@@ -310,15 +379,25 @@ Most components accept these optional props. They are not repeated in each table
 | `required` | `boolean` |  | Determines if a value is required to submit the form |
 | `disabled` | `boolean` |  | Determines if the field should display as grayed out |
 | `placeholder` | `string` |  | Text to display in the field when it is empty |
-| `choiceLabels` | `any[]` | ✓ | Array of options for the user to select |
-| `choiceValues` | `any[]` | ✓ | Array of values associated with the corresponding choices |
-| `value` | `any[]` |  | Values of choices to display as selected |
+| `choiceLabels` | `(string / number)[]` | ✓ | Array of options for the user to select. SAIL types this as List of Variant to allow record-type references; Sailwind takes a flat list of text or numbers. |
+| `choiceValues` | `SAILAny[]` | ✓ | Array of values associated with the corresponding choices |
+| `value` | `SAILAny[]` |  | Values of choices to display as selected |
 | `validations` | `string[]` |  | Validation errors to display below the field |
-| `saveInto` | `(value: any[] / null) => void` |  | Callback when the user changes the selections |
-| `onChange` | `(value: any[] / null) => void` |  | Callback when the user changes the selections (React-style alias for saveInto) |
+| `saveInto` | `(value: SAILAny[] / null) => void` |  | Callback when the user changes the selections |
+| `onChange` | `(value: SAILAny[] / null) => void` |  | Callback when the user changes the selections (React-style alias for saveInto) |
 | `searchDisplay` | `AUTO / ON / OFF` |  | Determines when a search box displays above options |
-| `data` | `any` |  | Data source (record type) - not implemented in prototype |
-| `sort` | `any[]` |  | Sort configurations - not implemented in prototype |
+| `data` | `SAILAny` |  | Data source (record type) - not implemented in prototype |
+| `sort` | `SortInfo[]` |  | Sort configurations - not implemented in prototype |
+
+### Paging
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `totalCount` | `number` | ✓ | Total number of items |
+| `pageSize` | `number` | ✓ | Number of items per page |
+| `currentPage` | `number` | ✓ | Current page number (1-based) |
+| `onPageChange` | `(page: number) => void` | ✓ | Callback when page changes |
+| `pagingControls` | `'STANDARD' / 'ROW_COUNT'` |  | Determines if the paging includes the total row count. "STANDARD" hides total count; "ROW_COUNT" shows total count and first/last controls. |
 
 ### ParagraphField
 
@@ -348,8 +427,8 @@ Most components accept these optional props. They are not repeated in each table
 |------|------|:---:|-------------|
 | `label` | `string` |  | Text to display as the field label |
 | `percentage` | `number` | ✓ | Number to display between 0 and 100 |
-| `color` | `ProgressBarColor` |  | Progress bar color - semantic values or hex color |
-| `style` | `ProgressBarStyle` |  | Thickness of the progress bar |
+| `color` | `ACCENT / POSITIVE / NEGATIVE / WARN / SAILColorInput` |  | Progress bar color - semantic values or hex color |
+| `style` | `THIN / THICK` |  | Thickness of the progress bar |
 | `showPercentage` | `boolean` |  | Whether to display the percentage text |
 
 ### RadioButtonField
@@ -359,17 +438,17 @@ Most components accept these optional props. They are not repeated in each table
 | `label` | `string` |  | Text to display as the field label |
 | `required` | `boolean` |  | Determines if a value is required to submit the form |
 | `disabled` | `boolean` |  | Determines if the field should display as grayed out |
-| `choiceLabels` | `any[]` | ✓ | Array of options for the user to select |
-| `choiceValues` | `any[]` | ✓ | Array of values associated with the corresponding choices |
-| `value` | `any` |  | Value of choice to display as selected |
+| `choiceLabels` | `(string / number)[]` | ✓ | Array of options for the user to select. SAIL types this as List of Variant to allow record-type references; Sailwind takes a flat list of text or numbers. |
+| `choiceValues` | `SAILAny[]` | ✓ | Array of values associated with the corresponding choices |
+| `value` | `SAILAny` |  | Value of choice to display as selected |
 | `validations` | `string[]` |  | Validation errors to display below the field |
-| `saveInto` | `(value: any) => void` |  | Callback when the user changes the selection |
-| `onChange` | `(value: any) => void` |  | Callback when the user changes the selection (React-style alias for saveInto) |
+| `saveInto` | `(value: SAILAny) => void` |  | Callback when the user changes the selection |
+| `onChange` | `(value: SAILAny) => void` |  | Callback when the user changes the selection (React-style alias for saveInto) |
 | `choiceLayout` | `STACKED / COMPACT` |  | Determines the layout of choices |
 | `choiceStyle` | `STANDARD / CARDS` |  | Determines how choices are displayed |
 | `spacing` | `STANDARD / MORE / EVEN_MORE` |  | Determines space between options |
-| `data` | `any` |  | Data source (record type) - not implemented in prototype |
-| `sort` | `any[]` |  | Sort configurations - not implemented in prototype |
+| `data` | `SAILAny` |  | Data source (record type) - not implemented in prototype |
+| `sort` | `SortInfo[]` |  | Sort configurations - not implemented in prototype |
 | `choicePosition` | `START / END` |  | Determines whether radio buttons appear on left or right |
 
 ### ReadOnlyGrid
@@ -475,23 +554,8 @@ Most components accept these optional props. They are not repeated in each table
 | `size` | `TINY / SMALL / MEDIUM / LARGE` |  | Determines the size of the stamp |
 | `align` | `SAILAlign` |  | Determines alignment of the stamp |
 | `tooltip` | `string` |  | Text to display on mouseover (web) or tap (mobile) |
-| `link` | `any` |  | Link to apply to the stamp |
+| `link` | `SAILDynamicLink` |  | Link to apply to the stamp. A link with showWhen false leaves the stamp unlinked. |
 | `shape` | `SAILShape` |  | Determines the stamp shape |
-
-### SwitchField
-
-| Prop | Type | Req | Description |
-|------|------|:---:|-------------|
-| `label` | `string` |  | Text to display as the field label |
-| `required` | `boolean` |  | Determines if a value is required to submit the form |
-| `disabled` | `boolean` |  | Determines if the field should display as grayed out |
-| `value` | `boolean` |  | Current checked state (true = on, false = off) |
-| `validations` | `string[]` |  | Validation errors to display below the field |
-| `saveInto` | `(value: boolean) => void` |  | Callback when the user toggles the switch |
-| `onChange` | `(value: boolean) => void` |  | Callback when the user toggles the switch (React-style alias for saveInto) |
-| `size` | `SAILSize` |  | Size of the switch and its label |
-| `color` | `ACCENT / POSITIVE / NEGATIVE / SECONDARY / STANDARD / SAILColorInput` |  | Color when switch is on (hex or semantic) |
-| `switchLabelPosition` | `LEFT / RIGHT` |  | Position of the inline label relative to the switch control: LEFT or RIGHT |
 
 ### TabsField
 
@@ -501,12 +565,17 @@ Most components accept these optional props. They are not repeated in each table
 | `value` | `string` |  | Currently active tab value (controlled) |
 | `defaultValue` | `string` |  | Default active tab value (uncontrolled) |
 | `onValueChange` | `(value: string) => void` |  | Callback when active tab changes |
-| `variant` | `TabsVariant` |  | Visual variant for tab styling |
+| `variant` | `UNDERLINE / PILL` |  | Visual variant for tab styling |
 | `orientation` | `HORIZONTAL / VERTICAL` |  | Orientation of the tabs (only applies to UNDERLINE variant) |
+| `align` | `SAILAlign` |  | Alignment of tab labels in vertical orientation |
 | `size` | `SAILSize` |  | Size of the tab triggers |
+| `density` | `STANDARD / DENSE` |  | Spacing density for tab triggers |
 | `loop` | `boolean` |  | Whether tabs should loop when navigating with keyboard |
 | `color` | `ACCENT / POSITIVE / NEGATIVE / SECONDARY / SAILColorInput` |  | Color scheme for active tabs (hex or semantic) |
 | `activationMode` | `AUTOMATIC / MANUAL` |  | Activation mode - whether tabs activate on focus or click |
+| `navigationOnly` | `boolean` |  | Whether to suppress rendering of the content panel (navigation-only mode) |
+| `contentsPadding` | `SAILMarginSize` |  | Determines the space between the tab edges and its contents (default: STANDARD) |
+| `fullWidthSeparator` | `boolean` |  | Whether the separator line extends to the full width of the parent container |
 
 ### TagField
 
@@ -515,7 +584,7 @@ Most components accept these optional props. They are not repeated in each table
 | `tags` | `TagItemProps[]` | ✓ | Array of tag items to display |
 | `label` | `string` |  | Text to display as the field label |
 | `align` | `SAILAlign` |  | Determines alignment of tags |
-| `size` | `Extract(SAILSize, SMALL / STANDARD)` |  | Size of the tags |
+| `size` | `Extract(SAILSize, SMALL / STANDARD / LARGE)` |  | Size of the tags (SMALL, STANDARD, or LARGE) |
 
 ### TagItem
 
@@ -526,6 +595,24 @@ Most components accept these optional props. They are not repeated in each table
 | `textColor` | `SAILColorInput` |  | Text color - hex value, semantic color, palette token, or "STANDARD" |
 | `tooltip` | `string` |  | Tooltip text to display on hover |
 | `link` | `string` |  | Link to apply to the tag (href string for React implementation) |
+| `icon` | `string` |  | Icon to display (Lucide icon name, e.g. "check" or "circle") |
+| `iconPosition` | `START / END` |  | Position of the icon relative to the text |
+
+### TaskPlan
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `tasks` | `TaskPlanItem[]` | ✓ | The list of task plan items |
+| `editing` | `boolean` |  | Whether the plan is in edit mode |
+| `onTasksChange` | `(tasks: TaskPlanItem[]) => void` |  | Callback when tasks are updated in edit mode |
+
+### TaskProgress
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `title` | `string` |  | Section title displayed in the collapsible header |
+| `tasks` | `Task[]` | ✓ | Array of tasks to display |
+| `defaultOpen` | `boolean` |  | Whether the task list starts expanded |
 
 ### TextField
 
@@ -552,7 +639,7 @@ Most components accept these optional props. They are not repeated in each table
 | Prop | Type | Req | Description |
 |------|------|:---:|-------------|
 | `text` | `string / ReactNode / (string / ReactNode)[]` | ✓ | Array of text to display as a rich text item |
-| `style` | `PLAIN / EMPHASIS / STRONG / UNDERLINE / STRIKETHROUGH / PLAIN / EMPHASIS / STRONG / UNDERLINE / STRIKETHROUGH[]` |  | Text style(s) to apply. Multiple styles may be applied |
+| `style` | `PLAIN / EMPHASIS / STRONG / UNDERLINE / STRIKETHROUGH / (PLAIN / EMPHASIS / STRONG / UNDERLINE / STRIKETHROUGH)[]` |  | Text style(s) to apply. Multiple styles may be applied |
 | `size` | `SAILSizeExtended` |  | Text size |
 | `color` | `SAILColorInput` |  | Text color - semantic color, palette token (e.g. TEAL_700), or hex value |
 | `link` | `function` |  | Link to apply to the text |
@@ -562,19 +649,14 @@ Most components accept these optional props. They are not repeated in each table
 
 | Prop | Type | Req | Description |
 |------|------|:---:|-------------|
-| `label` | `string` |  | Text to display as the field label |
-| `text` | `string` |  | Text to display on the toggle button |
+| `choiceLabel` | `string` |  | Text to display as the label next to the toggle |
 | `required` | `boolean` |  | Determines if a value is required to submit the form |
 | `disabled` | `boolean` |  | Determines if the field should display as grayed out |
-| `value` | `boolean` |  | Current pressed state (true = pressed, false = unpressed) |
+| `value` | `boolean` |  | Current checked state (true = on, false = off) |
 | `validations` | `string[]` |  | Validation errors to display below the field |
-| `saveInto` | `(value: boolean) => void` |  | Callback when the user toggles the button |
-| `onChange` | `(value: boolean) => void` |  | Callback when the user toggles the button (React-style alias for saveInto) |
-| `size` | `SAILSize` |  | Size of the toggle button |
-| `color` | `ACCENT / POSITIVE / NEGATIVE / SECONDARY / STANDARD / SAILColorInput` |  | Color when toggle is pressed (hex or semantic) |
-| `style` | `SOLID / OUTLINE / GHOST` |  | Determines the button's appearance |
-| `icon` | `string` |  | Icon to display in the button |
-| `iconPosition` | `START / END` |  | Position of icon relative to text |
+| `saveInto` | `(value: boolean) => void` |  | Callback when the user toggles the switch |
+| `onChange` | `(value: boolean) => void` |  | Callback when the user toggles the switch (React-style alias for saveInto) |
+| `choicePosition` | `START / END` |  | Determines whether the toggle appears on the left or right of the choice label. Valid values: "START" (default), "END" |
 
 ### UserImage
 
@@ -585,4 +667,13 @@ Most components accept these optional props. They are not repeated in each table
 | `altText` | `string` |  | Alternate text for accessibility and screen readers |
 | `caption` | `string` |  | Optional caption text for mouseover (tooltip) |
 | `link` | `function` |  | Link behavior when image is clicked |
-| `backgroundColor` | `string` |  | Background color for the initials fallback (hex or CSS color) |
+| `backgroundColor` | `string` |  | Background color for the initials fallback. Accepts SAIL color tokens (e.g. "ACCENT", "TEAL_200") or hex strings (e.g. "#4A90D9") |
+
+### WebImage
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `source` | `string` | ✓ | The external URL of the image |
+| `altText` | `string` |  | Alternate text for accessibility and screen readers |
+| `caption` | `string` |  | Optional caption text for mouseover and slideshow mode |
+| `link` | `function` |  | Link behavior when image is clicked |
