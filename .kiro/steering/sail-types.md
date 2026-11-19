@@ -23,8 +23,8 @@ type SAILAny = any
 type SAILGridHeight = "SHORT" | "SHORT_PLUS" | "MEDIUM" | "MEDIUM_PLUS" | "TALL" | "TALL_PLUS" | "EXTRA_TALL" | "AUTO"
 type SAILGridColumnWidth = "AUTO" | "ICON" | "ICON_PLUS" | "NARROW" | "NARROW_PLUS" | "MEDIUM" | "MEDIUM_PLUS" | "WIDE" | "1X" | "2X" | "3X" | "4X" | "5X" | "6X" | "7X" | "8X" | "9X" | "10X"
 // SAILPaletteColor is FAMILY_STEP, e.g. TEAL_700 or BURNT_ORANGE_50
-// FAMILY: RED | BURNT_ORANGE | ORANGE | AMBER | YELLOW | LIME | GREEN | TEAL | CYAN | SKY | BLUE | VIOLET | PURPLE | PINK | GRAY
-// STEP: 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
+// FAMILY: SLATE | GRAY | ZINC | NEUTRAL | STONE | RED | BURNT_ORANGE | ORANGE | AMBER | YELLOW | LIME | GREEN | EMERALD | TEAL | CYAN | SKY | BLUE | INDIGO | VIOLET | PURPLE | FUCHSIA | PINK | ROSE
+// STEP: 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950
 type SAILPaletteColor = `${FAMILY}_${STEP}`
 interface SAILDynamicLink {
     label?: string;

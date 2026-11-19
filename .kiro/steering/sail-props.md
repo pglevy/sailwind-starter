@@ -7,7 +7,7 @@ fileMatchPattern: "src/pages/**"
 
 All props for every Sailwind component, parsed from the installed package. Use exact prop names and values — do not guess.
 
-**49 components** | All prop values must be UPPERCASE where the type is a SAIL enum.
+**51 components** | All prop values must be UPPERCASE where the type is a SAIL enum.
 
 ## Common Props (omitted from tables below)
 
@@ -69,6 +69,14 @@ Most components accept these optional props. They are not repeated in each table
 | `borderWeight` | `THIN / MEDIUM / THICK` |  | Determines the box border thickness |
 | `borderColor` | `STANDARD / ACCENT / POSITIVE / WARN / NEGATIVE / INFO / (string & {})` |  | Determines the border color. When left at "STANDARD", a semantic style sets a matching border color. Accepts a hex color (optional 2-digit alpha suffix) or a semantic value. |
 | `labelFontWeight` | `LIGHT / REGULAR / SEMI_BOLD / BOLD` |  | Determines the font weight of the label |
+
+### BreadcrumbsField
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `items` | `BreadcrumbItem[]` | ✓ | Levels from the top of the hierarchy down to the current page. The last visible item is the current page and is always shown. |
+| `separator` | `SLASH / CHEVRON` |  | Character shown between items. Not in SAIL. Default: "SLASH" |
+| `preventWrapping` | `boolean` |  | Keeps the trail on one line when it is wider than its container. true collapses the middle levels into a "…" button so the trail stays on one line. false never collapses: every level shows and a long trail wraps onto several lines. Default: true. The name matches SAIL's `preventWrapping` (as on HeadingField and RichTextDisplayField), but the default differs: those default to false. Collapsing into "…" is not in SAIL. Switching from true to false while the "…" button has focus drops focus to the page body because the button is removed. Focused levels keep focus. |
 
 ### ButtonArrayLayout
 
@@ -218,7 +226,7 @@ Most components accept these optional props. They are not repeated in each table
 | `title` | `string` |  | Dialog title text |
 | `description` | `string` |  | Dialog description text |
 | `children` | `ReactNode` | ✓ | Main content of the dialog |
-| `width` | `NARROW / MEDIUM / MEDIUM_PLUS / WIDE / FIT` |  | Width of the dialog |
+| `width` | `NARROW / MEDIUM / MEDIUM_PLUS / WIDE / EXTRA_WIDE / FIT` |  | Width of the dialog |
 | `height` | `AUTO / FIT / SHORT / MEDIUM / TALL / EXTRA_TALL` |  | Height of the dialog |
 | `background` | `STANDARD / GLASS` |  | Surface treatment: opaque (STANDARD) or translucent glassmorphism (GLASS). Not in SAIL. |
 | `showCloseButton` | `boolean` |  | Whether to show the close button |
@@ -281,6 +289,27 @@ Most components accept these optional props. They are not repeated in each table
 | `onRemove` | `function` |  | Callback when the remove button is clicked |
 | `fileType` | `string` |  | Optional file type override (inferred from fileName if not provided) |
 | `maxWidth` | `string` |  | Maximum width of the component (CSS value) |
+
+### FileUploadField
+
+| Prop | Type | Req | Description |
+|------|------|:---:|-------------|
+| `label` | `string` |  | Text to display as the field label |
+| `placeholder` | `string` |  | Text to display when no file is uploaded. Replaces "Drop or paste files here" (COMPACT) or "drop them here" (EXPANDED) |
+| `value` | `FileUploadFile[]` |  | Files associated with this field |
+| `saveInto` | `(value: FileUploadFile[]) => void` |  | Callback with the updated file list when files are added or removed. Removing all files saves an empty list |
+| `onChange` | `(value: FileUploadFile[]) => void` |  | Callback with the updated file list (React-style alias for saveInto) |
+| `maxSelections` | `number` |  | Maximum number of files. Once reached, further uploads are blocked until a file is removed |
+| `required` | `boolean` |  | Determines if a value is required to submit the form |
+| `disabled` | `boolean` |  | Determines if the field should display as grayed out. Uploaded files cannot be removed |
+| `validations` | `string[]` |  | Validation errors to display below the field |
+| `dropZoneStyle` | `COMPACT / EXPANDED` |  | Size of the drop zone and whether the button appears inline (COMPACT) or centered in a larger area (EXPANDED) |
+| `buttonDisplay` | `LABEL / ICON / LABEL_AND_ICON` |  | Determines whether the upload button shows a label, an icon, or both |
+| `buttonStyle` | `OUTLINE / GHOST / LINK / SOLID` |  | Determines the style of the upload button |
+| `buttonColor` | `ACCENT / NEGATIVE / SECONDARY / SAILColorInput` |  | Determines the color of the upload button (hex or semantic) |
+| `buttonSize` | `Extract(SAILSize, SMALL / STANDARD / LARGE)` |  | Determines the size of the upload button |
+| `allowedExtensions` | `string[]` |  | Not in SAIL. File extensions to accept (e.g. ["pdf", "docx"]). Limits the file picker and rejects other dropped or pasted files with an inline error. In SAIL, check fv!files.extension in validations instead. |
+| `maxFileSize` | `number` |  | Not in SAIL. Maximum size per file, in bytes. Larger files are rejected with an inline error. In SAIL, check fv!files.size in validations instead. |
 
 ### GridColumn
 

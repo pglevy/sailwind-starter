@@ -25,9 +25,9 @@ import { ComponentName } from '@pglevy/sailwind'
 
 **Utility:** `FieldLabel`, `FieldWrapper`
 
-**Other:** `ButtonToggle`, `FileCard`, `ParagraphField`, `RecordView`, `SiteNav`
+**Other:** `BreadcrumbsField`, `ButtonToggle`, `FileCard`, `FileUploadField`, `ParagraphField`, `RecordView`, `SiteNav`
 
-**Total: 46 components**
+**Total: 48 components**
 
 Common name mistakes to avoid:
 - ❌ `Button` → ✅ `ButtonWidget`
